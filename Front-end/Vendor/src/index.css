@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+   --colorTitle : rgba(219, 68, 68, 1) ;
+   --colorBorder : rgba(0, 0, 0, 0.3) ;
+   --colorText :  rgba(0, 0, 0, 1) ;
+   --backgroundImage : rgba(245, 245, 245, 1) ;
+   --backgroundPage : #FFFFFF ;
+   --backgroundFooter :rgba(0, 0, 0, 1);
+   --backgroundAll :  #FFFFFF
+}
+
+.dark{
+   --colorTitle : rgba(219, 68, 68, 1) ;
+   --colorBorder: rgba(255, 255, 255, 0.2); 
+   --colorText: rgba(255, 255, 255, 0.87); 
+   --backgroundImage: rgba(40, 40, 40, 1); 
+   --backgroundPage: #121212; 
+   --backgroundFooter: rgba(24, 24, 24, 1); 
+   --backgroundAll: #1E1E1E;
+}
+
+body{
+   background-color: var( --backgroundPage)
+}
+h1 ,h2 ,h3 ,h4 ,h5 , h6 ,p,div { 
+   color: var(--colorText);
+
+}
+a{
+   color: var(--colorText);
+}
+
+.active-link {
+   color: red !important; /* تحديد اللون أو أي خصائص أخرى */
+ }
