@@ -62,6 +62,6 @@ public class CartService {
             throw new NotFoundException("User", userId);
         }
 
-        return cartItemRepository.findByUserId(userId);
+        return cartItemRepository.findAllByUserId(userId);
     }
 }
