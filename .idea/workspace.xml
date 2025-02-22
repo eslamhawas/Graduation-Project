@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feature(cart-service): Add Cart Service">
+    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feature(cart-service): Modified services and models">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/model/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/model/CartItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/repository/CartItemRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/CartService/cart/src/main/java/com/ecommerce/cart/service/CartService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/CartService/cart/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/CartService/cart/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +30,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.CartApplication.executor": "Debug",
@@ -91,7 +89,7 @@
       <updated>1733910782819</updated>
       <workItem from="1733910788603" duration="10000" />
       <workItem from="1740057777875" duration="873000" />
-      <workItem from="1740149588984" duration="3118000" />
+      <workItem from="1740149588984" duration="5798000" />
     </task>
     <task id="LOCAL-00001" summary="chore: restructure the project layout">
       <option name="closed" value="true" />
@@ -109,7 +107,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740149959699</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feature(cart-service): Modified services and models">
+      <option name="closed" value="true" />
+      <created>1740152991448</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1740152991448</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,6 +124,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chore: restructure the project layout" />
     <MESSAGE value="feature(cart-service): Add Cart Service" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature(cart-service): Add Cart Service" />
+    <MESSAGE value="feature(cart-service): Modified services and models" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature(cart-service): Modified services and models" />
   </component>
 </project>
