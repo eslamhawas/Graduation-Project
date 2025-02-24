@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src/app",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true
+  },
+  "projects": {
+    "backend-core": {
+      "type": "library",
+      "root": "libs/backend-core",
+      "entryFile": "index",
+      "sourceRoot": "libs/backend-core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/backend-core/tsconfig.lib.json"
+      }
+    },
+    "database-connect": {
+      "type": "library",
+      "root": "libs/database-connect",
+      "entryFile": "index",
+      "sourceRoot": "libs/database-connect/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/database-connect/tsconfig.lib.json"
+      }
+    },
+    "intefaces": {
+      "type": "library",
+      "root": "libs/intefaces",
+      "entryFile": "index",
+      "sourceRoot": "libs/intefaces/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/intefaces/tsconfig.lib.json"
+      }
+    }
+  }
+}
