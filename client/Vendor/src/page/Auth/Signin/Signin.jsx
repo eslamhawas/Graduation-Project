@@ -3,7 +3,7 @@ import img from '../../../Image/dl.beatsnoop 1.webp';
 import { Button, Col, Form, Input, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
-import Header from '../../private/Header/Header.jsx';
+import Header from '../../private/Header/Header';
 
 
 export default function Signin() {

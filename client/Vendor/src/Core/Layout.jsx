@@ -1,9 +1,9 @@
 
 import { useNavigate } from "react-router"
 import { useState } from "react"
-import Sidbar from "../page/private/Header/Sidbar.jsx"
-import  Footer  from "../page/private/Footer/Footer.jsx"
-import Header from "../page/private/Header/Header.jsx"
+import Sidbar from "../page/private/Header/Sidbar"
+import  Footer  from "../page/private/Footer/Footer"
+import Header from "../page/private/Header/Header"
 
 
 
