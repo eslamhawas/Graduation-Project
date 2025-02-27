@@ -48,6 +48,7 @@ const DARK_ANT_THEME = {
     },
     Input: {
       colorTextPlaceholder: 'rgba(255, 255, 255, 0.87)',
+      boxShadow : "black"
     },
     Menu: {
       colorItemText: "rgba(255, 255, 255, 0.87)",
