@@ -18,7 +18,7 @@ export default function Error() {
       </div>
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <h3  >We seem to have run into a bit of a problem with this page, <span style={{ color: "#df5e5e" }}>kindly reload.</span></h3>
-        <button onClick={() => navigate("/Home")} className={errorButton}  >Go Home</button>
+        <button onClick={() => navigate("/")} className={errorButton}  >Go Home</button>
 
       </div>
     </div>

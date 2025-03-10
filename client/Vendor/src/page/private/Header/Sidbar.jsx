@@ -3,8 +3,10 @@ import { Suspense, useState } from 'react';
 import {
   FundViewOutlined,
   AppstoreAddOutlined,
+  RightOutlined,
+  LeftOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Button, Layout, Menu } from 'antd';
 const { Content, Sider } = Layout;
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -37,16 +39,26 @@ export default function Sidbar() {
         minHeight: '100vh',
       }}
     >
-      <Sider  collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <Menu  defaultSelectedKeys={[location.pathname]} mode="inline"  >
-          {items.map((item) => (
-            <Menu.Item key={item.children} icon={item.icon}>
-              <Link to={item.children}>{item.label}</Link>
-            </Menu.Item>
-          ))}
-
-        </Menu>
-      </Sider>
+<Sider 
+   
+   collapsed={collapsed} 
+   onCollapse={(value) => setCollapsed(value)}
+   style={{ position: "relative", minHeight: "100vh" }}
+ >
+   <Menu defaultSelectedKeys={[location.pathname]} mode="inline">
+     {items.map((item) => (
+       <Menu.Item key={item.children} icon={item.icon}>
+         <Link to={item.children}>{item.label}</Link>
+       </Menu.Item>
+     ))}
+   </Menu>
+ 
+   <div style={{ position: "absolute", bottom: 0, width: "100%", textAlign: "center", padding: "10px" }}>
+     <Button type="text" onClick={() => setCollapsed(!collapsed)} style={{ width: "100%" }}>
+       {collapsed ? <RightOutlined /> : <LeftOutlined />}
+     </Button>
+   </div>
+ </Sider>
       <Layout>
         <Content
           style={{
