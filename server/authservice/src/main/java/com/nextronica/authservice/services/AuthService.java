@@ -1,7 +1,7 @@
 package com.nextronica.authservice.services;
 
 
-import com.nextronica.authservice.dtos.requests.UserSignupRequestDto;
+import com.nextronica.authservice.dtos.requests.SignupRequestDto;
 import com.nextronica.authservice.dtos.UserDto;
 import com.nextronica.authservice.models.User;
 import com.nextronica.authservice.models.enums.Roles;
@@ -44,16 +44,16 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserByEmailOrUsername(String email, String username) {
-        if (email == null || username == null) {
+    public Optional<User> getUserByEmailOrUsername(String email) {
+        if (email == null) {
             return Optional.empty();
         }
-        return userRepository.findByEmailIgnoreCaseOrUsernameIgnoreCase(email, username);
+        return userRepository.findByEmailIgnoreCase(email);
     }
 
 
 
-    public User fromSignupDto(UserSignupRequestDto signupDto) throws NoSuchAlgorithmException {
+    public User fromSignupDto(SignupRequestDto signupDto) throws NoSuchAlgorithmException {
         User user = modelMapper.map(signupDto, User.class);
         PasswordManager.HashResult hashResult = PasswordManager.hashPassword(signupDto.password());
         user.setPasswordHash(hashResult.hash());

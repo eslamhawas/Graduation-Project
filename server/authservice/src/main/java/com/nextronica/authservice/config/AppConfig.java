@@ -3,13 +3,27 @@ package com.nextronica.authservice.config;
 
 import com.nextronica.authservice.dtos.UserDto;
 import com.nextronica.authservice.models.User;
+import com.nextronica.authservice.providers.Auth.AuthInterceptor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.record.RecordModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class AuthConfig {
+public class AppConfig implements WebMvcConfigurer {
+    private final AuthInterceptor authInterceptor;
+
+    public AppConfig(AuthInterceptor authInterceptor) {
+        this.authInterceptor = authInterceptor;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor);
+    }
+
 
     @Bean
     public ModelMapper modelMapper() {

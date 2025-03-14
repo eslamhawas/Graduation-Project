@@ -2,14 +2,15 @@ package com.nextronica.authservice.controllers;
 
 
 import com.nextronica.authservice.dtos.UserDto;
-import com.nextronica.authservice.dtos.requests.UserLoginRequestDto;
-import com.nextronica.authservice.dtos.requests.UserSignupRequestDto;
+import com.nextronica.authservice.dtos.requests.LoginRequestDto;
+import com.nextronica.authservice.dtos.requests.SignupRequestDto;
 import com.nextronica.authservice.dtos.responses.UserLoginResponseDto;
 import com.nextronica.authservice.exceptions.customExceptions.IllegalAgeException;
 import com.nextronica.authservice.exceptions.customExceptions.NoSuchUserException;
 import com.nextronica.authservice.exceptions.customExceptions.PasswordMismatchException;
 import com.nextronica.authservice.exceptions.customExceptions.UserAlreadyExistsException;
 import com.nextronica.authservice.models.User;
+import com.nextronica.authservice.models.enums.Status;
 import com.nextronica.authservice.services.AuthService;
 import com.nextronica.authservice.utils.JwtUtil;
 import com.nextronica.authservice.utils.PasswordManager;
@@ -24,7 +25,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/auth")
 public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
@@ -35,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserSignupRequestDto signupDto) throws NoSuchAlgorithmException {
+    public ResponseEntity<UserLoginResponseDto> signup(@Valid @RequestBody SignupRequestDto signupDto) throws NoSuchAlgorithmException {
         if (!signupDto.confirmPassword().equals(signupDto.password())) {
             throw new PasswordMismatchException("Passwords do not match");
         }
@@ -56,7 +57,9 @@ public class AuthController {
         User mappedUser = authService.fromSignupDto(signupDto);
         User savedUser = authService.save(mappedUser);
         UserDto userDto = authService.toUserDto(savedUser);
-        return ResponseEntity.ok(userDto);
+        String token = jwtUtil.generateToken(authService.getUserClaims(savedUser), savedUser.getUsername());
+        UserLoginResponseDto responseDto = new UserLoginResponseDto(token, userDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping("/check-username")
@@ -68,8 +71,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody UserLoginRequestDto loginDto) throws NoSuchAlgorithmException {
-        Optional<User> userOptional = authService.getUserByEmailOrUsername(loginDto.email(), loginDto.username());
+    public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginDto) throws NoSuchAlgorithmException {
+        Optional<User> userOptional = authService.getUserByEmailOrUsername(loginDto.email());
         if (userOptional.isEmpty()) {
             throw new NoSuchUserException("Wrong Credentials, Please try again");
         }
@@ -78,6 +81,11 @@ public class AuthController {
         if (!correctPassword) {
             throw new PasswordMismatchException("Wrong Credentials, Please try again");
         }
+
+        if (!user.getStatus().equals(Status.ACTIVE)){
+            throw new NoSuchUserException("User is not active yet");
+        }
+
         UserDto userDto = authService.toUserDto(user);
         Map<String, Object> claims = authService.getUserClaims(user);
         String token = jwtUtil.generateToken(claims, user.getUsername());

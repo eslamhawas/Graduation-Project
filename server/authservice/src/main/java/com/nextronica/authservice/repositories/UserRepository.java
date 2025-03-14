@@ -12,8 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("select u from User u where upper(u.email) = upper(?1) or upper(u.username) = upper(?2)")
-    Optional<User> findByEmailIgnoreCaseOrUsernameIgnoreCase(@Nullable String email, @Nullable String username);
+    @Query("select u from User u where upper(u.email) = upper(?1)")
+    Optional<User> findByEmailIgnoreCase(String email);
 
     @Query("select (count(u) > 0) from User u where upper(u.email) = upper(?1) ")
     boolean existsByEmail(String email);

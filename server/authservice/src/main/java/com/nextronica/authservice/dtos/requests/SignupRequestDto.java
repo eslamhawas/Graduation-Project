@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * DTO for {@link com.nextronica.authservice.models.User}
  */
-public record UserSignupRequestDto(
+public record SignupRequestDto(
         @Size(message = "Username must be between 3 and 50 characters", min = 3, max = 50)
         @Pattern(message = "Username can only contain letters, numbers, dots, underscores, and hyphens", regexp = "^[a-zA-Z0-9._-]+$")
         @NotBlank(message = "Username cannot be blank")

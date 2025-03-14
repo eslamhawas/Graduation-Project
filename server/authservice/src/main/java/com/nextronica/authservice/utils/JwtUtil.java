@@ -2,6 +2,7 @@ package com.nextronica.authservice.utils;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -61,7 +62,7 @@ public class JwtUtil {
      * @param token JWT token
      * @return all claims
      */
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secret)
                 .build()
@@ -153,6 +154,35 @@ public class JwtUtil {
     }
 
     /**
+     * Validates token including signature verification
+     *
+     * @param token JWT token
+     * @return true if token is valid, false otherwise
+     */
+    public Boolean validateToken(String token) {
+        try {
+            if (token.contains("Bearer")){
+                token = token.replace("Bearer ","");
+            }
+            final Claims claims = extractAllClaims(token);
+
+            final Date expiration = claims.getExpiration();
+            final boolean isExpired = expiration.before(new Date());
+
+            return !isExpired;
+        } catch (SignatureException | MalformedJwtException e) {
+            System.out.println("Invalid JWT signature or format: " + e.getMessage());
+            return false;
+        } catch (ExpiredJwtException e) {
+            System.out.println("JWT token is expired: " + e.getMessage());
+            return false;
+        } catch (JwtException e) {
+            System.out.println("Invalid JWT: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Creates a token with custom expiration time
      *
      * @param claims claims to include in token
@@ -180,5 +210,18 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         final String subject = claims.getSubject();
         return createToken(new HashMap<>(claims), subject);
+    }
+
+    public String extractToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public long extractId (String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("id", Long.class);
     }
 }
