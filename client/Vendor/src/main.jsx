@@ -1,13 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Routers from './Core/Router.jsx'
+import Routers from './Core/Router'
 import { Toaster } from 'react-hot-toast';
 import { RouterProvider } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
-import {  DARK_ANT_THEME, LIGHT_ANT_THEME } from './Core/Config.jsx';
+import {  DARK_ANT_THEME, LIGHT_ANT_THEME } from './Core/Config';
 import { Provider, useSelector } from 'react-redux';
-import store from './page/Redux/Store.jsx';
+import store from './page/Redux/Store';
 
 
 const App = () => {

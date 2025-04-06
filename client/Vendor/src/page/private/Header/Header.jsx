@@ -6,9 +6,9 @@ import './style.css';
 import { Link, useLocation } from 'react-router-dom';
 import cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../../Core/I18Next.jsx';
+import i18n from '../../../Core/I18Next';
 import { useDispatch } from 'react-redux';
-import { darkMode, lightMode } from '../../Redux/DarkMode.jsx';
+import { darkMode, lightMode } from '../../Redux/DarkMode';
 
  function Header(props) {
   const { t } = useTranslation();

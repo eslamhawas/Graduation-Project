@@ -1,4 +1,4 @@
-import axios from "client/User/src/Api/Axios.jsx";
+import axios from "axios";
 
 const axiosInstance = axios.create({
     baseURL: window.config.apiUrl,

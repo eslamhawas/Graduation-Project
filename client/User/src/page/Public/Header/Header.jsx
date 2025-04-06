@@ -1,14 +1,14 @@
 import { Avatar, Layout, Menu } from 'antd';
 import { MoonOutlined, SearchOutlined, ShoppingCartOutlined, SunOutlined, UserOutlined } from '@ant-design/icons';
-import { useState, useEffect, useRef, useCallback, memo } from 'react';
+import { useState, useEffect, useRef, useCallback, memo, useContext } from 'react';
 import imgLogo from "../../../Image/Screenshot_2024-11-16_180021-removebg-preview 2.webp"
 import './style.css';
 import { Link, useLocation } from 'react-router-dom';
 import cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../../Core/I18Next.jsx';
+import i18n from '../../../Core/I18Next';
 import { useDispatch } from 'react-redux';
-import { darkMode, lightMode } from '../../Redux/DarkMode.jsx';
+import { contextDarkMode } from '../../Context/DarkMode';
 
  function Header(props) {
   const { t } = useTranslation();
@@ -16,9 +16,9 @@ import { darkMode, lightMode } from '../../Redux/DarkMode.jsx';
   const { handleLogout, tokenUser } = props
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const dir = cookies.get('i18next') || 'en';
-  const dispatch = useDispatch()
   const sun = useRef()
   const moon = useRef()
+  const {darkMode , lightMode} = useContext(contextDarkMode)
 
   useEffect(() => {
     window.document.dir = i18n.dir()
@@ -29,7 +29,7 @@ import { darkMode, lightMode } from '../../Redux/DarkMode.jsx';
     moon.current.style.visibility = 'visible'
     document.body.classList.add('dark')
     window.localStorage.dark = 'dark'
-    dispatch(darkMode())
+    darkMode()
   }
 
 
@@ -38,7 +38,7 @@ import { darkMode, lightMode } from '../../Redux/DarkMode.jsx';
     moon.current.style.visibility = 'hidden'
     document.body.classList.remove('dark')
     window.localStorage.removeItem('dark')
-    dispatch(lightMode())
+    lightMode()
   }
 
 

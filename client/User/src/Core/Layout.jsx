@@ -1,7 +1,7 @@
 
 import { Outlet, useNavigate } from "react-router"
-import Footer from "../page/Public/Footer/Footer.jsx"
-import Header from "../page/Public/Header/Header.jsx"
+import Footer from "../page/Public/Footer/Footer"
+import Header from "../page/Public/Header/Header"
 import { Suspense, useCallback, useState } from "react"
 
 

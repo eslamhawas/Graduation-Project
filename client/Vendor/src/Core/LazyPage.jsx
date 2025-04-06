@@ -3,12 +3,12 @@ import { lazy } from "react"
 const Lazy = {
 
     Auth : {
-        Signup : lazy(()=>import("../page/Auth/Signup/Signup.jsx")),
-        Signin : lazy(()=>import("../page/Auth/Signin/Signin.jsx")),
+        Signup : lazy(()=>import("../page/Auth/Signup/Signup")),
+        Signin : lazy(()=>import("../page/Auth/Signin/Signin")),
     },
     private :{
-        AddProduct : lazy(()=>import("../page/private/AddProduct/AddProduct.jsx")),
-        AllProduct : lazy(()=>import("../page/private/AllProduct/AllProduct.jsx"))
+        AddProduct : lazy(()=>import("../page/private/AddProduct/AddProduct")),
+        AllProduct : lazy(()=>import("../page/private/AllProduct/AllProduct"))
     }
 
 }

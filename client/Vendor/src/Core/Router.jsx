@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import Error from "../page/Auth/ErrorPage/Error.jsx";
-import Layout from "./Layout.jsx";
-import Lazy from "./LazyPage.jsx";
-import { ProtectedRoutes } from "./Config.jsx";
+import Error from "../page/Auth/ErrorPage/Error";
+import Layout from "./Layout";
+import Lazy from "./LazyPage";
+import { ProtectedRoutes } from "./Config";
 
 const Routers = createBrowserRouter([
     {
