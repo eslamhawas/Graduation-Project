@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  apis:
+    build :
+      context : .
+      args:
+        NODE_ENV_ARG: ${NODE_ENV}
+    image : ${IMAGE_NAME}
+    container_name : ${CONTAINER_NAME}
+    ports :
+      - '${PORT}:${PORT}'
+      # - '${ADMIN_PORT}:${ADMIN_PORT}'
+    restart : always
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    name : backend-network
+    external: true
