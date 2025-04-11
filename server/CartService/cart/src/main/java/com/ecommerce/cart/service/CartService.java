@@ -1,5 +1,6 @@
 package com.ecommerce.cart.service;
 import com.ecommerce.cart.dto.CartItemDTO;
+import com.ecommerce.cart.dto.CartItemResponseDTO;
 import com.ecommerce.cart.exception.NotFoundException;
 import com.ecommerce.cart.model.CartItem;
 import com.ecommerce.cart.model.Product;
@@ -56,12 +57,21 @@ public class CartService {
         }
     }
 
-    public List<CartItem> getAllItemsByUserId(Long userId) {
+    public List<CartItemResponseDTO> getAllItemsDtoByUserId(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (!userOptional.isPresent()) {
             throw new NotFoundException("User", userId);
         }
 
-        return cartItemRepository.findAllByUserId(userId);
+        List<CartItem> items = cartItemRepository.findAllByUserId(userId);
+
+        return items.stream().map(item -> {
+            CartItemResponseDTO dto = new CartItemResponseDTO();
+            dto.setId(item.getId());
+            dto.setUserId(item.getUser().getId());
+            dto.setProductId(item.getProduct().getId());
+            return dto;
+        }).toList();
     }
+
 }

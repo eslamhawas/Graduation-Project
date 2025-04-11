@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feature(cart-service): Modified services and models">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feature(cart-service):cart postman collection" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -89,7 +87,7 @@
       <updated>1733910782819</updated>
       <workItem from="1733910788603" duration="10000" />
       <workItem from="1740057777875" duration="873000" />
-      <workItem from="1740149588984" duration="5798000" />
+      <workItem from="1740149588984" duration="6031000" />
     </task>
     <task id="LOCAL-00001" summary="chore: restructure the project layout">
       <option name="closed" value="true" />
@@ -115,7 +113,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740152991448</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feature(cart-service):cart postman collection">
+      <option name="closed" value="true" />
+      <created>1740234251871</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1740234251871</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +131,7 @@
     <MESSAGE value="chore: restructure the project layout" />
     <MESSAGE value="feature(cart-service): Add Cart Service" />
     <MESSAGE value="feature(cart-service): Modified services and models" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature(cart-service): Modified services and models" />
+    <MESSAGE value="feature(cart-service):cart postman collection" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature(cart-service):cart postman collection" />
   </component>
 </project>
