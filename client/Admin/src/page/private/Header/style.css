@@ -1,0 +1,63 @@
+
+.ant-layout-header {
+  background-color: var(--backgroundAll) !important;
+  padding : 0px !important;
+}
+
+
+.IconHeader2 .search ,.IconHeader2 .cart{
+   padding-right: 12px;
+   font-size: 19px;
+   color:var(--colorText);
+   padding: 5px;
+}
+
+.IconHeader2 .avatar{
+
+  margin: 10px;
+    margin-bottom: 17px;
+}
+
+.selectLanguage{
+   width: 40px;
+   margin-bottom: 2.5px;
+   background-color: var( --backgroundAll ) ;
+   color: var(--colorText);
+   margin: 15px;
+
+}
+.demo-logo img{ 
+   margin-top: 33px;
+   margin-left: 15px;
+   width: 125px;
+}
+@media (max-width: 768px) {
+   .IconHeader2 {
+     display: none; 
+   }
+ 
+   .ResponsiveIconHeader {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+    .darkmodeicone span {
+      margin-top: 4px;
+    }
+    
+} 
+ 
+#moon{
+   visibility: hidden; 
+   color: white;
+
+ }
+ .darkmodeicone{
+   height: 30px;
+   width: 30px;
+ }
+ .darkmodeicone span {
+   position: absolute; 
+   font-size: 19px;
+   margin-top: 4px;
+ }
