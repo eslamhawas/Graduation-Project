@@ -1,0 +1,24 @@
+package com.nextronica.server.repositories;
+
+
+import com.nextronica.server.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    @Query("select u from User u where upper(u.email) = upper(?1)")
+    Optional<User> findByEmailIgnoreCase(String email);
+
+    @Query("select (count(u) > 0) from User u where upper(u.email) = upper(?1) ")
+    boolean existsByEmail(String email);
+
+    @Query("select (count(u) > 0) from User u where upper(u.username) = upper(?1)")
+    boolean existsByUsername(String username);
+
+
+}
