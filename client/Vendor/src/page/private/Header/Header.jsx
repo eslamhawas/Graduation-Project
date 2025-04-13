@@ -72,8 +72,6 @@ import { darkMode, lightMode } from '../../Redux/DarkMode';
     );
   }
 
-console.log(location.pathname)
-
   return (
 <Layout>
   <Layout.Header
