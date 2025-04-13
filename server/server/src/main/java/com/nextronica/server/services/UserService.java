@@ -64,8 +64,12 @@ public class UserService {
             throw new IllegalArgumentException("User cannot be null");
         }
 
+        if (user.hasRole(Roles.ADMIN)) {
+            throw new IllegalArgumentException("The user is already an admin");
+        }
+
         if (user.isBanned()) {
-            throw new IllegalStateException("Banned users cannot be promoted");
+            throw new IllegalArgumentException("Banned users cannot be promoted");
         }
 
         Set<Roles> roles = user.getRoles();

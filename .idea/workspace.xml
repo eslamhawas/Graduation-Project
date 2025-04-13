@@ -5,54 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feature(cart-service): Modified services and models">
-      <change afterPath="$PROJECT_DIR$/server/gateway/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gateway/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gateway/src/main/java/com/nextronica/gateway/GatewayApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gateway/src/main/java/com/nextronica/gateway/filters/AuthenticationGatewayFilterFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gateway/src/main/java/com/nextronica/gateway/utils/Helpers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gateway/src/main/java/com/nextronica/gateway/utils/JwtUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gateway/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gateway/src/test/java/com/nextronica/gateway/GatewayApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/utils/Helpers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/ErrorResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documentation/UseCases/Use Cases.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Documentation/UseCases/Use Cases.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/server/gateway/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/gateway/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/server/gateway/mvnw" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/server/gateway/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/AuthserviceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/ServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/config/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/config/AppConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/dtos/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/dtos/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/dtos/requests/ChangePasswordRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/dtos/requests/ChangePasswordRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/dtos/requests/LoginRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/dtos/requests/LoginRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/dtos/requests/SignupRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/dtos/requests/SignupRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/dtos/responses/UserLoginResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/dtos/responses/UserLoginResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/exceptions/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/exceptions/customExceptions/IllegalAgeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/customExceptions/IllegalAgeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/exceptions/customExceptions/NoSuchUserException.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/customExceptions/NoSuchUserException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/exceptions/customExceptions/PasswordMismatchException.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/customExceptions/PasswordMismatchException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/exceptions/customExceptions/UserAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/customExceptions/UserAlreadyExistsException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/models/enums/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/models/enums/Roles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/models/enums/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/models/enums/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/providers/Auth/Auth.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/providers/Auth/Auth.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/providers/Auth/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/providers/Auth/AuthInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/services/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/services/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/utils/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/java/com/nextronica/authservice/utils/PasswordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/utils/PasswordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/authservice/src/test/java/com/nextronica/authservice/AuthserviceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/test/java/com/nextronica/server/ServerApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/services/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,38 +59,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.CartApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.ServerApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Graduation-Project/server/server/pom.xml&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.CartApplication.executor": "Debug",
+    "Spring Boot.ServerApplication.executor": "Debug",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Graduation-Project/server/server/pom.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mariadb&quot;,
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb",
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -199,6 +159,9 @@
       <workItem from="1740149588984" duration="5798000" />
       <workItem from="1744373065544" duration="3155000" />
       <workItem from="1744384394113" duration="20408000" />
+      <workItem from="1744526531649" duration="53000" />
+      <workItem from="1744539133189" duration="896000" />
+      <workItem from="1744576856610" duration="4072000" />
     </task>
     <task id="LOCAL-00001" summary="chore: restructure the project layout">
       <option name="closed" value="true" />
@@ -230,6 +193,29 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chore: restructure the project layout" />
     <MESSAGE value="feature(cart-service): Add Cart Service" />
@@ -247,6 +233,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AuthController.java</url>
+          <line>73</line>
+          <properties class="com.nextronica.server.controllers.AuthController" method="userLogin">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

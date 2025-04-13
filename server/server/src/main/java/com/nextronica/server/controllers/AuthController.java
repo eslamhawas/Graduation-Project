@@ -63,8 +63,8 @@ public class AuthController {
     }
 
     @GetMapping("/check-username")
-    public ResponseEntity<Map<String, Boolean>> checkUsername(@RequestParam String username) {
-        boolean usernameExists = !authService.doesUserExistByUsername(username);
+    public ResponseEntity<Map<String, Boolean>> checkUsername(@RequestBody Map<String,String> user) {
+        boolean usernameExists = !authService.doesUserExistByUsername(user.get("username"));
         Map<String, Boolean> response = new HashMap<>();
         response.put("available", usernameExists);
         return ResponseEntity.ok(response);
