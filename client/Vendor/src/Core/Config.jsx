@@ -13,6 +13,9 @@ const LIGHT_ANT_THEME = {
     Input: {
       colorTextPlaceholder: 'rgba(0, 0, 0, 1)',
     },
+    DatePicker: {
+      colorTextPlaceholder: 'rgba(0, 0, 0, 1)', // أهوه هنا ضفته
+    },
     Layout: {
       colorBgContainer: '#FFFFFF',
       siderBg: "#FFFFFF",
@@ -51,6 +54,9 @@ const DARK_ANT_THEME = {
       colorBgContainer: "rgba(24, 24, 24, 1)",
       siderBg: "rgba(24, 24, 24, 1)",
       triggerBg: "rgba(24, 24, 24, 1)"
+    },
+    DatePicker: {
+      colorTextPlaceholder: 'rgba(255, 255, 255, 0.87)', // ضفناه هنا كمان
     },
     Input: {
       colorTextPlaceholder: 'rgba(255, 255, 255, 0.87)',
