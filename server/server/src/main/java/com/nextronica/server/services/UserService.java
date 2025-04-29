@@ -36,7 +36,7 @@ public class UserService {
 
     public boolean changePassword(ChangePasswordRequestDto dto, User user) throws NoSuchAlgorithmException {
         boolean passwordsMatch = PasswordManager.verifyPassword(dto.oldPassword(), user.getPasswordHash(), user.getPasswordSalt());
-        if (!passwordsMatch){
+        if (!passwordsMatch) {
             throw new PasswordMismatchException("Wrong old Password");
         }
         PasswordManager.HashResult newHashAndSalt = PasswordManager.hashPassword(dto.newPassword());
@@ -46,15 +46,20 @@ public class UserService {
         return true;
     }
 
-    public List<UserDto> getAllUsers() {
-        List<User> users = _userRepository.findAll();
+    public List<UserDto> getAllUsers(Status status) {
+        List<User> users = _userRepository.findByStatus(status);
         return users.stream().map(_helper::toUserDto).toList();
     }
 
-    public boolean banById(long id){
+    public boolean banById(long id, byte code) {
         User user = _userRepository.findById(id).orElseThrow(
                 () -> new NoSuchUserException("There is no user with the given ID"));
-        user.setStatus(Status.SUSPENDED);
+        if (code == 0) {
+            user.setStatus(Status.SUSPENDED);
+
+        } else if (code == 1) {
+            user.setStatus(Status.ACTIVE);
+        }
         _userRepository.save(user);
         return true;
     }
@@ -81,5 +86,28 @@ public class UserService {
         roles.add(Roles.ADMIN);
         _userRepository.save(user);
     }
+
+    public void demoteFromAdmin(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+
+        if (!user.hasRole(Roles.ADMIN)) {
+            throw new IllegalArgumentException("The user is not an admin");
+        }
+
+        if (user.isBanned()) {
+            throw new IllegalArgumentException("Banned users cannot be demoted");
+        }
+
+        Set<Roles> roles = user.getRoles();
+        if (roles == null) {
+            roles = new HashSet<>();
+            user.setRoles(roles);
+        }
+        roles.remove(Roles.ADMIN);
+        _userRepository.save(user);
+    }
+
 
 }
