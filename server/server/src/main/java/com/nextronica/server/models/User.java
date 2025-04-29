@@ -116,10 +116,6 @@ public class User {
     private LocalDate birthday;
 
     @Size(max = 255)
-//    @Pattern(
-//            regexp = "^(https?:\\/\\/)?[\\w\\-]+(\\.[\\w\\-]+)+[/#?]?.*$",
-//            message = "Must be a valid URL"
-//    )
     private String profileImageUrl;
 
     @Column(length = 500)

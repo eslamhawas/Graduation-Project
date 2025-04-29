@@ -57,7 +57,7 @@ public class AuthController {
         User mappedUser = authService.fromSignupDto(signupDto);
         User savedUser = authService.save(mappedUser, role);
         UserDto userDto = authService.toUserDto(savedUser);
-        String token = jwtUtil.generateToken(authService.getUserClaims(savedUser), savedUser.getUsername());
+        String token = jwtUtil.generateToken(authService.getUserClaims(savedUser), String.valueOf(savedUser.getId()));
         UserLoginResponseDto responseDto = new UserLoginResponseDto(token, userDto);
         return ResponseEntity.ok(responseDto);
     }
@@ -89,7 +89,7 @@ public class AuthController {
 
         UserDto userDto = authService.toUserDto(user);
         Map<String, Object> claims = authService.getUserClaims(user);
-        String token = jwtUtil.generateToken(claims, user.getUsername());
+        String token = jwtUtil.generateToken(claims, String.valueOf(user.getId()));
         UserLoginResponseDto responseDto = new UserLoginResponseDto(token, userDto);
         return ResponseEntity.ok(responseDto);
     }
