@@ -1,12 +1,18 @@
 package com.nextronica.server.services;
 
 
+import com.nextronica.server.dtos.requests.LoginRequestDto;
 import com.nextronica.server.dtos.requests.SignupRequestDto;
 import com.nextronica.server.dtos.UserDto;
+import com.nextronica.server.dtos.responses.LoginResponseDto;
+import com.nextronica.server.exceptions.customExceptions.NoSuchUserException;
+import com.nextronica.server.exceptions.customExceptions.PasswordMismatchException;
+import com.nextronica.server.exceptions.customExceptions.UserAlreadyExistsException;
 import com.nextronica.server.models.User;
 import com.nextronica.server.models.enums.Roles;
 import com.nextronica.server.models.enums.Status;
 import com.nextronica.server.repositories.UserRepository;
+import com.nextronica.server.utils.JwtUtil;
 import com.nextronica.server.utils.PasswordManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -23,6 +29,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final JwtUtil jwtUtil = new JwtUtil();
 
 
     public AuthService(UserRepository userRepository, ModelMapper modelMapper) {
@@ -66,6 +73,31 @@ public class AuthService {
 
     public UserDto toUserDto(User user) {
         return modelMapper.map(user, UserDto.class);
+    }
+
+    public User validateLogin(LoginRequestDto loginDto) throws NoSuchAlgorithmException {
+        Optional<User> userOptional = getUserByEmail(loginDto.email());
+        User user = userOptional.orElseThrow(() -> new NoSuchUserException("Wrong Credentials, Please try again"));
+        boolean correctPassword = PasswordManager.verifyPassword(loginDto.password(), user.getPasswordHash(), user.getPasswordSalt());
+        if (!correctPassword) {
+            throw new PasswordMismatchException("Wrong Credentials, Please try again");
+        }
+
+        if (user.getStatus().equals(Status.PENDING_VERIFICATION)){
+            throw new NoSuchUserException("User is not active yet");
+        }
+
+        if (user.getStatus().equals(Status.SUSPENDED)) {
+            throw new UserAlreadyExistsException("User is suspended");
+        }
+        return user;
+    }
+
+    public LoginResponseDto generateLoginResponse(User user) {
+        UserDto userDto = toUserDto(user);
+        Map<String, Object> claims = getUserClaims(user);
+        String token = jwtUtil.generateToken(claims, String.valueOf(user.getId()));
+        return new LoginResponseDto(token, userDto);
     }
 
 
