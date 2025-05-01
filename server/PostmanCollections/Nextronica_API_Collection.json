@@ -1,0 +1,487 @@
+{
+	"info": {
+		"_postman_id": "bc10fc86-c0a2-4523-aeb1-612b4ab62d53",
+		"name": "Nextronica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34271683"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Eslam_Hawas\",\r\n  \"email\": \"Eslam.Hawas@Gmail.com\",\r\n  \"password\": \"Eslam123\",\r\n  \"confirmPassword\": \"Eslam123\",\r\n  \"fullName\": \"Eslam Sabry Hawas\",\r\n  \"phoneNumber\": \"+201027286450\",\r\n  \"bio\": \"Software engineer with a passion for coding and problem-solving.\",\r\n  \"birthday\": \"2004-01-24\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_url}}/api/v1/auth?role=vendor",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "vendor",
+									"description": "Send the role parameter only when a vendor signup"
+								}
+							]
+						},
+						"description": "### Sign Up as a Vendor\n\nThis endpoint allows you to sign up as a vendor by providing the necessary information.\n\n**Request Body**\n\n- `username` (string): The username for the account.\n    \n- `email` (string): The email address for the account.\n    \n- `password` (string): The password for the account.\n    \n- `confirmPassword` (string): The confirmation of the password.\n    \n- `fullName` (string): The full name of the user.\n    \n- `phoneNumber` (string): The phone number of the user.\n    \n- `bio` (string): A brief bio or description of the user.\n    \n- `birthday` (string): The birthday of the user.\n    \n\n**Response**\n\n- `token` (string): The authentication token.\n    \n- `user` (object):\n    \n    - `username` (string): The username of the user.\n        \n    - `email` (string): The email address of the user.\n        \n    - `fullName` (string): The full name of the user.\n        \n    - `phoneNumber` (string): The phone number of the user.\n        \n    - `roles` (array): The roles assigned to the user.\n        \n    - `status` (string): The status of the user account.\n        \n    - `profileImageUrl` (string): The URL of the user's profile image.\n        \n    - `bio` (string): The bio or description of the user.\n        \n    - `id` (integer): The unique identifier of the user.\n        \n    - `birthday` (string): The birthday of the user.\n        \n\n**Example Response**\n\n``` json\n{\n    \"token\": \"\",\n    \"user\": {\n        \"username\": \"\",\n        \"email\": \"\",\n        \"fullName\": \"\",\n        \"phoneNumber\": \"\",\n        \"roles\": [\"\"],\n        \"status\": \"\",\n        \"profileImageUrl\": null,\n        \"bio\": \"\",\n        \"id\": 0,\n        \"birthday\": \"\"\n    }\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Signup",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"Eslam_Hawas\",\r\n  \"email\": \"Eslam.Hawas@Gmail.com\",\r\n  \"password\": \"Eslam123\",\r\n  \"confirmPassword\": \"Eslam123\",\r\n  \"fullName\": \"Eslam Sabry Hawas\",\r\n  \"phoneNumber\": \"+201027286450\",\r\n  \"bio\": \"Software engineer with a passion for coding and problem-solving.\",\r\n  \"birthday\": \"2004-01-24\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{auth_url}}/api/v1/auth/signup?role=vendor",
+									"host": [
+										"{{auth_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"signup"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "vendor",
+											"description": "Send the role parameter only with vendors signup"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 11 Apr 2025 15:51:49 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJWRU5ET1IiXSwiaWQiOjEsImVtYWlsIjoiRXNsYW0uSGF3YXNAR21haWwuY29tIiwidXNlcm5hbWUiOiJFc2xhbV9IYXdhcyIsInN0YXR1cyI6IlBFTkRJTkdfVkVSSUZJQ0FUSU9OIiwic3ViIjoiRXNsYW1fSGF3YXMiLCJpYXQiOjE3NDQzODY3MDksImV4cCI6MTc0NDM5MDMwOX0.JsJuesizJZZw5WzEXZPGSZMD9QLSCZXKm8kHtU3xKnE\",\n    \"user\": {\n        \"username\": \"Eslam_Hawas\",\n        \"email\": \"Eslam.Hawas@Gmail.com\",\n        \"fullName\": \"Eslam Sabry Hawas\",\n        \"phoneNumber\": \"+201027286450\",\n        \"roles\": [\n            \"VENDOR\"\n        ],\n        \"status\": \"PENDING_VERIFICATION\",\n        \"profileImageUrl\": null,\n        \"bio\": \"Software engineer with a passion for coding and problem-solving.\",\n        \"id\": 1,\n        \"birthday\": \"2004-01-24\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"Eslam.Hawas@Gmail.com\",\r\n    \"password\": \"Eslam123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_url}}/api/v1/auth/login?role=VENDOR",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "VENDOR",
+									"description": "ADMIN,USER,VENDOR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImlkIjoxLCJlbWFpbCI6IkVzbGFtLkhhd2FzQEdtYWlsLmNvbSIsInVzZXJuYW1lIjoiRXNsYW1fSGF3YXMiLCJzdGF0dXMiOiJBQ1RJVkUiLCJzdWIiOiJFc2xhbV9IYXdhcyIsImlhdCI6MTc0NDM4ODQzNCwiZXhwIjoxNzQ0MzkyMDM0fQ.IXL6ZXc_FrcrIFuCNwF13tKqliR82BsJI5_FOyLrKsA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"Eslam123\",\r\n    \"newPassword\": \"newSecurePassword456\",\r\n    \"confirmPassword\": \"newSecurePassword456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_url}}/api/v1/user/change-password",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Username Availability",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/auth/username-availability?username",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"username-availability"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": null,
+									"description": "Enter the username the you want to check"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/user/:id",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJpZCI6MSwiZW1haWwiOiJFc2xhbS5IYXdhc0BHbWFpbC5jb20iLCJ1c2VybmFtZSI6IkVzbGFtX0hhd2FzIiwic3RhdHVzIjoiQUNUSVZFIiwic3ViIjoiRXNsYW1fSGF3YXMiLCJpYXQiOjE3NDQzOTI2MTMsImV4cCI6MTc0NDM5NjIxM30.UW7UY9yy1IBtw-YsNL24pMbu9JOP581w-AIKlxtq3T8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/users?status=PENDING_VERIFICATION",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "PENDING_VERIFICATION",
+									"description": "PENDING_VERIFICATION,ACTIVE,SUSPENDED"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Ban User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlZFTkRPUiJdLCJpZCI6MSwiZW1haWwiOiJFc2xhbS5IYXdhc0BHbWFpbC5jb20iLCJ1c2VybmFtZSI6IkVzbGFtX0hhd2FzIiwic3RhdHVzIjoiQUNUSVZFIiwic3ViIjoiMSIsImlhdCI6MTc0NjEyMDA4MSwiZXhwIjoxNzQ2MTIzNjgxfQ.wELiQrLAIcBjm8ytcAHTFlFP24h4G6xlt3b0Y9_SGKI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/admins/users/:id/ban",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"users",
+								":id",
+								"ban"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Promote to Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiaWQiOjIsImVtYWlsIjoiRXNsYW0uSGF3YXNAR21haWwuY29tIiwidXNlcm5hbWUiOiJFc2xhbV9IYXdhcyIsInN0YXR1cyI6IkFDVElWRSIsInN1YiI6IkVzbGFtX0hhd2FzIiwiaWF0IjoxNzQ0NTgzNTU3LCJleHAiOjE3NDQ1ODcxNTd9.TAxtYCPWtmioNVb5cJzcHK67FTEbXrRuduZyiBAhi1Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/admins/users/:id/role/admin",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"users",
+								":id",
+								"role",
+								"admin"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unBan User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlZFTkRPUiJdLCJpZCI6MSwiZW1haWwiOiJFc2xhbS5IYXdhc0BHbWFpbC5jb20iLCJ1c2VybmFtZSI6IkVzbGFtX0hhd2FzIiwic3RhdHVzIjoiQUNUSVZFIiwic3ViIjoiMSIsImlhdCI6MTc0NjEyMDA4MSwiZXhwIjoxNzQ2MTIzNjgxfQ.wELiQrLAIcBjm8ytcAHTFlFP24h4G6xlt3b0Y9_SGKI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/admins/users/:id/unban",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"users",
+								":id",
+								"unban"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Vendor Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlZFTkRPUiJdLCJpZCI6MSwiZW1haWwiOiJFc2xhbS5IYXdhc0BHbWFpbC5jb20iLCJ1c2VybmFtZSI6IkVzbGFtX0hhd2FzIiwic3RhdHVzIjoiQUNUSVZFIiwic3ViIjoiMSIsImlhdCI6MTc0NjEyMDA4MSwiZXhwIjoxNzQ2MTIzNjgxfQ.wELiQrLAIcBjm8ytcAHTFlFP24h4G6xlt3b0Y9_SGKI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/admins/vendors/:id/status?status=ACTIVE",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"vendors",
+								":id",
+								"status"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "ACTIVE",
+									"description": "ACTIVE,SUSPENDED"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Admins",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlZFTkRPUiJdLCJpZCI6MSwiZW1haWwiOiJFc2xhbS5IYXdhc0BHbWFpbC5jb20iLCJ1c2VybmFtZSI6IkVzbGFtX0hhd2FzIiwic3RhdHVzIjoiQUNUSVZFIiwic3ViIjoiMSIsImlhdCI6MTc0NjEyMDA4MSwiZXhwIjoxNzQ2MTIzNjgxfQ.wELiQrLAIcBjm8ytcAHTFlFP24h4G6xlt3b0Y9_SGKI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/api/v1/admins/users/:id/role/admin",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"users",
+								":id",
+								"role",
+								"admin"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
