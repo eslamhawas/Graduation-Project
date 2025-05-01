@@ -40,9 +40,9 @@ public class Category {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "product_categories",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    @JoinTable(name = "products-categories",
+            joinColumns = @JoinColumn(name = "categoriesId"),
+            inverseJoinColumns = @JoinColumn(name = "productsId"))
     private Set<Product> products = new LinkedHashSet<>();
 
 }

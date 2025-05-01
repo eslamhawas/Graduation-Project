@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/user")
+@RequestMapping("api/v1/users")
 public class UserController {
 
     final private UserService _userService;
@@ -35,15 +35,20 @@ public class UserController {
         this._helper = helper;
     }
 
-    @PutMapping("/change-password")
+    @PatchMapping("/{id}/password")
     @Auth
-    public ResponseEntity<Map<String, String>> changePassword(@Valid @RequestBody ChangePasswordRequestDto dto, HttpServletRequest request) throws NoSuchAlgorithmException {
+    public ResponseEntity<Map<String, String>> updatePassword(@PathVariable long id, @Valid @RequestBody ChangePasswordRequestDto dto, HttpServletRequest request) throws NoSuchAlgorithmException {
         String token = jwtUtil.extractToken(request);
-        long id = jwtUtil.extractId(token);
+        long tokenId = jwtUtil.extractId(token);
+
+        if (tokenId != id) {
+            return ResponseEntity.badRequest().body(Map.of("error", "You can only update your own password"));
+        }
+
         User user = _userService.getById(id).orElseThrow(
                 () -> new NoSuchUserException("There is no user with the given ID"));
         _userService.changePassword(dto, user);
-        return ResponseEntity.ok(Map.of("message", "Password Changed Successfully"));
+        return ResponseEntity.ok(Map.of("message", "Password Updated Successfully"));
     }
 
     @GetMapping("/{id}")
@@ -56,12 +61,12 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @GetMapping("/all/{status}")
-    @Auth(roles = {"ADMIN"})
-    public ResponseEntity<List<UserDto>> getAllUsersByStatus(@PathVariable Status status) {
+//    @Auth(roles = {"ADMIN"})
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getUsers(@RequestParam(required = false, defaultValue = "ACTIVE") Status status) {
         List<UserDto> users = _userService.getAllUsers(status);
         return ResponseEntity.ok(users);
     }
 
-    
+
 }

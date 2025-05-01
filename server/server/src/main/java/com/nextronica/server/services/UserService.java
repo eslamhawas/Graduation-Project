@@ -35,6 +35,10 @@ public class UserService {
     }
 
     public boolean changePassword(ChangePasswordRequestDto dto, User user) throws NoSuchAlgorithmException {
+        if (!dto.newPassword().equals(dto.confirmPassword())){
+            throw new PasswordMismatchException("Passwords do not match");
+        }
+
         boolean passwordsMatch = PasswordManager.verifyPassword(dto.oldPassword(), user.getPasswordHash(), user.getPasswordSalt());
         if (!passwordsMatch) {
             throw new PasswordMismatchException("Wrong old Password");
@@ -51,15 +55,17 @@ public class UserService {
         return users.stream().map(_helper::toUserDto).toList();
     }
 
-    public boolean banById(long id, byte code) {
+    public boolean banById(long id, int code) {
         User user = _userRepository.findById(id).orElseThrow(
                 () -> new NoSuchUserException("There is no user with the given ID"));
-        if (code == 0) {
-            user.setStatus(Status.SUSPENDED);
-
-        } else if (code == 1) {
-            user.setStatus(Status.ACTIVE);
-        }
+       switch (code) {
+           case 0:
+               user.setStatus(Status.SUSPENDED);
+               break;
+           case 1:
+               user.setStatus(Status.ACTIVE);
+               break;
+       }
         _userRepository.save(user);
         return true;
     }

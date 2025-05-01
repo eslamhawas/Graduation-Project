@@ -29,7 +29,7 @@ public record SignupRequestDto(
         @Pattern(message = "Full name can only contain letters, spaces, dots, and hyphens", regexp = "^[\\p{L}\\s.-]+$")
         @NotBlank(message = "Full name cannot be blank")
         String fullName,
-        @Size(message = "Phone number must be between 9 and 11 number", min = 9, max = 11)
+        @Size(message = "Phone number must be between 9 and 11 number", min = 9, max = 14)
         String phoneNumber,
         @Size(message = "Bio cannot exceed 500 characters", max = 500)
         String bio,

@@ -33,7 +33,7 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/signup")
+    @PostMapping
     public ResponseEntity<LoginResponseDto> signup(@Valid @RequestBody SignupRequestDto signupDto, @RequestParam(required = false) String role) throws NoSuchAlgorithmException {
         if (!signupDto.confirmPassword().equals(signupDto.password())) {
             throw new PasswordMismatchException("Passwords do not match");
@@ -60,37 +60,26 @@ public class AuthController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping("/check-username")
-    public ResponseEntity<Map<String, Boolean>> checkUsername(@RequestBody Map<String,String> user) {
-        boolean usernameExists = !authService.doesUserExistByUsername(user.get("username"));
+    @GetMapping("/username-availability")
+    public ResponseEntity<Map<String, Boolean>> checkUsernameAvailability(@RequestParam String username) {
+        if (username == null || username.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("available", false));
+        }
+        boolean usernameAvailable = !authService.doesUserExistByUsername(username);
         Map<String, Boolean> response = new HashMap<>();
-        response.put("available", usernameExists);
+        response.put("available", usernameAvailable);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/user/login")
-    public ResponseEntity<LoginResponseDto> userLogin(@Valid @RequestBody LoginRequestDto loginDto) throws NoSuchAlgorithmException {
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginDto, @RequestParam Roles role) throws NoSuchAlgorithmException {
         User user = authService.validateLogin(loginDto);
-        LoginResponseDto responseDto = authService.generateLoginResponse(user);
-        return ResponseEntity.ok(responseDto);
-    }
-
-    @PostMapping("/vendor/login")
-    public ResponseEntity<LoginResponseDto> vendorLogin(@Valid @RequestBody LoginRequestDto loginDto) throws NoSuchAlgorithmException {
-        User user = authService.validateLogin(loginDto);
-        if (!user.getRoles().contains(Roles.VENDOR)){
-            throw new NoSuchUserException("User is not a vendor");
+        if (role == null) {role = Roles.USER;}
+        // Check if the user has the required role if specified
+        if (!user.getRoles().contains(role)) {
+            throw new NoSuchUserException("User does not have the required role: " + role);
         }
-        LoginResponseDto responseDto = authService.generateLoginResponse(user);
-        return ResponseEntity.ok(responseDto);
-    }
 
-    @PostMapping("/admin/login")
-    public ResponseEntity<LoginResponseDto> adminLogin(@Valid @RequestBody LoginRequestDto loginDto) throws NoSuchAlgorithmException {
-        User user = authService.validateLogin(loginDto);
-        if (!user.getRoles().contains(Roles.ADMIN)){
-            throw new NoSuchUserException("User is not an admin");
-        }
         LoginResponseDto responseDto = authService.generateLoginResponse(user);
         return ResponseEntity.ok(responseDto);
     }

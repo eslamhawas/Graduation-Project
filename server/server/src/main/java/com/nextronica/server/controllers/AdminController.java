@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/v1/admins")
 public class AdminController {
 
     final private UserService _userService;
@@ -28,69 +28,76 @@ public class AdminController {
         _adminService = adminService;
     }
 
-    @PutMapping("banuser")
+    @PatchMapping("/users/{id}/ban")
     @Auth(roles = {"ADMIN"})
-    public ResponseEntity<Map<String, String>> suspendUser(@RequestBody Map<String, Long> user, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> banUser(@PathVariable long id, HttpServletRequest request) {
         String token = _jwtUtil.extractToken(request);
         long adminId = _jwtUtil.extractId(token);
-        long userId = user.getOrDefault("userId", 0L);
-        if (userId <= 0) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Please enter a valid user ID"));
+
+        if (id <= 0) {
+            throw new IllegalArgumentException("Please enter a valid user ID");
         }
-        if (userId == adminId) {
-            return ResponseEntity.badRequest().body(Map.of("error", "You are not allowed to ban yourself"));
+        if (id == adminId) {
+            throw new IllegalArgumentException("You are not allowed to ban yourself");
         }
-        boolean banResult = _userService.banById(userId, (byte) 0);
+        boolean banResult = _userService.banById(id, 0);
         if (!banResult) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Couldn't Ban User"));
+            throw new IllegalArgumentException("Couldn't Ban User");
         }
-        return ResponseEntity.ok(Map.of("message", "User " + userId + " has been banned successfully"));
+        return ResponseEntity.ok(Map.of("message", "User " + id + " has been banned successfully"));
     }
 
-    @PatchMapping("unbanuser")
+    @PatchMapping("/users/{id}/unban")
     @Auth(roles = {"ADMIN"})
-    public ResponseEntity<Map<String, String>> unsuspendUser(@RequestBody Map<String, Long> user) {
-        long userId = user.getOrDefault("userId", 0L);
-        if (userId <= 0) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Please enter a valid user ID"));
+    public ResponseEntity<Map<String, String>> unbanUser(@PathVariable long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Please enter a valid user ID");
         }
-        boolean unbanResult = _userService.banById(userId, (byte) 1);
+        boolean unbanResult = _userService.banById(id, 1);
         if (!unbanResult) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Couldn't Unban User"));
+            throw new IllegalArgumentException("Couldn't Unban User");
         }
-        return ResponseEntity.ok(Map.of("message", "User " + userId + " has been unbanned successfully"));
+        return ResponseEntity.ok(Map.of("message", "User " + id + " has been unbanned successfully"));
     }
 
-    @PatchMapping("promote/{id}")
+    @PatchMapping("/users/{id}/role/admin")
     @Auth(roles = {"ADMIN"})
-    public ResponseEntity<Map<String, String>> promoteToAdmin(@PathVariable long id) {
+    public ResponseEntity<Map<String, String>> addAdminRole(@PathVariable long id) {
         User user = _userService.getById(id).orElseThrow(() -> new NoSuchUserException("There is no user with id: " + id));
         _userService.promoteToAdmin(user);
-        return ResponseEntity.ok(Map.of("message", "User promoted to admin successfully"));
+        return ResponseEntity.ok(Map.of("message", "Admin role added successfully"));
     }
 
-    @PatchMapping("demote/{id}")
+    @DeleteMapping("/users/{id}/role/admin")
     @Auth(roles = {"ADMIN"})
-    public ResponseEntity<Map<String, String>> demoteFromAdmin(@PathVariable long id) {
+    public ResponseEntity<Map<String, String>> removeAdminRole(@PathVariable long id, HttpServletRequest request) {
+        String token = _jwtUtil.extractToken(request);
+        long adminId = _jwtUtil.extractId(token);
+        if (id <= 0) {
+            throw new IllegalArgumentException("Please enter a valid user ID");
+        }
+        if (id == adminId) {
+            throw new IllegalArgumentException("You are not allowed to remove your own admin role");
+        }
         User user = _userService.getById(id).orElseThrow(() -> new NoSuchUserException("There is no user with id: " + id));
         _userService.demoteFromAdmin(user);
-        return ResponseEntity.ok(Map.of("message", "User demoted from admin successfully"));
+        return ResponseEntity.ok(Map.of("message", "Admin role removed successfully"));
     }
 
-    @PatchMapping("/accept/vendor/{id}")
+    @PatchMapping("/vendors/{id}/status")
     @Auth(roles = {"ADMIN"})
-    public ResponseEntity<Map<String, String>> acceptVendor(@PathVariable Long id) {
-        if (id == null || id <= 0) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Please enter a valid user ID"));
+    public ResponseEntity<Map<String, String>> updateVendorStatus(@PathVariable long id, @RequestParam Status status) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Please enter a valid user ID");
         }
         User user = _userService.getById(id).orElseThrow(() -> new NoSuchUserException("There is no user with id: " + id));
         if (!user.getRoles().contains(Roles.VENDOR)) {
-            return ResponseEntity.badRequest().body(Map.of("error", "User is not a vendor"));
+            throw new IllegalArgumentException("User is not a vendor");
         }
-        if (user.getStatus().equals(Status.ACTIVE)) {
-            return ResponseEntity.badRequest().body(Map.of("error", "User is already active"));
+        if (user.getStatus().equals(status)) {
+            throw new IllegalArgumentException("User status is already " + status);
         }
-        _adminService.handleVendorStatus(user);
-        return ResponseEntity.ok(Map.of("message", String.format("User %d has been accepted as a vendor", id)));
+        _adminService.handleVendorStatus(user, status);
+        return ResponseEntity.ok(Map.of("message", String.format("Vendor %d status updated to %s", id, status)));
     }
 }

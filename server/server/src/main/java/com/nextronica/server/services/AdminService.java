@@ -17,8 +17,8 @@ public class AdminService {
         _userRepository = userRepository;
     }
 
-    public void handleVendorStatus(User user){
-        user.setStatus(Status.ACTIVE);
+    public void handleVendorStatus(User user, Status status){
+        user.setStatus(status);
         _userRepository.save(user);
     }
 }
