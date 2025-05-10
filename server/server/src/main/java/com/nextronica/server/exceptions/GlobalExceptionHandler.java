@@ -219,7 +219,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(io.jsonwebtoken.MalformedJwtException.class)
     public ResponseEntity<ErrorResponse> handleMalformedTokenException(
-            io.jsonwebtoken.security.SignatureException ex, HttpServletRequest request) {
+            io.jsonwebtoken.MalformedJwtException ex, HttpServletRequest request) {
 
         log.error("JWT Malformed error: {}", ex.getMessage());
 
