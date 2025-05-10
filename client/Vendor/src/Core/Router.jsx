@@ -7,17 +7,17 @@ import { ProtectedRoutes } from "./Config";
 const Routers = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
+        element:<ProtectedRoutes><Layout /></ProtectedRoutes> ,
         errorElement: "",
         children: [
-            { index: true, element:(<Lazy.private.AllProduct /> ) },
+            { index: true, element:(<ProtectedRoutes> <Lazy.private.AllProduct /></ProtectedRoutes> ) },
             {
                 path: "/AllProducts",
-                element:<Lazy.private.AllProduct /> 
+                element:<ProtectedRoutes> <Lazy.private.AllProduct /> </ProtectedRoutes>
             },
             {
                 path: "/AddProduct/:id?",
-                element:<Lazy.private.AddProduct />
+                element: <ProtectedRoutes><Lazy.private.AddProduct /></ProtectedRoutes> 
             },
 
         ]

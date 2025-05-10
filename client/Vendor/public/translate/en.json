@@ -22,6 +22,15 @@
     "LogintoExclusive" : "Login to Exclusive",
     "ForgetPassword" : "Forget Password ?",
     "AllProdact" : "All Prodact",
-    "AddProducts" : "Add Products"
+    "AddProducts" : "Add Products",
+    "PleaseInputYourFullName" : "Please Input Your Full Name",
+    "FullName" :"Full Name",
+    "PleaseInputYourConfirmPassword" : "Please Input Your Confirm Password",
+    "confirmPassword" : "Confirm Password",
+    "PleaseSelectYourBirthday" : "Please Select Your Birthday",
+    "Birthday" : "Birthday",
+    "PleaseSelectYourBio" : "Please Select Your Bio",
+    "bio" : "Bio"
+
 
 }

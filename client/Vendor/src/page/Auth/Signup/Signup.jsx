@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import img from "../../../Image/dl.beatsnoop 1.webp";
 import { Button, Col, DatePicker, Form, Input, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
@@ -7,20 +6,29 @@ import Header from "../../private/Header/Header";
 import { ApiAuth } from "../Api";
 import { useEffect, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function Signup() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [widthPage, setWidthPage] = useState(window.innerWidth <= 992);
-
-  console.log(widthPage);
+  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values) => {
-    const Register = await ApiAuth().Register(values);
-    console.log("Success:", Register);
-    navigate("/signin");
-  };
+    setLoading(true);
 
+    try {
+      await ApiAuth().Register(values);
+      toast.success("Success");
+      navigate("/signin");
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message || "Registration failed. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
   const onFinishFailed = () => {
     toast.error(t("Enter-complete-Data"));
   };
@@ -34,27 +42,21 @@ export default function Signup() {
   return (
     <>
       <Header />
-      <div style={{ padding: "100px 50px" }}>
+      <div style={{ padding: "0px 20px" }}>
         <Row align="middle" justify="center" gutter={[16, 16]}>
           {!widthPage ? (
-            <Col xs={24} sm={24} md={24} lg={12} xl={11}>
-              <img
-                loading="eager"
-                src={img}
-                alt="Signup Illustration"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  filter: "drop-shadow(0 0 0.75rem #db4444)",
-                  borderRadius: "15px"
-                }}
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} style={{marginBottom:"80px"}}>
+              <DotLottieReact
+      src="https://lottie.host/77c70991-1b3a-4c85-aebf-d7bf40415e40/Rq3JSIlkEP.lottie"
+                loop
+                autoplay
               />
             </Col>
           ) : (
             ""
           )}
 
-          <Col xs={24} sm={24} md={24} lg={12} xl={13}>
+          <Col xs={24} sm={24} md={24} lg={12} xl={12}>
             <div
               style={{
                 display: "flex",
@@ -121,12 +123,12 @@ export default function Signup() {
                 <Form.Item
                   name="fullName"
                   rules={[
-                    { required: true, message: t("PleaseInputYourUsername") }
+                    { required: true, message: t("PleaseInputYourFullName") }
                   ]}
                   validateTrigger="onBlur"
                 >
                   <Input
-                    placeholder={t("UserName")}
+                    placeholder={t("FullName")}
                     size="middle"
                     bordered={false}
                     style={{
@@ -184,12 +186,15 @@ export default function Signup() {
                 <Form.Item
                   name="confirmPassword"
                   rules={[
-                    { required: true, message: t("PleaseInputYourPassword") }
+                    {
+                      required: true,
+                      message: t("PleaseInputYourConfirmPassword")
+                    }
                   ]}
                   validateTrigger="onBlur"
                 >
                   <Input.Password
-                    placeholder={t("Password")}
+                    placeholder={t("confirmPassword")}
                     size="middle"
                     bordered={false}
                     style={{
@@ -209,7 +214,7 @@ export default function Signup() {
                   validateTrigger="onBlur"
                 >
                   <DatePicker
-                    placeholder={t("EnterYourBirthday")}
+                    placeholder={t("Birthday")}
                     size="middle"
                     bordered={false}
                     style={{
@@ -225,7 +230,7 @@ export default function Signup() {
                 <Form.Item
                   name="bio"
                   rules={[
-                    { required: false, message: t("bio") }
+                    { required: false, message: t("PleaseSelectYourBio") }
                   ]}
                   validateTrigger="onBlur"
                 >
@@ -249,7 +254,15 @@ export default function Signup() {
                     htmlType="submit"
                     style={{ width: 380, height: 50 }}
                   >
-                    {t("Submit")}
+                    {loading ? (
+                      <DotLottieReact
+                        src="https://lottie.host/19cd0886-c31d-4b82-8781-8daee8c5011c/ysC4VCy63L.lottie"
+                        loop
+                        autoplay
+                      />
+                    ) : (
+                      t("Submit")
+                    )}
                   </Button>
                 </Form.Item>
               </Form>

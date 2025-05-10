@@ -22,5 +22,14 @@
     "LogintoExclusive" : "تسجيل الدخول",
     "ForgetPassword" : "نسيت كلمه المرور",
     "AllProdact" : "كل المنجات",
-    "AddProducts" : "اضافه منتج"
+    "AddProducts" : "اضافه منتج",
+    "PleaseInputYourFullName" : "يرجى إدخال اسمك الكامل",
+    "FullName" :"الاسم الكامل",
+    "PleaseInputYourConfirmPassword" : "يرجى إدخال تأكيد كلمة المرور",
+    "confirmPassword" : "تأكيد كلمة المرور",
+    "PleaseSelectYourBirthday" : "يرجى تحديد تاريخ ميلادك",
+    "Birthday" : "عيد ميلاد",
+    "PleaseSelectYourBio" : "يرجى تحديد سيرتك الذاتية",
+    "bio" : "السيرة الذاتية"
+
 }
