@@ -1,29 +1,19 @@
 
-import imgPageError from "../../../Image/Group 8.webp"
-import { useNavigate } from "react-router-dom"
-import style from "./Style.module.css"
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-const {errorButton , pageError} = style
 
 export default function Error() {
-
-  const navigate = useNavigate()
-
-
-  return (<>
-
-    <div className={pageError}>
-      <div>
-          <img loading="lazy" src={imgPageError} alt="Error page illustration" />
-      </div>
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <h3  >We seem to have run into a bit of a problem with this page, <span style={{ color: "#df5e5e" }}>kindly reload.</span></h3>
-        <button onClick={() => navigate("/Home")} className={errorButton}  >Go Home</button>
-
-      </div>
-    </div>
-
-  </>
-
-  )
+  return (
+    <>
+    
+        <div > 
+          <DotLottieReact
+            src="https://lottie.host/187926a3-cbaf-4a09-a106-4360a4dd24f8/oTQeglB1ml.lottie"
+            loop
+            autoplay
+          />
+        </div>
+ 
+    </>
+  );
 }

@@ -3,7 +3,6 @@ import { lazy } from "react"
 const Lazy = {
 
     Auth : {
-        Signup : lazy(()=>import("../page/Auth/Signup/Signup")),
         Signin : lazy(()=>import("../page/Auth/Signin/Signin")),
     },
     private :{

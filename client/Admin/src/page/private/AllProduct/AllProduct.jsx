@@ -1,6 +1,7 @@
-import React from 'react';
+
 import { Table } from 'antd';
 import { Link } from 'react-router-dom';
+
 
 
 const data = [
@@ -161,6 +162,7 @@ export default function AllProduct() {
       render: (_, record) => <a onClick={() => delateProduct(record.id)}>Delete</a>,
     },
   ];
+
 
 
   return (<>
