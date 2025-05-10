@@ -21,8 +21,6 @@ function Header(props) {
   const sun = useRef();
   const moon = useRef();
 
-  console.log(authToken);
-
   useEffect(() => {
     window.document.dir = i18n.dir();
   }, [dir]);

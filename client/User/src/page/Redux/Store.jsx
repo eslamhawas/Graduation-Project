@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import sliceAuthToken from "./Auth";
 
 const store = configureStore({
-    reducer: {
+  reducer: {
+    sliceAuthToken
+  }
+});
 
-    }
-})
-
-export default store
+export default store;

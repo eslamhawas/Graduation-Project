@@ -42,27 +42,17 @@ export default function Signup() {
   return (
     <>
       <Header />
-      <div style={{ padding: "0px 20px" }}>
-        <Row align="middle" justify="center" gutter={[16, 16]}>
-          {!widthPage ? (
-            <Col xs={24} sm={24} md={24} lg={12} xl={12} style={{marginBottom:"80px"}}>
-              <DotLottieReact
-      src="https://lottie.host/77c70991-1b3a-4c85-aebf-d7bf40415e40/Rq3JSIlkEP.lottie"
-                loop
-                autoplay
-              />
-            </Col>
-          ) : (
-            ""
-          )}
-
+      <div style={{ padding: "0px 0px" }}>
+        <Row align="middle" justify="center">
+          
           <Col xs={24} sm={24} md={24} lg={12} xl={12}>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                width:"100%"
               }}
             >
               <h1>{t("CreateAnAccount")}</h1>
@@ -81,7 +71,8 @@ export default function Signup() {
                 <Form.Item
                   name="email"
                   rules={[
-                    { required: true, message: t("PleaseInputYourEmail") }
+                    { required: true, message: t("PleaseInputYourEmail") },
+                    { type: "email", message: t("InvalidEmail") }
                   ]}
                   validateTrigger="onBlur"
                 >
@@ -144,7 +135,14 @@ export default function Signup() {
                 <Form.Item
                   name="phoneNumber"
                   rules={[
-                    { required: true, message: t("PleaseInputYourMobilePhone") }
+                    {
+                      required: true,
+                      message: t("PleaseInputYourMobilePhone")
+                    },
+                    {
+                      pattern: /^[0-9]{10,15}$/,
+                      message: t("InvalidPhoneNumber")
+                    }
                   ]}
                   validateTrigger="onBlur"
                 >
@@ -165,7 +163,11 @@ export default function Signup() {
                 <Form.Item
                   name="password"
                   rules={[
-                    { required: true, message: t("PleaseInputYourPassword") }
+                    { required: true, message: t("PleaseInputYourPassword") },
+                    {
+                      min: 6,
+                      message: t("PasswordMinLength")
+                    }
                   ]}
                   validateTrigger="onBlur"
                 >
@@ -185,11 +187,22 @@ export default function Signup() {
 
                 <Form.Item
                   name="confirmPassword"
+                  dependencies={["password"]}
                   rules={[
                     {
                       required: true,
                       message: t("PleaseInputYourConfirmPassword")
-                    }
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(
+                          new Error(t("PasswordsDoNotMatch"))
+                        );
+                      }
+                    })
                   ]}
                   validateTrigger="onBlur"
                 >
@@ -206,6 +219,7 @@ export default function Signup() {
                     }}
                   />
                 </Form.Item>
+
                 <Form.Item
                   name="birthday"
                   rules={[
@@ -227,13 +241,7 @@ export default function Signup() {
                   />
                 </Form.Item>
 
-                <Form.Item
-                  name="bio"
-                  rules={[
-                    { required: false, message: t("PleaseSelectYourBio") }
-                  ]}
-                  validateTrigger="onBlur"
-                >
+                <Form.Item name="bio" validateTrigger="onBlur">
                   <TextArea
                     placeholder={t("bio")}
                     size="middle"
@@ -277,6 +285,25 @@ export default function Signup() {
               </div>
             </div>
           </Col>
+          {!widthPage ? (
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={12}
+              xl={12}
+              style={{ marginBottom: "80px" }}
+            >
+              <DotLottieReact
+                src="https://lottie.host/77c70991-1b3a-4c85-aebf-d7bf40415e40/Rq3JSIlkEP.lottie"
+                loop
+                autoplay
+              />
+            </Col>
+          ) : (
+            ""
+          )}
+
         </Row>
       </div>
     </>

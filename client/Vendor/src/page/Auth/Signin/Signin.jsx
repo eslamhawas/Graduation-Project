@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import img from "../../../Image/dl.beatsnoop 1.webp";
 import { Button, Col, Form, Input, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
@@ -55,26 +54,15 @@ export default function Signin() {
     <>
       <Header />
       <div style={{ padding: "50px 50px" }}>
-        <Row align="middle" justify="center" >
-          {!widthPage ? (
-            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-            <DotLottieReact
-      src="https://lottie.host/77c70991-1b3a-4c85-aebf-d7bf40415e40/Rq3JSIlkEP.lottie"
-                loop
-                autoplay
-              />
-            </Col>
-          ) : (
-            ""
-          )}
-
+        <Row align="middle" justify="center">
           <Col xs={24} sm={24} md={24} lg={12} xl={12}>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                marginTop: "20px"
               }}
             >
               <h1>{t("LogintoExclusive")}</h1>
@@ -93,12 +81,13 @@ export default function Signin() {
                 <Form.Item
                   name="email"
                   rules={[
-                    { required: true, message: t("PleaseInputYourEmail") }
+                    { required: true, message: t("PleaseInputYourEmail") },
+                    { type: "email", message: t("InvalidEmail") }
                   ]}
                   validateTrigger="onBlur"
                 >
                   <Input
-                    placeholder={t("email")}
+                    placeholder={t("Email")}
                     size="middle"
                     bordered={false}
                     style={{
@@ -114,7 +103,8 @@ export default function Signin() {
                 <Form.Item
                   name="password"
                   rules={[
-                    { required: true, message: t("PleaseInputYourPassword") }
+                    { required: true, message: t("PleaseInputYourPassword") },
+                    { min: 6, message: t("PasswordMinLength") }
                   ]}
                   validateTrigger="onBlur"
                 >
@@ -158,6 +148,17 @@ export default function Signin() {
               </div>
             </div>
           </Col>
+          {!widthPage ? (
+            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+              <DotLottieReact
+                src="https://lottie.host/77c70991-1b3a-4c85-aebf-d7bf40415e40/Rq3JSIlkEP.lottie"
+                loop
+                autoplay
+              />
+            </Col>
+          ) : (
+            ""
+          )}
         </Row>
       </div>
     </>
