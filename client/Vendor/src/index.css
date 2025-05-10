@@ -40,3 +40,10 @@ a{
 .active-link {
    color: red !important; /* تحديد اللون أو أي خصائص أخرى */
  }
+
+  :where(.css-dev-only-do-not-override-wb6fi8).ant-menu-horizontal {
+
+    border-bottom: 1px solid transparent !important;
+
+}
+

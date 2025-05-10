@@ -34,6 +34,19 @@
   "PleaseSelectYourBio": "Please enter your bio",
   "bio": "Bio",
   "InvalidEmail": "Invalid email address",
-  "InvalidPhoneNumber": "Invalid phone number"
-
+  "InvalidPhoneNumber": "Invalid phone number",
+  "AllUser": "All User",
+  "AllVendors": "All Vendors",
+  "profileImage": "Profile Image",
+  "delete": "Delete",
+  "bin": "Ban",
+  "Success": " Successful operation",
+  "BannedUsers": "Banned Users",
+  "unBan": "unBan",
+  "role": "Role",
+  "promoteAdmin": "Promote Admin",
+  "ConvertUser": " Convert User",
+  "AllAdmin": "All Admin",
+  "PendingVendors": "Pending Vendors",
+    "confirm" : "Confirm"
 }
