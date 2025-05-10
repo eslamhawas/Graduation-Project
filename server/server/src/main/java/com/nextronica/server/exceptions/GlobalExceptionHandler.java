@@ -217,6 +217,21 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
+    @ExceptionHandler(io.jsonwebtoken.MalformedJwtException.class)
+    public ResponseEntity<ErrorResponse> handleMalformedTokenException(
+            io.jsonwebtoken.security.SignatureException ex, HttpServletRequest request) {
+
+        log.error("JWT Malformed error: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = createErrorResponse(
+                request,
+                HttpStatus.UNAUTHORIZED,
+                "Authentication Error",
+                "Malformed JWT Token"
+        );
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
 
 
     @ExceptionHandler(Exception.class)
