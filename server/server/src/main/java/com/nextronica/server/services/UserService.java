@@ -14,10 +14,7 @@ import com.nextronica.server.utils.PasswordManager;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -50,8 +47,9 @@ public class UserService {
         return true;
     }
 
-    public List<UserDto> getAllUsers(Status status) {
-        List<User> users = _userRepository.findByStatus(status);
+    public List<UserDto> getAllUsers(Status status, Roles role) {
+        Collection<Roles> roles = role != null ? Collections.singleton(role) : null;
+        List<User> users = _userRepository.findByStatusAndRolesIn(status, roles);
         return users.stream().map(_helper::toUserDto).toList();
     }
 

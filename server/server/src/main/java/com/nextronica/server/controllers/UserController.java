@@ -5,6 +5,7 @@ import com.nextronica.server.dtos.UserDto;
 import com.nextronica.server.dtos.requests.ChangePasswordRequestDto;
 import com.nextronica.server.exceptions.customExceptions.NoSuchUserException;
 import com.nextronica.server.models.User;
+import com.nextronica.server.models.enums.Roles;
 import com.nextronica.server.models.enums.Status;
 import com.nextronica.server.providers.Auth.Auth;
 import com.nextronica.server.services.UserService;
@@ -63,8 +64,9 @@ public class UserController {
 
     @GetMapping
     @Auth(roles = {"ADMIN"})
-    public ResponseEntity<List<UserDto>> getUsers(@RequestParam(required = false, defaultValue = "ACTIVE") Status status) {
-        List<UserDto> users = _userService.getAllUsers(status);
+    public ResponseEntity<List<UserDto>> getUsers(@RequestParam(required = false, defaultValue = "ACTIVE") Status status,
+                                                  @RequestParam(required = false) Roles role) {
+        List<UserDto> users = _userService.getAllUsers(status, role);
         return ResponseEntity.ok(users);
     }
 
