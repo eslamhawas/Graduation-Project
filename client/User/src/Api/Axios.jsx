@@ -4,7 +4,7 @@ const apiUrl = import.meta.env.VITE_PATH_URL;
 
 const axiosInstance = axios.create({
     baseURL: apiUrl,
-    headers:"",
+    headers:{},
 })
 
 export default axiosInstance

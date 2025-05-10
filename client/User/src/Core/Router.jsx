@@ -29,7 +29,17 @@ const Routers = createBrowserRouter([
         {
             path:"/signin",
             element : <Lazy.Auth.Signin />
-        }
+        },
+
+        {
+            path: "/category/:id",
+            element: <Lazy.Public.CategoryProducts />
+          },
+    
+       {
+            path: "/products/:id",
+            element: <Lazy.Public.ProductDetails />
+          }
     ]
 
 },
