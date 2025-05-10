@@ -64,7 +64,7 @@ public class UserController {
 
     @GetMapping
     @Auth(roles = {"ADMIN"})
-    public ResponseEntity<List<UserDto>> getUsers(@RequestParam(required = false, defaultValue = "ACTIVE") Status status,
+    public ResponseEntity<List<UserDto>> getUsers(@RequestParam(required = false) Status status,
                                                   @RequestParam(required = false) Roles role) {
         List<UserDto> users = _userService.getAllUsers(status, role);
         return ResponseEntity.ok(users);

@@ -25,8 +25,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select (count(u) > 0) from User u where upper(u.username) = upper(?1)")
     boolean existsByUsername(String username);
 
-    @Query("select u from User u left join u.roles roles where u.status = ?1 and (?2 is null or roles in ?2)")
-    List<User> findByStatusAndRolesIn(Status status, @Nullable Collection<Roles> roles);
+    @Query("select u from User u left join u.roles roles where (?1 is null or u.status = ?1) and (?2 is null or roles in ?2)")
+    List<User> findByStatusAndRolesIn(@Nullable Status status, @Nullable Collection<Roles> roles);
 
 
 
