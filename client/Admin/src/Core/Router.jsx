@@ -10,16 +10,27 @@ const Routers = createBrowserRouter([
         element:<ProtectedRoutes><Layout /></ProtectedRoutes> ,
         errorElement: "",
         children: [
-            { index: true, element:(<ProtectedRoutes> <Lazy.private.AllProduct /></ProtectedRoutes> ) },
+            { index: true, element:(<ProtectedRoutes> <Lazy.private.AllUser /></ProtectedRoutes> ) },
             {
-                path: "/AllProducts",
-                element:<ProtectedRoutes> <Lazy.private.AllProduct /> </ProtectedRoutes>
+                path: "/AllUser",
+                element:<ProtectedRoutes> <Lazy.private.AllUser /> </ProtectedRoutes>
             },
             {
-                path: "/AddProduct/:id?",
-                element: <ProtectedRoutes><Lazy.private.AddProduct /></ProtectedRoutes> 
+                path: "/AllVendors",
+                element: <ProtectedRoutes><Lazy.private.AllVendors /></ProtectedRoutes> 
             },
-
+                        {
+                path: "/BannedUsers",
+                element: <ProtectedRoutes><Lazy.private.BinUser /></ProtectedRoutes> 
+            },
+                        {
+                path: "/AllAdmin",
+                element: <ProtectedRoutes><Lazy.private.AllAdmin /></ProtectedRoutes> 
+            },
+                                    {
+                path: "/PendingVendors",
+                element: <ProtectedRoutes><Lazy.private.PendingVendors /></ProtectedRoutes> 
+            },
         ]
 
     },

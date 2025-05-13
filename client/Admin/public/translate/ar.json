@@ -34,10 +34,19 @@
   "PleaseSelectYourBio": "يرجى إدخال نبذة عنك",
   "bio": "السيرة الذاتية",
   "InvalidEmail": "البريد الإلكتروني غير صالح",
-  "InvalidPhoneNumber": "رقم الهاتف غير صالح"
-
-
-
-
-
+  "InvalidPhoneNumber": "رقم الهاتف غير صالح",
+  "AllUser": "  المستخدمين",
+  "AllVendors": "  البائعين",
+  "profileImage": "صورة الملف الشخصي",
+  "delete": "حذف",
+  "bin": "حظر",
+  "Success": " عملية ناجحة",
+  "BannedUsers": " المحظورون",
+  "unBan": "فك الحظر",
+  "role": "دور",
+  "promoteAdmin": "ترقية لمشرف",
+  "ConvertUser" : " تحويل لمستخدم",
+  "AllAdmin" : "مسؤلين",
+  "PendingVendors": "البائعين المعلقين ",
+  "confirm" : "تاكيد"
 }

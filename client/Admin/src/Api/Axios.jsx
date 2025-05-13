@@ -25,7 +25,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && ( error.response.status === 401 || error.response.status === 500)) {
+    if (error.response && error.response.status === 401 ) {
    window.location.href = "/Signin";
       localStorage.removeItem("userToken");
       store.dispatch(removeToken());

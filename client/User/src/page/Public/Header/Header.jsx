@@ -21,6 +21,9 @@ import { useTranslation } from "react-i18next";
 import i18n from "../../../Core/I18Next";
 import {  useSelector } from "react-redux";
 import { contextDarkMode } from "../../Context/DarkMode";
+import imgEN from "../../../Image/pngtree-american-flag-usa-circle-icon-png-image_4742100.webp";
+import imgAR from "../../../Image/pngtree-egypt-round-flag-glossy-glass-effect-vector-transparent-background-png-image_11427247.webp";
+
 
 function Header(props) {
   const { t } = useTranslation();
@@ -127,15 +130,23 @@ function Header(props) {
             </Menu.Item>
           ))}
         </Menu>
-        <select
-          onChange={(languageValue) =>
-            i18n.changeLanguage(languageValue.target.value)
-          }
-          className="selectLanguage"
-        >
-          <option value="en">En</option>
-          <option value="ar">Ar</option>
-        </select>
+        {dir == "ar" ? (
+          <img
+            src={imgEN}
+            alt="en"
+            width={"30px"}
+            onClick={() => i18n.changeLanguage("en")}
+            style={{margin:"0px 10px"}}
+          />
+        ) : (
+          <img
+            src={imgAR}
+            alt="ar"
+            width={"23px"}
+              style={{margin:"0px 10px"}}
+            onClick={() => i18n.changeLanguage("ar")}
+          />
+        )}
         <div className="darkmodeicone">
           <SunOutlined id="sun" ref={sun} onClick={() => darkSun()} />
           <MoonOutlined id="moon" ref={moon} onClick={() => darkMoon()} />
