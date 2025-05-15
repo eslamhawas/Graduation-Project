@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  gp_database_service:
+    image: mysql:5.7
+    container_name: gp_databse_container
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: nest__service
+      MYSQL_USER: hambolla
+      MYSQL_PASSWORD: hambollino
+    restart: always
+    ports:
+      - '3300:3306'
+    volumes:
+      - gp_dbvolume:/var/lib/mysql
+    networks:
+      - gp-network
+  gp_phpmyadmin_gui_service:
+    image: phpmyadmin/phpmyadmin
+    container_name: gp_phpmyadmin_gui_container
+    links:
+      - gp_database_service
+    environment:
+      PMA_HOST: gp_database_service
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - '8800:80'
+    networks:
+      - gp-network
+
+networks:
+  gp-network:
+    name : gp-network
+    # external: true
+
+volumes:
+  gp_dbvolume:

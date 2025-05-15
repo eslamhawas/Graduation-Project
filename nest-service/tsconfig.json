@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@app/backend-core": [
+        "libs/backend-core/src"
+      ],
+      "@app/backend-core/*": [
+        "libs/backend-core/src/*"
+      ],
+      "@app/database-connect": [
+        "libs/database-connect/src"
+      ],
+      "@app/database-connect/*": [
+        "libs/database-connect/src/*"
+      ],
+      "@app/emails": [
+        "libs/emails/src"
+      ],
+      "@app/emails/*": [
+        "libs/emails/src/*"
+      ],
+      "@app/interfaces": [
+        "libs/interfaces/src"
+      ],
+      "@app/interfaces/*": [
+        "libs/interfaces/src/*"
+      ],
+      "@libs/*": [
+        "libs/*"
+      ],
+      "@modules/*": [
+        "src/app/modules/*"
+      ]
+    }
+  }
+}
