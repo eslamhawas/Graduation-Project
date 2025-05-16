@@ -48,5 +48,6 @@
   "ConvertUser" : " تحويل لمستخدم",
   "AllAdmin" : "مسؤلين",
   "PendingVendors": "البائعين المعلقين ",
-  "confirm" : "تاكيد"
+  "confirm" : "تاكيد",
+    "ConnectionProblemOccurred": "حدثت مشكلة في الاتصال  "
 }

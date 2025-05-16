@@ -37,7 +37,7 @@ export default function Signin() {
     } else {
       setLoading(false);
       navigate("/Signin");
-      toast.error("No token returned from server.");
+      toast.error(loginResponse.error);
     }
   };
 

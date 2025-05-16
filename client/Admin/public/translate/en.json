@@ -48,5 +48,6 @@
   "ConvertUser": " Convert User",
   "AllAdmin": "All Admin",
   "PendingVendors": "Pending Vendors",
-    "confirm" : "Confirm"
+    "confirm" : "Confirm",
+    "ConnectionProblemOccurred": "Connection Problem Occurred"
 }
