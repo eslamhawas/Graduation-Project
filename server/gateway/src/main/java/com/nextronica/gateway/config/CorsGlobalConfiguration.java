@@ -12,10 +12,11 @@ public class CorsGlobalConfiguration {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.addAllowedOrigin("*");
+        corsConfig.addAllowedOrigin("http://localhost:4200");
+        corsConfig.addAllowedOrigin("http://localhost:4201");
+        corsConfig.addAllowedOrigin("http://localhost:5173");
         corsConfig.addAllowedMethod("*");
         corsConfig.addAllowedHeader("*");
-        corsConfig.setAllowCredentials(false); // optional
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig); // Apply to all paths
