@@ -113,12 +113,11 @@ const data = [
   },
 
 ];
-=======
 import React, { useEffect, useState } from 'react';
 import { Table, message } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
->>>>>>> 0197d0dac8e5ed7d8c9f376d951012dc977311e9
+
 
 export default function AllProduct() {
   const [products, setProducts] = useState([]);
