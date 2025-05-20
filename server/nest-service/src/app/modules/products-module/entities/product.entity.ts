@@ -1,7 +1,7 @@
-import { CartItemEntity } from '@app/backend-core/entities/cart-item.entity';
 import { CoreEntity } from '@app/backend-core/entities/core.entity';
 import { ProductsProvidersEntity } from '@app/backend-core/entities/products-providers.entity';
 import { STATUS } from '@app/backend-core/enums/status.enum';
+import { BrandEntity } from '@modules/brand-module/entities/brand.entity';
 import { CategoryEntity } from '@modules/category-module/entities/category.entity';
 import { OrderItemsEntity } from '@modules/orders-module/entities/order-item.entity';
 import { TransactionEntity } from '@modules/transaction-module/entities/transaction.entity';
@@ -20,11 +20,8 @@ export class ProductEntity extends CoreEntity {
   @Column('varchar')
   name: string;
 
-  @Column('float')
-  price: number;
-
-  @OneToMany(() => CartItemEntity, (cp) => cp.product)
-  cartItems: CartItemEntity[];
+  // @Column('float')
+  // price: number;
 
   @OneToMany(() => ProductsProvidersEntity, (pp) => pp.product, {
     cascade: true,
@@ -53,6 +50,16 @@ export class ProductEntity extends CoreEntity {
   @Column('varchar', { nullable: true })
   imageUrl: string;
 
+  /**
+   * BRAND WILL BE SAPARATED TABLE
+   * WITH ONE-TO-MANY RELATIONSHIP
+   */
+  @ManyToOne(() => BrandEntity, (b) => b.products)
+  brand: BrandEntity;
+
+  /**
+   * PRODUCT BIO
+   */
   @Column('varchar', { nullable: true })
-  brand: string;
+  bio: string;
 }

@@ -1,4 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { MomoService } from '@app/backend-core';
 import { OrdersEntity } from './entities/orders-module.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -50,7 +55,7 @@ export class OrdersModuleService extends MomoService<OrdersEntity> {
   //     };
   //     await this.emailsService.sendRawEmail(mailBody);
   //   } else {
-  //     // console.log(
+  // console.log(
   //       `there is no user object inside this reponse , cant send email`,
   //     );
   //   }
@@ -84,53 +89,70 @@ export class OrdersModuleService extends MomoService<OrdersEntity> {
     return order;
   }
 
-  async createOne(dto: CreateOrdersModuleDto): Promise<OrdersEntity> {
-    if (dto?.orderItems) {
-      // calculate subAmount if order { isPromoted = true }
-      let oldPrice: OrdersEntity['oldPrice'];
-      let subAmount: OrdersEntity['subAmount'] = dto?.subAmount;
-      if (dto?.isPromoted) {
-        oldPrice = subAmount;
-        subAmount = calculateSubAmout(dto?.subAmount, dto?.promoPercentage);
-      }
+  async createOne(dto: CreateOrdersModuleDto): Promise<OrdersEntity | any> {
+    /**
+     * CHECK AVAILABILTY LOGIC
+     */
 
-      // calculate totalAmount from subAmount
-      const totalAmount: OrdersEntity['totalAmount'] =
-        calculateFullAmout(subAmount);
+    const { unAvailableItems, alternativesProviders } =
+      await this.checkAvailability(dto?.orderItems);
 
-      // register new order without its orderItems
-      const order: OrdersEntity = await super.createOne({
-        ...dto,
-        orderItems: [],
-        oldPrice,
-        subAmount,
-        totalAmount,
-      });
+    // WHERE ( unAvailableItems.length > 0 )
+    if (unAvailableItems && unAvailableItems.length > 0) {
+      return {
+        status: 'fail',
+        message: 'Some items are not available in the requested quantity.',
+        unAvailableItems,
+        alternativesProviders,
+      };
+    }
 
-      // create order's orderItems
-      await this.orderItemsService.createOrderItems(order?.id, dto?.orderItems);
+    /**
+     * ORIGINAL CREATING FLOW
+     */
 
-      // create transcation
-      const afterOrderItemsCreated: OrdersEntity = await super.getOne({
-        where: { id: order?.id },
-      });
-      const { orderItems } = afterOrderItemsCreated;
+    // 1) CALC SUB-AMOUNT
+    const subAmount = await this.calclateSubAmountForOrder(dto?.orderItems);
 
-      for (const item of orderItems) {
+    // 2) totalAmount => FOR FUTURE TAX
+    const totalAmount = subAmount;
+
+    // register new order without its orderItems
+    const order: OrdersEntity = await super.createOne({
+      ...dto,
+      orderItems: [],
+      subAmount,
+      totalAmount,
+    });
+
+    // create order's orderItems
+    await this.orderItemsService.createOrderItems(order?.id, dto?.orderItems);
+
+    // create transcations
+    const afterOrderItemsCreated: OrdersEntity = await super.getOne({
+      where: { id: order?.id },
+    });
+    const { orderItems } = afterOrderItemsCreated;
+
+    await Promise.all(
+      orderItems.map(async (item) => {
         const { id, createdDate, updatedDate, deletedDate, ...safeFileds } =
           item;
         await this.transactionService.createOne({
           ...safeFileds,
           order: { id: order?.id },
         });
-      }
+      }),
+    );
 
-      // retrieve full order data
-      return await super.getOne({
-        where: { id: order?.id },
-      });
-    }
-    return super.createOne(dto);
+    // retrieve full order data
+    const fullOrder = await super.getOne({
+      where: { id: order?.id },
+    });
+    console.log({ fullOrder });
+
+    return fullOrder;
+    // return super.createOne(dto);
   }
 
   async getMany(
@@ -144,7 +166,95 @@ export class OrdersModuleService extends MomoService<OrdersEntity> {
     return await super.getMany(options);
   }
 
-  async afterCreateEvent(orderData: OrdersEntity): Promise<void> {
-    //
+  /**
+   * CHECK AVAILABIITY
+   * @param orderItems
+   * @returns { unAvailableItems, alternativesProviders }
+   */
+  async checkAvailability(orderItems: CreateOrdersModuleDto['orderItems']) {
+    // 1 ) DECLARE TWO ARRAYS FOR ( UNAVAILABILITY && ALTERNATIVES PROVIDERS )
+    const unAvailableItems: any = [];
+    const alternativesProviders: any = [];
+
+    // 2 ) LOOP ON ORDER-ITEMS AND CHECL AVAILABILITY
+    for (const item of orderItems) {
+      // 3 ) EXTRACT PRODUCT && PROVIDER && REQUESTED-QUANTITY
+      const productId = item?.product?.id;
+      const providerId = item?.provider?.id;
+      const requestedQuantity = item?.quantity;
+
+      // 4 ) CHECK PRODUCT AVAILABILTY
+      const { countInStock } = await this.productProvidersService.getOne({
+        where: {
+          product: { id: productId },
+          provider: { id: providerId },
+        },
+      });
+
+      // HEALTH CHECK
+      if (!countInStock) {
+        throw new BadRequestException(
+          `THERE IS NO STOCK ITEMS FOR PROVIDER ${providerId} ON PRODUCT ${productId}`,
+        );
+      }
+
+      if (countInStock < requestedQuantity) {
+        // 5 ) IF REQUESTED-QTY > COUNT-IN-STOCK => PUSH IN UN-AVAILABLE-ITEMS
+        unAvailableItems.push({
+          productId,
+          providerId,
+          requestedQuantity,
+          availableStock: countInStock,
+        });
+
+        // 6 ) GET ALTERNATIVE PROVIDER
+        const alternative = await this.productProvidersService.getAlternatives(
+          productId,
+          providerId,
+        );
+
+        // 7 ) IF THERE IS ALTERNATIVE - PUSH ON ALTERNATIVE ARRAY
+        if (alternative && alternative.length > 0) {
+          alternativesProviders.push({
+            productId,
+            unavailableProvider: providerId,
+            alternativesProviders: alternative,
+          });
+        }
+      }
+    }
+
+    // 8 ) RETURN ANOTHER RESPONSE
+    return { unAvailableItems, alternativesProviders };
+  }
+
+  async calclateSubAmountForOrder(
+    orderItems: CreateOrdersModuleDto['orderItems'],
+  ) {
+    let subAmount = 0.0;
+
+    for (const item of orderItems) {
+      subAmount += +item?.itemSalePriceAfterProfitAndPromoIfExist;
+    }
+
+    return subAmount;
   }
 }
+
+/**
+ * OLD FLOW WITH
+ * 1 ) ORDER PROMOTION
+ * 2 ) TAKE subAmount key from frontend
+ */
+
+// // calculate subAmount if order { isPromoted = true }
+// let oldPrice: OrdersEntity['oldPrice'];
+// let subAmount: OrdersEntity['subAmount'] = dto?.subAmount;
+// if (dto?.isPromoted) {
+//   oldPrice = subAmount;
+//   subAmount = calculateSubAmout(dto?.subAmount, dto?.promoPercentage);
+// }
+
+// // calculate totalAmount from subAmount
+// const totalAmount: OrdersEntity['totalAmount'] =
+//   calculateFullAmout(subAmount);

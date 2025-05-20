@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductEntity } from './entities/product.entity';
@@ -9,6 +13,7 @@ import { ProductsProvidersService } from './products-providers.service';
 import { UserTypeEnum } from '@app/backend-core/enums/user-type.enum';
 import { STATUS } from '@app/backend-core/enums/status.enum';
 import { PaginationObjectInterface } from '@app/interfaces/pagination-object.interface';
+import { UserEntity } from '@app/backend-core/entities/user.entity';
 
 @Injectable()
 export class ProductsService extends MomoService<ProductEntity> {
@@ -21,10 +26,16 @@ export class ProductsService extends MomoService<ProductEntity> {
       'productProviders',
       'productProviders.provider',
       'categories',
+      'brand',
+      'productProviders.promotions',
     ];
   }
 
   async afterCreateEvent(product: ProductEntity): Promise<void> {
+    /**
+     * WILL BE UPDATED AFTER AUTHORIZATION
+     * LINE 35 => CONDITION BASED ON req.user.roles.includes(UserTypeEnum.ADMIN)
+     */
     const existProduct = await this.getOne({ where: { id: product?.id } });
     if (
       existProduct &&
@@ -38,7 +49,7 @@ export class ProductsService extends MomoService<ProductEntity> {
 
   async updateOne(id, dto: UpdateProductDto): Promise<ProductEntity> {
     if (dto?.productProviders) {
-      this.productProvidersService.updateProductProviders(id, dto);
+      await this.productProvidersService.updateProductProviders(id, dto);
       return await this.getOne({ where: { id } });
     }
     return await super.updateOne(id, dto);
@@ -56,16 +67,91 @@ export class ProductsService extends MomoService<ProductEntity> {
         categories: [{ id: +options?.categoryId }],
       };
     }
-    if (options?.brand) {
-      options.where = { ...options.where, brand: options?.brand.toLowerCase() };
+    if (options?.brandId) {
+      options.where = { ...options.where, brand: { id: options?.brandId } };
     }
     return await super.getMany(options);
   }
 
   async createOne(dto: DeepPartial<ProductEntity>): Promise<ProductEntity> {
-    if (dto?.brand) {
-      dto.brand = dto.brand.toLowerCase();
-    }
+    // if (dto?.brand) {
+    //   dto.brand = dto.brand.toLowerCase();
+    // }
     return super.createOne(dto);
+  }
+
+  /**
+   * GET PRODUCTS AFTER PROFIT
+   */
+  async getProductsAfterProfit(
+    products: PaginationObjectInterface<ProductEntity>,
+  ) {
+    if (!products?.data || products?.data?.length === 0) {
+      throw new NotFoundException(`PRODUCTS NOT FOUND!`);
+    }
+
+    await Promise.all(
+      products.data.map(async (prod) => {
+        const { productProviders } = prod;
+        if (!productProviders || productProviders?.length === 0) {
+          throw new NotFoundException(`PRODUCT-PROVIDERS NOT FOUND!`);
+        }
+
+        /**
+         * CALL PRODUCTS-PROVIDERS SERVICE THAT RETURN UPDATED PRODUCT-PROVIDER RECORD
+         */
+        await Promise.all(
+          productProviders?.map(async (prodProv) => {
+            prodProv =
+              await this.productProvidersService.getProductProviderAfterAddProfit(
+                prodProv,
+              );
+          }),
+        );
+      }),
+    );
+  }
+
+  /** */
+  async handlePromotionOnProductProvider(
+    products: PaginationObjectInterface<ProductEntity>,
+  ) {
+    if (!products?.data || products?.data?.length === 0) {
+      throw new NotFoundException(`PRODUCTS NOT FOUND!`);
+    }
+
+    // LOOP ON ALL PRODUCTS
+    // EXTRACT PRODUCT-PROVIDERS ARRAY
+    // LOOP ON EACH PROD-PROV
+    // GET PROMOTION WHERE ( PROD-PROV ID && EXPIRY DATE < new Date() )
+    // IF EXIST => APPLY ITS PERCENTAGE ON salePriceAfterProfitAndPromotion KEY
+
+    await Promise.all(
+      products.data.map(async (prod) => {
+        const { productProviders } = prod;
+        if (!productProviders || productProviders?.length === 0) {
+          throw new NotFoundException(`PRODUCT-PROVIDERS NOT FOUND!`);
+        }
+
+        /**
+         * CALL PRODUCTS-PROVIDERS SERVICE THAT RETURN UPDATED PRODUCT-PROVIDER RECORD
+         */
+        await Promise.all(
+          productProviders?.map(async (prodProv) => {
+            prodProv =
+              await this.productProvidersService.updateSalePriceAfterProfitAndPromotion(
+                prodProv,
+              );
+          }),
+        );
+      }),
+    );
+  }
+
+  /**
+   * GET MANY FOR PRODUCT PROVIDER
+   */
+  async getManyForProvider(options: Record<string, any>) {
+    return await super.getMany(options);
   }
 }

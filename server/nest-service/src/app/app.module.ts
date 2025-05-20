@@ -5,9 +5,6 @@ import { DatabaseConnectModule } from '@app/database-connect';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { features } from './modules';
 import { appConfigurations } from 'src/environments/environments';
-import { MulterModule } from '@nestjs/platform-express';
-import { CloudinaryService } from '@libs/cloudinary-service/cloudinay.service';
-
 @Module({
   imports: [
     ConfigModule.forRoot({

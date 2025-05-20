@@ -1,7 +1,8 @@
-import { CartItemEntity } from '@app/backend-core/entities/cart-item.entity';
+import { ProductPromotionsEntity } from '@app/backend-core/entities/products-promotions.entity';
 import { ProductsProvidersEntity } from '@app/backend-core/entities/products-providers.entity';
+import { ProfitMarginEntity } from '@app/backend-core/entities/profit-margin.entity';
 import { UserEntity } from '@app/backend-core/entities/user.entity';
-import { CartEntity } from '@modules/cart-module/entities/cart.entity';
+import { BrandEntity } from '@modules/brand-module/entities/brand.entity';
 import { CategoryEntity } from '@modules/category-module/entities/category.entity';
 import { OrderItemsEntity } from '@modules/orders-module/entities/order-item.entity';
 import { OrdersEntity } from '@modules/orders-module/entities/orders-module.entity';
@@ -23,12 +24,13 @@ export const appConfigurations: any = () => ({
       ProductEntity,
       OrdersEntity,
       OrderItemsEntity,
-      CartEntity,
       UserEntity,
-      CartItemEntity,
       ProductsProvidersEntity,
       CategoryEntity,
       TransactionEntity,
+      BrandEntity,
+      ProfitMarginEntity,
+      ProductPromotionsEntity,
     ],
   },
   app: {

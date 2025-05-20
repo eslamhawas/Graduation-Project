@@ -59,6 +59,6 @@ export class GetManyOptions {
   categoryId?: string;
 
   @IsOptional()
-  @IsString()
-  brand?: string;
+  @IsNumberString()
+  brandId?: string;
 }

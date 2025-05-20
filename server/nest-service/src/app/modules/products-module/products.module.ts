@@ -7,10 +7,17 @@ import { ProductsProvidersEntity } from '@app/backend-core/entities/products-pro
 import { ProductsProvidersService } from '@modules/products-module/products-providers.service';
 import { CloudinaryService } from '@libs/cloudinary-service/cloudinay.service';
 import { MulterModule } from '@nestjs/platform-express';
+import { ProfitMarginEntity } from '@app/backend-core/entities/profit-margin.entity';
+import { ProductPromotionsEntity } from '@app/backend-core/entities/products-promotions.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProductEntity, ProductsProvidersEntity]),
+    TypeOrmModule.forFeature([
+      ProductEntity,
+      ProductsProvidersEntity,
+      ProfitMarginEntity,
+      ProductPromotionsEntity
+    ]),
     /**
      * MULTER FOR UPLOAD IMAGES
      */

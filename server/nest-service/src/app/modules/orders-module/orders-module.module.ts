@@ -4,7 +4,6 @@ import { OrdersModuleController } from './orders-module.controller';
 import { OrdersEntity } from './entities/orders-module.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductEntity } from '@modules/products-module/entities/product.entity';
-import { CartModule } from '@modules/cart-module/cart.module';
 import { EmailsModule } from '@app/emails';
 import { ProductsModule } from '@modules/products-module/products.module';
 import { OrderItemsService } from '@modules/orders-module/order-items.service';
@@ -15,7 +14,6 @@ import { TransactionModule } from '@modules/transaction-module/transaction.modul
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrdersEntity, OrderItemsEntity]),
-    CartModule,
     EmailsModule,
     ProductsModule,
     TransactionModule,

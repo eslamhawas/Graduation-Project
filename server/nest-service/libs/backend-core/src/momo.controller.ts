@@ -8,15 +8,15 @@ import { GetManyOptions } from '@app/interfaces/get-many-options.interface';
 export class MomoController<T extends CoreEntity> {
   constructor(public service: MomoService<T>) {}
 
-  public getManyBase(
+  public async getManyBase(
     options: GetManyOptions = {},
   ): Promise<PaginationObjectInterface<T>> {
-    return this.service.getMany(options);
+    return await this.service.getMany(options);
   }
 
-    getOneBase(id: string): Promise<T> {
-      return this.service.getOne({ where: { id } });
-    }
+  getOneBase(id: string): Promise<T> {
+    return this.service.getOne({ where: { id } });
+  }
 
   createOneBase(dto: DeepPartial<T>, ...args): Promise<T> {
     return this.service.createOne(dto);

@@ -15,7 +15,11 @@ export class TransactionEntity extends CoreEntity {
 
   @IsOptional()
   @Column('float')
-  itemPrice: number;
+  itemSalePrice: number;
+
+  @IsOptional()
+  @Column('float')
+  itemSalePriceAfterProfitAndPromoIfExist: number;
 
   @ManyToOne(() => UserEntity, (p) => p.transactions)
   provider: UserEntity;

@@ -1,42 +1,29 @@
-import { CartEntity } from '@modules/cart-module/entities/cart.entity';
-import { ProductEntity } from '@modules/products-module/entities/product.entity';
-import { ApiProperty } from '@nestjs/swagger';
 import {
   IsArray,
   IsBoolean,
   IsEnum,
   IsNotEmpty,
-  IsNumber,
+
   IsObject,
   IsOptional,
-  IsString,
+
 } from 'class-validator';
 import { OrderStatus } from '../enums/order-status.enum';
 import { UserEntity } from '@app/backend-core/entities/user.entity';
 import { OrderItemsEntity } from '@modules/orders-module/entities/order-item.entity';
 
 export class CreateOrdersModuleDto {
-  @IsOptional()
-  @IsNumber()
-  @ApiProperty({ type: Number, required: false })
-  subAmount: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiProperty({ type: Number, required: false })
-  totalAmount: number;
-
   // @IsArray()
   // @IsOptional()
   // products: ProductEntity[];
 
+  // @IsArray()
+  // @IsOptional()
+  // cart: CartEntity;
+
   @IsBoolean()
   @IsOptional()
   isFulfilled: boolean;
-
-  // // @IsArray()
-  // @IsOptional()
-  // cart: CartEntity;
 
   @IsOptional()
   @IsEnum(OrderStatus)
@@ -50,15 +37,32 @@ export class CreateOrdersModuleDto {
   @IsObject()
   user: UserEntity;
 
-  @IsOptional()
-  @IsBoolean()
-  isPromoted: boolean;
 
-  @IsOptional()
-  @IsNumber()
-  promoPercentage: number;
+  /**
+ * OLD FLOW WITH
+ * 1 ) ORDER PROMOTION
+ * 2 ) TAKE subAmount key from frontend
+ */
 
-  @IsNumber()
-  @IsOptional()
-  oldPrice?: number;
+  // @IsOptional()
+  // @IsNumber()
+  // @ApiProperty({ type: Number, required: false })
+  // subAmount: number;
+
+  // @IsOptional()
+  // @IsNumber()
+  // @ApiProperty({ type: Number, required: false })
+  // totalAmount: number;
+
+  // @IsOptional()
+  // @IsBoolean()
+  // isPromoted: boolean;
+
+  // @IsOptional()
+  // @IsNumber()
+  // promoPercentage: number;
+
+  // @IsNumber()
+  // @IsOptional()
+  // oldPrice?: number;
 }

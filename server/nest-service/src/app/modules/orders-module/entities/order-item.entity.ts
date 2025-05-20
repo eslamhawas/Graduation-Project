@@ -24,7 +24,7 @@ export class OrderItemsEntity extends CoreEntity {
   @Column('int')
   quantity: number;
 
-  @ManyToOne(() => UserEntity, (u) => u.provideCarts)
+  @ManyToOne(() => UserEntity, (u) => u.userProducts)
   provider: UserEntity;
 
   @ManyToOne(() => ProductEntity, (p) => p.orderItems)
@@ -32,9 +32,9 @@ export class OrderItemsEntity extends CoreEntity {
 
   @IsOptional()
   @Column('float')
-  itemPrice: number;
+  itemSalePrice: number;
 
-  // @OneToOne(() => TransactionEntity, (t) => t.orderItem)
-  // @JoinColumn()
-  // transaction: TransactionEntity;
+  @IsOptional()
+  @Column('float')
+  itemSalePriceAfterProfitAndPromoIfExist: number;
 }

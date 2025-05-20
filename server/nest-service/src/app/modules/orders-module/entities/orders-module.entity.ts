@@ -1,14 +1,10 @@
 import { CoreEntity } from '@app/backend-core/entities/core.entity';
-import { CartEntity } from '@modules/cart-module/entities/cart.entity';
-import { ProductEntity } from '@modules/products-module/entities/product.entity';
 import { IsNumber, IsOptional } from 'class-validator';
 import {
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
 } from 'typeorm';
 import { OrderStatus } from '../enums/order-status.enum';
 import { UserEntity } from '@app/backend-core/entities/user.entity';
@@ -40,17 +36,17 @@ export class OrdersEntity extends CoreEntity {
   @ManyToOne(() => UserEntity, (u) => u.orders)
   user: UserEntity;
 
-  @OneToMany(() => TransactionEntity, (t) => t.provider, { cascade: true })
+  @OneToMany(() => TransactionEntity, (t) => t.order, { cascade: true })
   transactions: TransactionEntity[];
 
-  @Column('boolean', { nullable: true })
-  isPromoted: boolean;
+  // @Column('boolean', { nullable: true })
+  // isPromoted: boolean;
 
-  @Column('float', { nullable: true })
-  promoPercentage: number;
+  // @Column('float', { nullable: true })
+  // promoPercentage: number;
 
-  @Column('float', { nullable: true })
-  @IsNumber()
-  @IsOptional()
-  oldPrice?: number;
+  // @Column('float', { nullable: true })
+  // @IsNumber()
+  // @IsOptional()
+  // oldPrice?: number;
 }

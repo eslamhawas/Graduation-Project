@@ -1,9 +1,7 @@
 import { CoreEntity } from '@app/backend-core/entities/core.entity';
-import { CartEntity } from '@modules/cart-module/entities/cart.entity';
 import { Column, Entity, OneToMany, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { UserTypeEnum } from '../enums/user-type.enum';
 import { ProductsProvidersEntity } from './products-providers.entity';
-import { CartItemEntity } from './cart-item.entity';
 import { OrdersEntity } from '@modules/orders-module/entities/orders-module.entity';
 import { OrderItemsEntity } from '@modules/orders-module/entities/order-item.entity';
 import { TransactionEntity } from '@modules/transaction-module/entities/transaction.entity';
@@ -79,16 +77,10 @@ export class UserEntity extends CoreEntity {
   @Column('datetime', { nullable: true })
   lastStatusChange: Date;
 
-  @OneToMany(() => CartEntity, (cart) => cart.user)
-  carts: CartEntity[];
-
   @OneToMany(() => ProductsProvidersEntity, (pp) => pp.provider, {
     cascade: true,
   })
   userProducts: ProductsProvidersEntity[];
-
-  @OneToMany(() => CartItemEntity, (cp) => cp.provider, { cascade: true })
-  provideCarts: CartItemEntity[];
 
   @OneToMany(() => OrderItemsEntity, (oi) => oi.provider, { cascade: true })
   order: OrderItemsEntity[];
