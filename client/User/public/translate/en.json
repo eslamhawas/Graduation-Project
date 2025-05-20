@@ -34,6 +34,20 @@
   "PleaseSelectYourBio": "Please enter your bio",
   "bio": "Bio",
   "InvalidEmail": "Invalid email address",
-  "InvalidPhoneNumber": "Invalid phone number"
-
+  "InvalidPhoneNumber": "Invalid phone number",
+  "EditYourProfile": "Edit Your Profile",
+  "ClickToUploadPhoto": "Click on the circle to upload a profile photo",
+  "LastName": "Last name",
+  "FirstName": "First name",
+  "Address": "Address",
+  "PasswordChanges": "Password Changes",
+  "CurrentPassword": "Current Password",
+  "NewPassword": "New Password",
+  "ConfirmNewPassword": "Confirm New Password",
+  "SaveChanges": "Save changes",
+  "Cancel": "Cancel",
+  "This Month" : "This Month",
+  "All Products" : "All Products",
+  "Best Selling Products" : "Best Selling Products"
+  
 }

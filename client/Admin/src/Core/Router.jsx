@@ -31,6 +31,37 @@ const Routers = createBrowserRouter([
                 path: "/PendingVendors",
                 element: <ProtectedRoutes><Lazy.private.PendingVendors /></ProtectedRoutes> 
             },
+                                    {
+                path: "/AllProduct",
+                element: <ProtectedRoutes><Lazy.private.AllProduct /></ProtectedRoutes> 
+            },
+
+
+                                                {
+                path: "/AddProduct/:id",
+                element: <ProtectedRoutes><Lazy.private.AddProduct /></ProtectedRoutes> 
+            },
+
+                                                            {
+                path: "/MyProducts",
+                element: <ProtectedRoutes><Lazy.private.MyProducts /></ProtectedRoutes> 
+            },
+
+                                                            {
+                path: "/AddProductMe",
+                element: <ProtectedRoutes><Lazy.private.AddProductMe /></ProtectedRoutes> 
+            },
+                                                            {
+                path: "/UpdateProductMe/:id",
+                element: <ProtectedRoutes><Lazy.private.AddProductMe /></ProtectedRoutes> 
+            },
+
+            
+
+
+            
+
+            
         ]
 
     },

@@ -9,6 +9,10 @@ import { Button, Layout, Menu } from "antd";
 const { Content, Sider } = Layout;
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { AiOutlineProduct } from "react-icons/ai";
+
+
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -24,6 +28,9 @@ export default function Sidbar() {
   const { t } = useTranslation();
 
   const items = [
+     getItem(`${t("AllProduct")}`, "6",<MdOutlineProductionQuantityLimits />, "/AllProduct"),
+          getItem(`${t("MyProducts")}`, "7",<AiOutlineProduct />, "/MyProducts"),
+     
     getItem(`${t("AllUser")}`, "1", <FaRegUser />, "/AllUser"),
     getItem(`${t("AllAdmin")}`, "2", <FaUserTie />, "/AllAdmin"),
     getItem(`${t("AllVendors")}`, "3", <RiAdminLine />, "/AllVendors"),

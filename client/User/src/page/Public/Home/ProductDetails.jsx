@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from "../../../Api/Axios";
-import { Spin, Button } from 'antd';
+import { Spin, Button, InputNumber } from 'antd';
 import { LoadingOutlined, ArrowLeftOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import defaultImage from "../../../Image/iphone.jpeg";
+import { useCart } from "../../Context/Cartcontext";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const { cart, dispatch } = useCart(); 
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -27,14 +29,31 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
+  const handleQuantityChange = (value) => {
+    if (value === null || value === undefined) return;
+    setQuantity(Math.max(1, Math.floor(value))); 
   };
 
-  const handleIncrease = () => {
-    setQuantity(quantity + 1);
+  const handleCartAction = () => {
+    if (!product) return;
+
+    if (cart.some(p => p.id === product.id)) {
+      dispatch({
+        type: "REMOVE_FROM_CART",
+        payload: { id: product.id }
+      });
+    } else {
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.imageUrl || defaultImage,
+          quantity: quantity
+        }
+      });
+    }
   };
 
   if (loading) {
@@ -70,7 +89,6 @@ const ProductDetails = () => {
         Back
       </Button>
 
-      
       <div style={{
         display: 'flex',
         gap: '40px',
@@ -90,7 +108,6 @@ const ProductDetails = () => {
           />
         </div>
 
-       
         <div style={{
           flex: 1,
           padding: '20px',
@@ -117,7 +134,7 @@ const ProductDetails = () => {
               lineHeight: '1.6',
               marginBottom: '30px'
             }}>
-              PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal Pressure sensitive.
+              {product.description || 'No description available'}
             </p>
 
             <hr style={{
@@ -125,8 +142,6 @@ const ProductDetails = () => {
               borderTop: '1px solid #eee',
               margin: '20px 0'
             }} />
-
-            
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -134,37 +149,42 @@ const ProductDetails = () => {
               marginBottom: '20px'
             }}>
               <span style={{ fontSize: '1rem', color: '#333' }}>Quantity:</span>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                border: '1px solid #ddd',
-                borderRadius: '4px'
-              }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Button
                   icon={<MinusOutlined />}
-                  onClick={handleDecrease}
-                  style={{ border: 'none' }}
+                  onClick={() => handleQuantityChange(quantity - 1)}
+                  style={{ 
+                    border: '1px solid #d9d9d9',
+                    borderRight: 'none',
+                    borderRadius: '4px 0 0 4px'
+                  }}
+                  disabled={quantity <= 1}
                 />
-                <span style={{
-                  padding: '0 15px',
-                  fontSize: '1rem',
-                  minWidth: '30px',
-                  textAlign: 'center'
-                }}>
-                  {quantity}
-                </span>
+                <InputNumber
+                  min={1}
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  style={{
+                    width: '60px',
+                    borderRadius: 0,
+                    borderLeft: 'none',
+                    borderRight: 'none'
+                  }}
+                />
                 <Button
                   icon={<PlusOutlined />}
-                  onClick={handleIncrease}
-                  style={{ border: 'none' }}
+                  onClick={() => handleQuantityChange(quantity + 1)}
+                  style={{ 
+                    border: '1px solid #d9d9d9',
+                    borderLeft: 'none',
+                    borderRadius: '0 4px 4px 0'
+                  }}
                 />
               </div>
             </div>
-
-            
             <Button
               type="primary"
-              danger
+              danger={cart.some(p => p.id === product.id)}
               size="large"
               style={{
                 width: '100%',
@@ -172,19 +192,20 @@ const ProductDetails = () => {
                 fontSize: '1rem',
                 fontWeight: 'bold'
               }}
+              onClick={handleCartAction}
             >
-              Buy Now
+              {cart.some(p => p.id === product.id) 
+                ? "Remove from Cart" 
+                : `Add to Cart (${quantity})`}
             </Button>
           </div>
 
-         
           <div style={{
             border: '1px solid #eee',
             borderRadius: '8px',
             padding: '20px',
             backgroundColor: '#f9f9f9'
           }}>
-            
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -211,7 +232,6 @@ const ProductDetails = () => {
               </div>
             </div>
 
-           
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <i className="fa-solid fa-rotate" style={{
                 fontSize: '20px',
@@ -239,4 +259,3 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
-

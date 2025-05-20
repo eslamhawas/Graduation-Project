@@ -10,6 +10,8 @@ import { Button, Layout, Menu } from 'antd';
 const { Content, Sider } = Layout;
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { AiOutlineProduct } from "react-icons/ai";
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -28,8 +30,8 @@ export default function Sidbar() {
   const {t} =useTranslation()
 
   const items = [
-    getItem(`${t("AllProdact")}`, '1', <FundViewOutlined />, '/AllProducts'),
-    getItem(`${t("AddProducts")}`, '2', <AppstoreAddOutlined/>, "/AddProduct"),
+     getItem(`${t("AllProduct")}`, "1",<MdOutlineProductionQuantityLimits />, "/AllProduct"),
+          getItem(`${t("MyProducts")}`, "2",<AiOutlineProduct />, "/MyProducts"),
   ];
 
   return (<>

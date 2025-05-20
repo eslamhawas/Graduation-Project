@@ -1,33 +1,35 @@
-import React from 'react';
-const BrandFilter = ({ selectedBrand, onSelect }) => {
-  const brands = ['ALL', 'Realme', 'Vivo', 'Iphone', 'Samsung', 'Oppo'];
-  
+import React from "react";
+import "./BrandFilter.css";
+
+const BrandFilter = ({ brands = [], selectedBrand, onSelect }) => {
+  const uniqueBrandsMap = new Map();
+  brands.forEach(brand => {
+    if (brand && brand.id && brand.name && !uniqueBrandsMap.has(brand.id)) {
+      uniqueBrandsMap.set(brand.id, brand);
+    }
+  });
+  const uniqueBrands = Array.from(uniqueBrandsMap.values());
+
   return (
-    <div style={{ margin: '20px 0', textAlign: 'center' }}>
-      <div style={{ 
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: '10px'
-      }}>
-        {brands.map((brand) => (
-          <button
-            key={brand}
-            onClick={() => onSelect(brand === 'ALL' ? null : brand)}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: selectedBrand === brand ? '#DB4444' : '#f5f5f5',
-              color: selectedBrand === brand ? 'white' : '#333',
-              border: '1px solid #ddd',
-              borderRadius: '20px',
-              cursor: 'pointer',
-              fontWeight: '500'
-            }}
-          >
-            {brand}
-          </button>
-        ))}
-      </div>
+    <div className="brand-filter-container">
+      <span
+        className={`brand-item ${!selectedBrand ? "active" : ""}`}
+        onClick={() => onSelect(null)}
+      >
+        ALL
+      </span>
+
+     
+      {uniqueBrands.map((brand) => (
+        <span
+          key={`brand-${brand.id}-${brand.name.replace(/\s+/g, '-')}`} 
+          className={`brand-item ${selectedBrand?.id === brand.id ? "active" : ""}`}
+          onClick={() => onSelect(brand)}
+          title={brand.name} 
+        >
+          {brand.name}
+        </span>
+      ))}
     </div>
   );
 };

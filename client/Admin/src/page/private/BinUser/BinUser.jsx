@@ -1,21 +1,39 @@
-import { Table } from "antd";
+import { Button, Pagination, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import { ApiData } from "../Api";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
+import cookies from "js-cookie";
+import { Option } from "antd/es/mentions";
 export default function BinUser() {
 const { t } = useTranslation();
   const [users, setUsers] = useState([]);
+          const [pageSize, setPageSize] = useState(20);
+          const [currentPage, setCurrentPage] = useState(1);
+          const [loading, setLoading] = useState(false);
+          const ln = cookies.get("i18next") || "en";
 
   const gitBinUser = async () => {
-    setUsers(await ApiData().AllBin());
+            setLoading(true);
+    try {
+      const data = await ApiData().AllBin(currentPage, pageSize);
+      setUsers(data);
+    } catch (err) {
+      toast.error("حدث خطأ");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     gitBinUser();
   }, []);
+
+      useEffect(() => {
+    gitBinUser();
+  }, [currentPage, pageSize]);
 
   const UnBin = async (id) => {
     try {
@@ -81,7 +99,7 @@ const { t } = useTranslation();
       align: "center",
       key: "Bin",
       render: (_, record) => (
-        <a onClick={() => UnBin(record.id)}>{t("unBan")}</a>
+        <Button   color="danger" variant="solid" onClick={() => UnBin(record.id)}>{t("unBan")}</Button>
       )
     }
   ];
@@ -91,7 +109,54 @@ const { t } = useTranslation();
       <Table
         columns={columns}
         dataSource={users}
-        pagination={{ pageSize: 20 }}
+        loading={loading}
+        pagination={{
+          current: currentPage,
+          pageSize: pageSize,
+          total:  Array.isArray(users) ? users.length : 0, 
+          onChange: (page) => setCurrentPage(page),
+          showSizeChanger: false,
+          position: [] 
+        }}
+        footer={() => (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: ln === "ar" ? "row-reverse" : "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "10px 16px"
+            }}
+          >
+      
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+           
+              <Select
+                value={pageSize}
+                onChange={(value) => {
+                  setPageSize(value);
+                  setCurrentPage(1);
+                }}
+                size="small"
+              >
+                <Option value={20}>20</Option>
+                <Option value={40}>40</Option>
+                <Option value={60}>60</Option>
+              </Select>
+            </div>
+
+            <div>
+              <Pagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={ Array.isArray(users) ? users.length : 0}
+                onChange={(page) => setCurrentPage(page)}
+                size="small"
+                showSizeChanger={false}
+              />
+            </div>
+          </div>
+        )}
       />
     </>
   );

@@ -1,10 +1,9 @@
 import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
-import defaultImage from "../../../Image/iphone.jpeg";
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
-  const imageUrl = product.image || defaultImage;
+const imageUrl = product.imageUrl ;
 
   const handleClick = () => {
     navigate(`/products/${product.id}`); 
