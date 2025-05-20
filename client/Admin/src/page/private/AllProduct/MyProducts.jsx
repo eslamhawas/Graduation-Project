@@ -8,21 +8,23 @@ import toast from "react-hot-toast";
 import cookies from "js-cookie";
 import { Option } from "antd/es/mentions";
 import { useNavigate } from "react-router-dom";
-export default function AllProduct() {
-  const { t } = useTranslation();
-  const [Product, setProduct] = useState([]);
-  const [pageSize, setPageSize] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const ln = cookies.get("i18next") || "en";
-  const navigate = useNavigate();
 
-  const gitProduct = async () => {
+export default function MyProducts() {
+   
+      const { t } = useTranslation();
+      const [Product, setProduct] = useState([]);
+      const [pageSize, setPageSize] = useState(20);
+      const [currentPage, setCurrentPage] = useState(1);
+      const [loading, setLoading] = useState(false);
+      const ln = cookies.get("i18next") || "en";
+      const navigate = useNavigate();
+
+
+   const gitProduct = async () => {
     setLoading(true);
     try {
-      const data = await ApiData().AllProduct(currentPage, pageSize);
+      const data = await ApiData().MyProducts(currentPage, pageSize);
       setProduct(data.data);
-      console.log(data.data);
     } catch (err) {
       toast.error(t("ConnectionProblemOccurred"));
     } finally {
@@ -48,11 +50,13 @@ export default function AllProduct() {
     }
   };
 
-  const AddProductInTable = async (id) => {
-    navigate(`/AddProduct/${id}`);
+  const UpdateProduct = async (id) => {
+    navigate(`/UpdateProductMe/${id}`);
   };
 
-  const columns = [
+
+
+    const columns = [
     {
       title: t("Product Name"),
       dataIndex: "name",
@@ -89,14 +93,7 @@ export default function AllProduct() {
       render: (_, record) =>
         record.productProviders?.[0]?.countInStock ?? t("No Stock")
     },
-    {
-      title: t("Vendor"),
-      dataIndex: "productProviders",
-      key: "vendor",
-      align: "center",
-      render: (_, record) =>
-        record.productProviders?.[0]?.provider?.username || t("No Vendor")
-    },
+
     {
       title: t("Image"),
       dataIndex: "imageUrl",
@@ -124,11 +121,11 @@ export default function AllProduct() {
       render: (_, record) => (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <Button
-            onClick={() => AddProductInTable(record.id)}
+            onClick={() => UpdateProduct(record.id)}
             color="danger"
             variant="solid"
           >
-            {t("AddProduct")}
+            {t("update")}
           </Button>
           <Button
             onClick={() => DelateProduct(record.id)}
@@ -141,9 +138,20 @@ export default function AllProduct() {
       )
     }
   ];
-
   return (
     <>
+      <Button
+        color="danger"
+        variant="solid"
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          margin: "0px 0px 20px"
+        }}
+        onClick={()=>navigate("/AddProductMe")}
+      >
+        {t("AddProductNew")}
+      </Button>
       <Table
         columns={columns}
         dataSource={Product}
@@ -195,5 +203,5 @@ export default function AllProduct() {
         )}
       />
     </>
-  );
+  )
 }

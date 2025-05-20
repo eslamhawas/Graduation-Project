@@ -7,8 +7,10 @@ const Lazy = {
         Signin : lazy(()=>import("../page/Auth/Signin/Signin")),
     },
     private :{
-        AddProduct : lazy(()=>import("../page/private/AddProduct/AddProduct")),
-        AllProduct : lazy(()=>import("../page/private/AllProduct/AllProduct"))
+    AllProduct :  lazy(() => import("../page/private/AllProduct/AllProduct")),
+     AddProduct :  lazy(() => import("../page/private/AllProduct/AddProduct")),
+     MyProducts: lazy(() => import("../page/private/AllProduct/MyProducts")),
+     AddProductMe :   lazy(() => import("../page/private/AllProduct/AddProductMe")),
     }
 
 }

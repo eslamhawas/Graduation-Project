@@ -32,7 +32,7 @@ export default function Signin() {
       localStorage.setItem("userToken", token);
       sliceAuthToken(setToken(token));
       toast.success("Success");
-      navigate("/AllProducts");
+      navigate("/AllProduct");
       setLoading(false);
     } else {
       setLoading(false);

@@ -79,7 +79,7 @@ export default function AllProduct() {
       key: "price",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.[0]?.salePrice ?? t("No Price")
+        record.productProviders?.map((el)=><div key={el.id}>{el.salePrice} </div>) ?? t("No Price")
     },
     {
       title: t("Stock"),
@@ -87,7 +87,7 @@ export default function AllProduct() {
       key: "stock",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.[0]?.countInStock ?? t("No Stock")
+        record.productProviders?.map((el)=><div key={el.id}>{el.countInStock} </div>) ?? t("No Stock")
     },
     {
       title: t("Vendor"),
@@ -95,7 +95,7 @@ export default function AllProduct() {
       key: "vendor",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.[0]?.provider?.username || t("No Vendor")
+        record.productProviders?.map((el)=><div key={el.id}>{el?.provider?.username} </div>  )|| t("No Vendor")
     },
     {
       title: t("Image"),
@@ -105,7 +105,7 @@ export default function AllProduct() {
       render: (imageUrl) =>
         imageUrl ? (
           <img
-            style={{ width: "50px", height: "60px", borderRadius: "8px" }}
+            style={{ width: "50px", height: "60px", borderRadius: "50%" }}
             src={imageUrl}
             alt="Product"
           />
