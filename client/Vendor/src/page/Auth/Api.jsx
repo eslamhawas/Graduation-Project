@@ -4,14 +4,14 @@ export const ApiAuth = ()=>{
   const api = {}
 
    api.Register =async (data) => {
-    const Data = await axiosInstance.post(`api/v1/auth?role=vendor` , data)
+    const Data = await axiosInstance.post(`spring/api/v1/auth?role=vendor` , data)
   
     return Data.data
   }
 
   api.Login = async (data) => {
     try {
-      const response = await axiosInstance.post(`api/v1/auth/login?role=VENDOR`, data);
+      const response = await axiosInstance.post(`spring/api/v1/auth/login?role=VENDOR`, data);
       return response;    
     } catch (error) {
       return {

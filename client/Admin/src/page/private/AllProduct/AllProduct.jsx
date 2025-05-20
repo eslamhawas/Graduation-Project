@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import { Table, message } from 'antd';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-
-=======
 import { Button, Pagination, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import { ApiData } from "./Api";
@@ -15,7 +8,6 @@ import toast from "react-hot-toast";
 import cookies from "js-cookie";
 import { Option } from "antd/es/mentions";
 import { useNavigate } from "react-router-dom";
->>>>>>> 3befb8ebdacc5ac6db819ee9113137257477d3c0
 export default function AllProduct() {
   const { t } = useTranslation();
   const [Product, setProduct] = useState([]);
@@ -59,41 +51,6 @@ export default function AllProduct() {
   const AddProductInTable = async (id) => {
     navigate(`/AddProduct/${id}`);
   };
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('http://localhost:4100/api/products'); 
-      const apiData = response.data.data;
-
-      const mappedData = apiData.map((item) => ({
-        key: item.id,
-        id: item.id,
-        name: item.name,
-        Price: item.price,
-        Type: item.categories[0]?.name || 'Unknown',
-        Quantity: item.productProviders[0]?.countInStock || 0,
-        img: item.imageUrl || 'https://via.placeholder.com/60',
-      }));
-
-      setProducts(mappedData);
-    } catch (err) {
-      console.error('Error fetching products:', err);
-      message.error('Failed to load products.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const deleteProduct = (id) => {
-    console.log('Delete product with ID:', id);
-  };
 
   const columns = [
     {
@@ -122,7 +79,7 @@ export default function AllProduct() {
       key: "price",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.[0]?.salePrice ?? t("No Price")
+        record.productProviders?.map((el)=><div key={el.id}>{el.salePrice} </div>) ?? t("No Price")
     },
     {
       title: t("Stock"),
@@ -130,7 +87,7 @@ export default function AllProduct() {
       key: "stock",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.[0]?.countInStock ?? t("No Stock")
+        record.productProviders?.map((el)=><div key={el.id}>{el.countInStock} </div>) ?? t("No Stock")
     },
     {
       title: t("Vendor"),
@@ -138,7 +95,7 @@ export default function AllProduct() {
       key: "vendor",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.[0]?.provider?.username || t("No Vendor")
+        record.productProviders?.map((el)=><div key={el.id}>{el?.provider?.username} </div>  )|| t("No Vendor")
     },
     {
       title: t("Image"),
@@ -148,7 +105,7 @@ export default function AllProduct() {
       render: (imageUrl) =>
         imageUrl ? (
           <img
-            style={{ width: "50px", height: "60px", borderRadius: "8px" }}
+            style={{ width: "50px", height: "60px", borderRadius: "50%" }}
             src={imageUrl}
             alt="Product"
           />
@@ -165,56 +122,6 @@ export default function AllProduct() {
       key: "id",
       align: "center",
       render: (_, record) => (
-<<<<<<< HEAD
-        <img
-          style={{ width: "50px", height: "60px", borderRadius: "60%" }}
-          src={record.img}
-          alt='Product'
-        />
-      ),
-      dataIndex: 'img',
-      key: 'img',
-      render: (_, record) => (
-        <img
-          style={{ width: "50px", height: "60px", borderRadius: "60%" }}
-          src={record.img}
-          alt='Product'
-        />
-      ),
-    },
-    {
-      title: '',
-      key: 'Update',
-      render: (_, record) => (
-        <Link to={`/AddProduct/${record.id}`}>Update</Link>
-      ),
-      render: (_, record) => (
-        <Link to={`/AddProduct/${record.id}`}>Update</Link>
-      ),
-    },
-    {
-      title: '',
-      key: 'Delete',
-      render: (_, record) => (
-        <a onClick={() => deleteProduct(record.id)}>Delete</a>
-      ),
-      render: (_, record) => (
-        <a onClick={() => deleteProduct(record.id)}>Delete</a>
-      ),
-    },
-  ];
-
- return (
-  <>
-    <Table
-      columns={columns}
-      dataSource={products}
-      loading={loading}
-      pagination={{ pageSize: 20 }}
-    />
-  </>
-);
-=======
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <Button
             onClick={() => AddProductInTable(record.id)}
@@ -289,5 +196,4 @@ export default function AllProduct() {
       />
     </>
   );
->>>>>>> 3befb8ebdacc5ac6db819ee9113137257477d3c0
 }

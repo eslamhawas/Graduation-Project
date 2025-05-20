@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import { Table, message } from 'antd';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-
-=======
 import { Button, Pagination, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import { ApiData } from "./Api";
@@ -15,22 +8,23 @@ import toast from "react-hot-toast";
 import cookies from "js-cookie";
 import { Option } from "antd/es/mentions";
 import { useNavigate } from "react-router-dom";
->>>>>>> 3befb8ebdacc5ac6db819ee9113137257477d3c0
-export default function AllProduct() {
-  const { t } = useTranslation();
-  const [Product, setProduct] = useState([]);
-  const [pageSize, setPageSize] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const ln = cookies.get("i18next") || "en";
-  const navigate = useNavigate();
 
-  const gitProduct = async () => {
+export default function MyProducts() {
+   
+      const { t } = useTranslation();
+      const [Product, setProduct] = useState([]);
+      const [pageSize, setPageSize] = useState(20);
+      const [currentPage, setCurrentPage] = useState(1);
+      const [loading, setLoading] = useState(false);
+      const ln = cookies.get("i18next") || "en";
+      const navigate = useNavigate();
+
+
+   const gitProduct = async () => {
     setLoading(true);
     try {
-      const data = await ApiData().AllProduct(currentPage, pageSize);
+      const data = await ApiData().MyProducts(currentPage, pageSize);
       setProduct(data.data);
-      console.log(data.data);
     } catch (err) {
       toast.error(t("ConnectionProblemOccurred"));
     } finally {
@@ -56,46 +50,13 @@ export default function AllProduct() {
     }
   };
 
-  const AddProductInTable = async (id) => {
-    navigate(`/AddProduct/${id}`);
-  };
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('http://localhost:4100/api/products'); 
-      const apiData = response.data.data;
-
-      const mappedData = apiData.map((item) => ({
-        key: item.id,
-        id: item.id,
-        name: item.name,
-        Price: item.price,
-        Type: item.categories[0]?.name || 'Unknown',
-        Quantity: item.productProviders[0]?.countInStock || 0,
-        img: item.imageUrl || 'https://via.placeholder.com/60',
-      }));
-
-      setProducts(mappedData);
-    } catch (err) {
-      console.error('Error fetching products:', err);
-      message.error('Failed to load products.');
-    } finally {
-      setLoading(false);
-    }
+  const UpdateProduct = async (id) => {
+    navigate(`/UpdateProductMe/${id}`);
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
-  const deleteProduct = (id) => {
-    console.log('Delete product with ID:', id);
-  };
 
-  const columns = [
+    const columns = [
     {
       title: t("Product Name"),
       dataIndex: "name",
@@ -132,14 +93,7 @@ export default function AllProduct() {
       render: (_, record) =>
         record.productProviders?.[0]?.countInStock ?? t("No Stock")
     },
-    {
-      title: t("Vendor"),
-      dataIndex: "productProviders",
-      key: "vendor",
-      align: "center",
-      render: (_, record) =>
-        record.productProviders?.[0]?.provider?.username || t("No Vendor")
-    },
+
     {
       title: t("Image"),
       dataIndex: "imageUrl",
@@ -165,63 +119,13 @@ export default function AllProduct() {
       key: "id",
       align: "center",
       render: (_, record) => (
-<<<<<<< HEAD
-        <img
-          style={{ width: "50px", height: "60px", borderRadius: "60%" }}
-          src={record.img}
-          alt='Product'
-        />
-      ),
-      dataIndex: 'img',
-      key: 'img',
-      render: (_, record) => (
-        <img
-          style={{ width: "50px", height: "60px", borderRadius: "60%" }}
-          src={record.img}
-          alt='Product'
-        />
-      ),
-    },
-    {
-      title: '',
-      key: 'Update',
-      render: (_, record) => (
-        <Link to={`/AddProduct/${record.id}`}>Update</Link>
-      ),
-      render: (_, record) => (
-        <Link to={`/AddProduct/${record.id}`}>Update</Link>
-      ),
-    },
-    {
-      title: '',
-      key: 'Delete',
-      render: (_, record) => (
-        <a onClick={() => deleteProduct(record.id)}>Delete</a>
-      ),
-      render: (_, record) => (
-        <a onClick={() => deleteProduct(record.id)}>Delete</a>
-      ),
-    },
-  ];
-
- return (
-  <>
-    <Table
-      columns={columns}
-      dataSource={products}
-      loading={loading}
-      pagination={{ pageSize: 20 }}
-    />
-  </>
-);
-=======
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <Button
-            onClick={() => AddProductInTable(record.id)}
+            onClick={() => UpdateProduct(record.id)}
             color="danger"
             variant="solid"
           >
-            {t("AddProduct")}
+            {t("update")}
           </Button>
           <Button
             onClick={() => DelateProduct(record.id)}
@@ -234,9 +138,20 @@ export default function AllProduct() {
       )
     }
   ];
-
   return (
     <>
+      <Button
+        color="danger"
+        variant="solid"
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          margin: "0px 0px 20px"
+        }}
+        onClick={()=>navigate("/AddProductMe")}
+      >
+        {t("AddProductNew")}
+      </Button>
       <Table
         columns={columns}
         dataSource={Product}
@@ -288,6 +203,5 @@ export default function AllProduct() {
         )}
       />
     </>
-  );
->>>>>>> 3befb8ebdacc5ac6db819ee9113137257477d3c0
+  )
 }
