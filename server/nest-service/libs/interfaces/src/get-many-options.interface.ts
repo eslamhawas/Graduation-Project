@@ -1,5 +1,14 @@
+import { STATUS } from '@app/backend-core/enums/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 // import { ApiProperty } from '@nestjs/swagger';
 
 export enum Sort {
@@ -36,4 +45,20 @@ export class GetManyOptions {
   @IsString()
   @ApiProperty({ type: String, required: false })
   search?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  providerId?: number;
+
+  @IsOptional()
+  @IsEnum(STATUS)
+  status?: STATUS;
+
+  @IsOptional()
+  @IsNumberString()
+  categoryId?: string;
+
+  @IsOptional()
+  @IsString()
+  brand?: string;
 }

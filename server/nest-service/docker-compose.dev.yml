@@ -13,9 +13,9 @@ services:
       # - '${ADMIN_PORT}:${ADMIN_PORT}'
     restart : always
     networks:
-      - backend-network
+      - gp-network
 
 networks:
-  backend-network:
-    name : backend-network
-    external: true
+  gp-network:
+    name : gp-network
+    

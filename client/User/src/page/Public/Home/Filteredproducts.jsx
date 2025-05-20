@@ -1,68 +1,77 @@
-import { useEffect, useState } from "react";
-import { Row, Col, Spin, Typography } from "antd";
-import axiosInstance from "../../../Api/Axios";
-import ProductCard from "./ProductCard";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import BrandFilter from "./BrandFilter";
+import ProductList from "./ProductList";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
-const { Title } = Typography;
-
-const FilteredProducts = ({ categoryId, selectedBrand }) => {
+const FilteredProducts = () => {
   const [products, setProducts] = useState([]);
-  const [brands, setBrands] = useState(["ALL"]);
-  const [loading, setLoading] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [brands, setBrands] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!categoryId) return;
-
-    const fetchProducts = async () => {
-      setLoading(true);
+    const fetchAllProducts = async () => {
       try {
-        const res = await axiosInstance.get("http://localhost:4100/api/products", {
-          params: { categoryId, status: "ACCEPTED" },
+        const res = await axios.get("http://localhost:4100/api/products");
+        const data = res.data?.data || [];
+        setProducts(data);
+        setFilteredProducts(data);
+        const uniqueBrandsMap = new Map();
+        data.forEach((product) => {
+          if (product.brand && !uniqueBrandsMap.has(product.brand.id)) {
+            uniqueBrandsMap.set(product.brand.id, product.brand);
+          }
         });
 
-        const all = Array.isArray(res.data) ? res.data : res.data.data || [];
-        setProducts(all);
-        setBrands(["ALL", ...new Set(all.map((p) => p.brand))]);
-      } catch (error) {
-        console.error("Error loading products:", error);
-        setProducts([]);
-        setBrands(["ALL"]);
-      } finally {
+        setBrands([...uniqueBrandsMap.values()]);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching products:", err);
         setLoading(false);
       }
     };
 
-    fetchProducts();
-  }, [categoryId]);
+    fetchAllProducts();
+  }, []);
 
-  const filtered = selectedBrand === "ALL"
-    ? products
-    : products.filter((product) => product.brand === selectedBrand);
+  useEffect(() => {
+    if (selectedBrand) {
+      setFilteredProducts(
+        products.filter((p) => p.brand?.id === selectedBrand.id)
+      );
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [selectedBrand, products]);
+
+  const handleBrandSelect = (brand) => {
+    setSelectedBrand(selectedBrand?.id === brand?.id ? null : brand);
+  };
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", marginTop: 50 }}>
-        <Spin size="large" />
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}>
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
       </div>
     );
   }
 
   return (
-    <>
-      <Row gutter={[16, 16]}>
-        {filtered.length > 0 ? (
-          filtered.map((product) => (
-            <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
-              <ProductCard product={product} />
-            </Col>
-          ))
-        ) : (
-          <Col span={24} style={{ textAlign: "center" }}>
-            <Title level={4}>No products found</Title>
-          </Col>
-        )}
-      </Row>
-    </>
+    <div style={{ padding: "20px" }}>
+      <h2>Filter by Brand</h2>
+      <BrandFilter
+        brands={brands}
+        selectedBrand={selectedBrand}
+        onSelect={handleBrandSelect}
+      />
+      <ProductList products={filteredProducts} />
+      {filteredProducts.length === 0 && selectedBrand && (
+        <p style={{ textAlign: 'center' }}>No products available for this brand.</p>
+      )}
+    </div>
   );
 };
 

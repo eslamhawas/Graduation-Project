@@ -1,4 +1,3 @@
-
 import Categories from "./Categories"
 import ProductList from "./ProductList"
 import Slider from "./Slider"

@@ -25,6 +25,15 @@
         "tsConfigPath": "libs/database-connect/tsconfig.lib.json"
       }
     },
+    "emails": {
+      "type": "library",
+      "root": "libs/emails",
+      "entryFile": "index",
+      "sourceRoot": "libs/emails/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/emails/tsconfig.lib.json"
+      }
+    },
     "intefaces": {
       "type": "library",
       "root": "libs/intefaces",

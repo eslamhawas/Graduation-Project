@@ -1,4 +1,4 @@
-import { DeepPartial, ILike, Repository } from 'typeorm';
+import { DeepPartial, FindOneOptions, ILike, Repository } from 'typeorm';
 import { CoreEntity } from './entities/core.entity';
 import { PaginationObjectInterface } from '@app/interfaces/pagination-object.interface';
 import {
@@ -24,7 +24,7 @@ export class MomoService<T extends CoreEntity> {
     const take = options?.['take'] || 10;
     const page = options?.['page'] || 1;
     const order = options?.['order'] || 'createdDate';
-    const sort = options?.['sort'] || Sort.DESC ;
+    const sort = options?.['sort'] || Sort.DESC;
     const skip = (page - 1) * take;
     options['relations'] = this.relations;
     options['take'] = take;
@@ -62,26 +62,6 @@ export class MomoService<T extends CoreEntity> {
   //     return this.repo.find(options);
   //   }
 
-  //   async exportAsXLS(options: Record<string, any> = {}) {
-  //     const data = await this.getAll(options);
-  //     const exportdData = this.exportedFields.length
-  //       ? this.prepareExportedData(data)
-  //       : data;
-  //     const workbook = utils.book_new();
-  //     const worksheet = utils.json_to_sheet(exportdData);
-  //     utils.book_append_sheet(workbook, worksheet);
-  //     return write(workbook, { type: 'buffer', bookType: 'xlsx' });
-  //   }
-
-  //   prepareExportedData(data: T[]) {
-  //     return data.map((record) => {
-  //       return this.exportedFields.reduce((final, key) => {
-  //         final[key] = record[key];
-  //         return final;
-  //       }, {});
-  //     });
-  //   }
-
   private paginateResponse(data, page, limit): PaginationObjectInterface<T> {
     const [result, total] = data;
     const lastPage = Math.ceil(total / limit);
@@ -94,9 +74,20 @@ export class MomoService<T extends CoreEntity> {
       currentPage: page,
       lastPage: lastPage,
       nextPage: nextPage,
-      prevPage: prevPage,
+      prevPage: prevPage || 0,
     };
   }
+
+  //   async exportAsXLS(options: Record<string, any> = {}) {
+  //     const data = await this.getAll(options);
+  //     const exportdData = this.exportedFields.length
+  //       ? this.prepareExportedData(data)
+  //       : data;
+  //     const workbook = utils.book_new();
+  //     const worksheet = utils.json_to_sheet(exportdData);
+  //     utils.book_append_sheet(workbook, worksheet);
+  //     return write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  //   }
 
   async getOne(options = {}): Promise<T> {
     options['relations'] = this.relations;
@@ -108,14 +99,23 @@ export class MomoService<T extends CoreEntity> {
     return item;
   }
 
+  //   prepareExportedData(data: T[]) {
+  //     return data.map((record) => {
+  //       return this.exportedFields.reduce((final, key) => {
+  //         final[key] = record[key];
+  //         return final;
+  //       }, {});
+  //     });
+  //   }
+
   private async refactorItemBeforeFetch(item: T): Promise<T> {
     return item;
   }
 
-  //   getOneOrFail(options = {}): Promise<T> {
-  //     options['relations'] = this.relations;
-  //     return this.repo.findOneOrFail(options);
-  //   }
+  getOneOrFail(options = {}): Promise<T> {
+    options['relations'] = this.relations;
+    return this.repo.findOneOrFail(options);
+  }
 
   protected preCreate?(dto?: DeepPartial<T>): Promise<void | Error>;
 
@@ -133,7 +133,7 @@ export class MomoService<T extends CoreEntity> {
   }
 
   async afterCreateEvent(item): Promise<void> {
-    // console.log(JSON.stringify(item));
+    // // console.log(JSON.stringify(item));
   }
 
   private async checkUniques(dto: DeepPartial<T>, id?: number) {
@@ -166,28 +166,35 @@ export class MomoService<T extends CoreEntity> {
     this.uniques.length && (await this.checkUniques(dto as any, id));
     const refactoredDto = await this.refactorDtoBeforeUpdate(dto as any);
     await this.repo.update(id, refactoredDto as any);
-    return this.getOne({ where: { id } });
+    const updatedItem = await this.getOne({ where: { id } });
+    await this.afterUpdateEvent(updatedItem);
+    return updatedItem;
+  }
+
+  async afterUpdateEvent(dto): Promise<void> {
+    // console.log('afterUpdateEvent in parent');
+    return;
   }
 
   private async refactorDtoBeforeUpdate(dto: T): Promise<T> {
     return dto;
   }
 
-  //   async afterDeleteEvent(dto: T): Promise<void> {
-  //     console.log('AFTER_DELETE', dto);
-  //   }
+  async afterDeleteEvent(dto: any): Promise<void> {
+    // console.log('AFTER_DELETE', dto);
+  }
 
-  //   async deleteOne(options: FindOneOptions<CoreEntity>): Promise<any> {
-  //     const item = await this.repo.findOne({ ...options, withDeleted: false });
-  //     if (item) {
-  //       await this.repo.softDelete(item.id);
-  //       await this.afterDeleteEvent(item);
-  //       return {
-  //         message: 'Deleted',
-  //         statusCode: HttpStatus.OK,
-  //       };
-  //     } else {
-  //       throw new NotFoundException();
-  //     }
-  //   }
+  async deleteOne(options = {}): Promise<any> {
+    const item = await this.repo.findOne({ ...options, withDeleted: false });
+    if (item) {
+      await this.repo.softDelete(item.id);
+      await this.afterDeleteEvent(item);
+      return {
+        message: 'Deleted',
+        statusCode: HttpStatus.OK,
+      };
+    } else {
+      throw new NotFoundException();
+    }
+  }
 }

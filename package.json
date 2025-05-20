@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@nestjs/swagger": "^11.1.6",
-    "axios": "^1.9.0",
-    "react-router-dom": "^7.5.3",
-    "swagger-ui-express": "^5.0.1",
-    "vite": "^6.3.4"
-  }
-}

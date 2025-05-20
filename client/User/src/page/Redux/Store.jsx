@@ -4,8 +4,7 @@ import sliceDarkMode from "./DarkMode";
 
 const store = configureStore({
   reducer: {
-    sliceAuthToken,
-    sliceDarkMode,
+    sliceAuthToken
   }
 });
 

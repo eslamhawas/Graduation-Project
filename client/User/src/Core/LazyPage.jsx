@@ -6,7 +6,10 @@ const Lazy = {
        Contact : lazy(()=>import("../page/Public/Contact/Contact")) ,
        About : lazy(()=>import("../page/Public/About/About")) ,
        CategoryProducts: lazy(() => import("../page/Public/Home/CategoryProducts")),
-       ProductDetails: lazy(() => import("../page/Public/Home/ProductDetails"))
+       ProductDetails: lazy(() => import("../page/Public/Home/ProductDetails")),
+       Account: lazy(() => import("../page/Public/Profile/Account")),
+       Cart: lazy(() => import("../page/Public/Cart/cart")),
+
     },
     Auth : {
         Signup : lazy(()=>import("../page/Auth/Signup/Signup")),

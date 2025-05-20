@@ -1,0 +1,6 @@
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  WAITING = 'WAITING',
+  INPROGRESS = 'INPROGRESS',
+  FINISHED = 'FINISHED',
+}

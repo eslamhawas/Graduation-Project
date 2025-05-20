@@ -14,9 +14,9 @@ export class MomoController<T extends CoreEntity> {
     return this.service.getMany(options);
   }
 
-  //   getOneBase(id: string): Promise<T> {
-  //     return this.service.getOne({ where: { id } });
-  //   }
+    getOneBase(id: string): Promise<T> {
+      return this.service.getOne({ where: { id } });
+    }
 
   createOneBase(dto: DeepPartial<T>, ...args): Promise<T> {
     return this.service.createOne(dto);
@@ -30,11 +30,11 @@ export class MomoController<T extends CoreEntity> {
     return this.service.updateOne(id, dto);
   }
 
-  //   deleteOneBase(id: string): Promise<void | T> {
-  //     return this.service.deleteOne({ where: { id } });
-  //   }
+  deleteOneBase(id: string): Promise<void | T> {
+    return this.service.deleteOne({ where: { id: +id } });
+  }
 
-  //   exportAsXLS(options = {}) {
-  //     return this.service.exportAsXLS(options);
-  //   }
+  // exportAsXLS(options = {}) {
+  //   return this.service.exportAsXLS(options);
+  // }
 }

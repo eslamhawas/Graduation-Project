@@ -33,6 +33,12 @@
       "@app/database-connect/*": [
         "libs/database-connect/src/*"
       ],
+      "@app/emails": [
+        "libs/emails/src"
+      ],
+      "@app/emails/*": [
+        "libs/emails/src/*"
+      ],
       "@app/interfaces": [
         "libs/interfaces/src"
       ],

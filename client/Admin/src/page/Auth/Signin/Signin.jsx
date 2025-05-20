@@ -31,8 +31,8 @@ export default function Signin() {
     if (token) {
       localStorage.setItem("userToken", token);
       sliceAuthToken(setToken(token));
-      toast.success("Success");
-      navigate("/AllProducts");
+      toast.success(t("Success"));
+      navigate("/");
       setLoading(false);
     } else {
       setLoading(false);

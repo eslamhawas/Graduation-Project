@@ -39,6 +39,41 @@ export default function AllProduct() {
   const deleteProduct = (id) => {
     console.log('Delete product with ID:', id);
   };
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('http://localhost:4100/api/products'); 
+      const apiData = response.data.data;
+
+      const mappedData = apiData.map((item) => ({
+        key: item.id,
+        id: item.id,
+        name: item.name,
+        Price: item.price,
+        Type: item.categories[0]?.name || 'Unknown',
+        Quantity: item.productProviders[0]?.countInStock || 0,
+        img: item.imageUrl || 'https://via.placeholder.com/60',
+      }));
+
+      setProducts(mappedData);
+    } catch (err) {
+      console.error('Error fetching products:', err);
+      message.error('Failed to load products.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const deleteProduct = (id) => {
+    console.log('Delete product with ID:', id);
+  };
 
   const columns = [
     {
@@ -72,6 +107,15 @@ export default function AllProduct() {
           alt='Product'
         />
       ),
+      dataIndex: 'img',
+      key: 'img',
+      render: (_, record) => (
+        <img
+          style={{ width: "50px", height: "60px", borderRadius: "60%" }}
+          src={record.img}
+          alt='Product'
+        />
+      ),
     },
     {
       title: '',
@@ -79,10 +123,16 @@ export default function AllProduct() {
       render: (_, record) => (
         <Link to={`/AddProduct/${record.id}`}>Update</Link>
       ),
+      render: (_, record) => (
+        <Link to={`/AddProduct/${record.id}`}>Update</Link>
+      ),
     },
     {
       title: '',
       key: 'Delete',
+      render: (_, record) => (
+        <a onClick={() => deleteProduct(record.id)}>Delete</a>
+      ),
       render: (_, record) => (
         <a onClick={() => deleteProduct(record.id)}>Delete</a>
       ),
