@@ -79,7 +79,7 @@ export default function AllProduct() {
       key: "price",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.map((el)=><div key={el.id}>{el.salePrice} </div>) ?? t("No Price")
+        record.productProviders?.[0]?.salePrice ?? t("No Price")
     },
     {
       title: t("Stock"),
@@ -87,7 +87,7 @@ export default function AllProduct() {
       key: "stock",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.map((el)=><div key={el.id}>{el.countInStock} </div>) ?? t("No Stock")
+        record.productProviders?.[0]?.countInStock ?? t("No Stock")
     },
     {
       title: t("Vendor"),
@@ -95,7 +95,7 @@ export default function AllProduct() {
       key: "vendor",
       align: "center",
       render: (_, record) =>
-        record.productProviders?.map((el)=><div key={el.id}>{el?.provider?.username} </div>  )|| t("No Vendor")
+        record.productProviders?.[0]?.provider?.username|| t("No Vendor")
     },
     {
       title: t("Image"),
