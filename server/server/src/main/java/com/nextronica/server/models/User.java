@@ -3,7 +3,10 @@ package com.nextronica.server.models;
 import com.nextronica.server.models.enums.Roles;
 import com.nextronica.server.models.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,6 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -27,12 +31,11 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"id", "email"})
-@ToString(exclude = {"passwordHash", "passwordSalt"})
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
 
@@ -43,18 +46,22 @@ public class User {
             message = "Username can only contain letters, numbers, dots, underscores, and hyphens"
     )
     @Column(nullable = false, unique = true, length = 50)
+    @EqualsAndHashCode.Include
     private String username;
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Must be a valid email address")
     @Column(nullable = false, unique = true, length = 100)
+    @EqualsAndHashCode.Include
     private String email;
 
     @NotBlank(message = "Password hash cannot be blank")
+    @ToString.Exclude
     @Column(nullable = false, length = 255)
     private String passwordHash;
 
     @Column(nullable = false,length = 255)
+    @ToString.Exclude
     private String passwordSalt;
 
     @NotBlank(message = "Full name cannot be blank")
@@ -127,6 +134,12 @@ public class User {
 
     @Transient
     private Status previousStatus;
+
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Builder.Default
+    private Set<ProductsProvider> productsProvided = new LinkedHashSet<>();
 
     @PrePersist
     protected void onCreate() {

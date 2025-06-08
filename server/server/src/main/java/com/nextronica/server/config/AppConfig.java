@@ -1,7 +1,9 @@
 package com.nextronica.server.config;
 
 
+import com.nextronica.server.dtos.ProductPromotionsDetailsDto;
 import com.nextronica.server.dtos.UserDto;
+import com.nextronica.server.models.ProductPromotions;
 import com.nextronica.server.models.User;
 import com.nextronica.server.providers.Auth.AuthInterceptor;
 import org.modelmapper.ModelMapper;
@@ -54,6 +56,13 @@ public class AppConfig implements WebMvcConfigurer {
                             source.getBirthday()
                     );
                 });
+
+        modelMapper.createTypeMap(ProductPromotions.class, ProductPromotionsDetailsDto.class)
+                .setConverter(context -> {
+                    ProductPromotions source = context.getSource();
+                    return new ProductPromotionsDetailsDto(source);
+                });
+
         modelMapper.validate();
         return modelMapper;
     }
