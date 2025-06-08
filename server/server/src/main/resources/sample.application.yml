@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://db17468.public.databaseasp.net:3306/db17468?useSSL=true&requireSSL=false&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
+    username: db17468
+    password: "f?8Y7oW=P2%w"
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+
+server:
+  port: 8055

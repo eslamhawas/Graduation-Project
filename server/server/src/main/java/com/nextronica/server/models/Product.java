@@ -42,13 +42,6 @@ public class Product {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "price", nullable = false)
-    private Float price;
-
-    @Column(name = "categoryId")
-    private Long categoryId;
-
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     @Builder.Default
@@ -60,5 +53,9 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private Set<Category> categories = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private Set<ProductsProvider> productProviders = new LinkedHashSet<>();
 
 }
