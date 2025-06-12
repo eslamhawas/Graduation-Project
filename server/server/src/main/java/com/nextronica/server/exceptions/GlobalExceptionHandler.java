@@ -1,9 +1,6 @@
 package com.nextronica.server.exceptions;
 
-import com.nextronica.server.exceptions.customExceptions.IllegalAgeException;
-import com.nextronica.server.exceptions.customExceptions.NoSuchUserException;
-import com.nextronica.server.exceptions.customExceptions.PasswordMismatchException;
-import com.nextronica.server.exceptions.customExceptions.UserAlreadyExistsException;
+import com.nextronica.server.exceptions.customExceptions.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -231,6 +228,38 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
+    @ExceptionHandler(NoSuchProductProviderException.class)
+    public ResponseEntity<ErrorResponse> handleNoSuchProductProvider(
+            NoSuchProductProviderException ex, HttpServletRequest request) {
+
+        log.error("Product Provider not found: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = createErrorResponse(
+                request,
+                HttpStatus.NOT_FOUND,
+                "Product Provider Not Found",
+                ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(NoSuchProductPromotionException.class)
+    public ResponseEntity<ErrorResponse> handleNoSuchProductPromotion(
+            NoSuchProductPromotionException ex, HttpServletRequest request) {
+
+        log.error("Product Promotion not found: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = createErrorResponse(
+                request,
+                HttpStatus.NOT_FOUND,
+                "Product Promotion Not Found",
+                ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
 

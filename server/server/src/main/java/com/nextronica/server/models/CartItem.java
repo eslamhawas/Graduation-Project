@@ -20,11 +20,11 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
+    @JoinColumn(name = "cartId", nullable = false)
     private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "product_provider_id", nullable = false)
+    @JoinColumn(name = "productProviderId", nullable = false)
     private ProductsProvider productProviderId;
 
     @Min(1)

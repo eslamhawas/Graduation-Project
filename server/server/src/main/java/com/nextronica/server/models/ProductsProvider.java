@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -37,19 +36,20 @@ public class ProductsProvider {
     @Column(name = "countInStock", nullable = false)
     private Integer countInStock;
 
-    @Column(name = "isPromoted")
-    private Boolean isPromoted;
 
-    @Column(name = "promoExpiryDate")
-    private LocalDateTime promoExpiryDate;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productId", nullable = false)
+    private Product product;
 
-    @Column(name = "promoPercentage")
-    private Float promoPercentage;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "providerId", nullable = false)
+    private User provider;
 
-    @Column(name = "productId")
-    private Integer productId;
-
-    @Column(name = "providerId")
-    private Integer providerId;
+    @NotNull
+    @ColumnDefault("1")
+    @Column(name = "salePrice", nullable = false)
+    private Integer salePrice;
 
 }
