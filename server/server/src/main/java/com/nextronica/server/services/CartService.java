@@ -10,7 +10,6 @@ import com.nextronica.server.exceptions.customExceptions.NoSuchProductProviderEx
 import com.nextronica.server.exceptions.customExceptions.NoSuchUserException;
 import com.nextronica.server.models.*;
 import com.nextronica.server.repositories.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -57,7 +56,7 @@ public class CartService {
                 .orElseThrow(() -> new ResourceNotFoundException("Profit margin not found"));
 
         float salePrice = provider.getSalePrice();
-        float commissionPrice = salePrice + (salePrice * margin.getCommissionPercentage().floatValue() / 100);
+        float commissionPrice = salePrice + (salePrice * margin.getCurrent().floatValue() / 100);
 
         Optional<ProductPromotionsDetailsDto> promotionOpt =
                 promotionRepository.findPromotionsDetailsByProductProviderEntityId(provider.getId())
@@ -103,7 +102,7 @@ public class CartService {
                 .orElseThrow(() -> new ResourceNotFoundException("Profit margin not found"));
 
         float salePrice = provider.getSalePrice();
-        float commissionPrice = salePrice + (salePrice * margin.getCommissionPercentage().floatValue() / 100);
+        float commissionPrice = salePrice + (salePrice * margin.getCurrent().floatValue() / 100);
 
         Optional<ProductPromotionsDetailsDto> promotionOpt =
                 promotionRepository.findPromotionsDetailsByProductProviderEntityId(provider.getId())
@@ -169,7 +168,7 @@ public class CartService {
                     .orElseThrow(() -> new ResourceNotFoundException("Profit margin not found"));
 
             float salePrice = provider.getSalePrice();
-            float commissionPrice = salePrice + (salePrice * margin.getCommissionPercentage().floatValue() / 100);
+            float commissionPrice = salePrice + (salePrice * margin.getCurrent().floatValue() / 100);
 
             Optional<ProductPromotionsDetailsDto> promotionOpt =
                     promotionRepository.findPromotionsDetailsByProductProviderEntityId(provider.getId())

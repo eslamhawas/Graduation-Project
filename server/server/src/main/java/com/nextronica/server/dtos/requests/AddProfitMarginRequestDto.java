@@ -11,5 +11,5 @@ import java.math.BigDecimal;
  */
 public record AddProfitMarginRequestDto(
         @NotNull(message = "Commission percentage can't be null")
-        BigDecimal commissionPercentage) implements Serializable {
+        BigDecimal current) implements Serializable {
 }

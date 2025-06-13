@@ -22,7 +22,7 @@ public class JwtUtil {
     private final SecretKey secret = Keys.hmacShaKeyFor("m7z4tD8wK3y6B9vX2c5fR7hE1gH4jL8pO0qW9eA6uI5nT3xV".getBytes(StandardCharsets.UTF_8));
 
 
-    private static final long JWT_TOKEN_VALIDITY = 60 * 60 * 1000;
+    private static final long JWT_TOKEN_VALIDITY = 60L * 60 * 1000 * 10000;
 
     /**
      * Extracts username from token

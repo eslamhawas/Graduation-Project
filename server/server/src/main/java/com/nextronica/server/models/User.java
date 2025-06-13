@@ -97,10 +97,10 @@ public class User {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedDate;
 
     private LocalDateTime lastLogin;
     private LocalDateTime lastPasswordChange;

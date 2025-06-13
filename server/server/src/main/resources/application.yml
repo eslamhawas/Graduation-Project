@@ -1,13 +1,13 @@
 spring:
-  application:
-    name: server
   datasource:
-    url: jdbc:mysql://localhost:3306/nextronica
-    username: root
-    password: 
+    url: jdbc:mysql://db17468.public.databaseasp.net:3306/db17468?useSSL=true&requireSSL=false&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
+    username: db17468
+    password: "4d#QR9z-eN!2"
   jpa:
     hibernate:
       ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true

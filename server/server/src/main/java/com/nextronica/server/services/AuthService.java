@@ -67,7 +67,7 @@ public class AuthService {
         PasswordManager.HashResult hashResult = PasswordManager.hashPassword(signupDto.password());
         user.setPasswordHash(hashResult.hash());
         user.setPasswordSalt(hashResult.salt());
-        user.setCreatedAt(LocalDateTime.now());
+        user.setCreatedDate(LocalDateTime.now());
         return user;
     }
 

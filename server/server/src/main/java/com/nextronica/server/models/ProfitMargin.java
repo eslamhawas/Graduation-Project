@@ -27,8 +27,8 @@ public class ProfitMargin {
     @Column(name = "endDate")
     private LocalDateTime endDate;
 
-    @Column(name = "commissionPercentage", precision = 5, scale = 2)
-    private BigDecimal commissionPercentage;
+    @Column(name = "current", precision = 5, scale = 2)
+    private BigDecimal current;
 
 
     @PrePersist
