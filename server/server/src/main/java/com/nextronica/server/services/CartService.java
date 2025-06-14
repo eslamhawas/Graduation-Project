@@ -34,7 +34,7 @@ public class CartService {
         this.profitMarginRepository = profitMarginRepository;
     }
 
-    public CartItemResponse addItemsToCart(Long userId, AddCartItemRequest request) {
+    public CartItemDetailsResponse addItemsToCart(Long userId, AddCartItemRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchUserException("There is no user with id: " + userId));
 
@@ -68,14 +68,17 @@ public class CartService {
         }
         cartRepository.save(cart);
 
-        CartItemResponse response = new CartItemResponse();
-        response.setProductProvider(provider);
+        CartItemDetailsResponse response = new CartItemDetailsResponse();
+        response.setProductProviderName(provider.getProvider().getUsername());
+        response.setProductProviderId(provider.getId().longValue());
+        response.setProductImageUrl(provider.getProduct().getImageUrl());
+        response.setProductName(provider.getProduct().getName());
         response.setQuantity(existingItem != null ? existingItem.getQuantity() : request.getQuantity());
 
         return response;
     }
 
-    public CartItemResponse updateCartItem(Long userId, AddCartItemRequest request) {
+    public CartItemDetailsResponse updateCartItem(Long userId, AddCartItemRequest request) {
         Cart cart = cartRepository.findByUserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found for user"));
 
@@ -102,8 +105,11 @@ public class CartService {
 
         cartRepository.save(cart);
 
-        CartItemResponse response = new CartItemResponse();
-        response.setProductProvider(provider);
+        CartItemDetailsResponse response = new CartItemDetailsResponse();
+        response.setProductProviderName(provider.getProvider().getUsername());
+        response.setProductProviderId(provider.getId().longValue());
+        response.setProductImageUrl(provider.getProduct().getImageUrl());
+        response.setProductName(provider.getProduct().getName());
         response.setQuantity(item.getQuantity());
 
         return response;

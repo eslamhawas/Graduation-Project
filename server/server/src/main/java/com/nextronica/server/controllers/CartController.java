@@ -1,6 +1,7 @@
 package com.nextronica.server.controllers;
 
 
+import com.nextronica.server.dtos.CartItemDetailsResponse;
 import com.nextronica.server.dtos.requests.AddCartItemRequest;
 import com.nextronica.server.dtos.responses.CartItemResponse;
 import com.nextronica.server.dtos.responses.CartResponse;
@@ -23,24 +24,24 @@ public class CartController {
 
 
     @PostMapping
-    public ResponseEntity<CartItemResponse> addToCart(@RequestHeader("Authorization") String authHeader,
-                                                      @RequestBody AddCartItemRequest request) {
+    public ResponseEntity<CartItemDetailsResponse> addToCart(@RequestHeader("Authorization") String authHeader,
+                                                             @RequestBody AddCartItemRequest request) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.badRequest().build();
         }
         Long userId = jwtUtil.extractId(authHeader);
-        CartItemResponse response = cartService.addItemsToCart(userId, request);
+        CartItemDetailsResponse response = cartService.addItemsToCart(userId, request);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping
-    public ResponseEntity<CartItemResponse> updateCartItem(@RequestHeader("Authorization") String authHeader,
+    public ResponseEntity<CartItemDetailsResponse> updateCartItem(@RequestHeader("Authorization") String authHeader,
                                                            @RequestBody AddCartItemRequest request) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.badRequest().build();
         }
         Long userId = jwtUtil.extractId(authHeader);
-        CartItemResponse response = cartService.updateCartItem(userId, request);
+        CartItemDetailsResponse response = cartService.updateCartItem(userId, request);
         return ResponseEntity.ok(response);
     }
 
