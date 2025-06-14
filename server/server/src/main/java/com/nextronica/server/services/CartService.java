@@ -36,7 +36,7 @@ public class CartService {
 
     public CartItemResponse addItemsToCart(Long userId, AddCartItemRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchUserException("There is no user with id: "  + userId));
+                .orElseThrow(() -> new NoSuchUserException("There is no user with id: " + userId));
 
         Cart cart = cartRepository.findByUserId(userId).orElseGet(() -> {
             Cart newCart = new Cart();
@@ -50,21 +50,27 @@ public class CartService {
         if (provider.getCountInStock() < request.getQuantity()) {
             throw new IllegalArgumentException("Not enough stock available for the product provider with id: " + request.getProductProviderId());
         }
+        CartItem existingItem = cart.getItems().stream()
+                .filter(item -> item.getProductProviderId().getId().equals(request.getProductProviderId()))
+                .findFirst()
+                .orElse(null);
 
-
-
-        CartItem item = new CartItem();
-        item.setCart(cart);
-        item.setProductProviderId(provider);
-        item.setQuantity(request.getQuantity());
-        item.setAddedAt(LocalDateTime.now());
-
-        cart.getItems().add(item);
+        if (existingItem != null) {
+            existingItem.setQuantity(existingItem.getQuantity() + request.getQuantity());
+            existingItem.setAddedAt(LocalDateTime.now());
+        } else {
+            CartItem item = new CartItem();
+            item.setCart(cart);
+            item.setProductProviderId(provider);
+            item.setQuantity(request.getQuantity());
+            item.setAddedAt(LocalDateTime.now());
+            cart.getItems().add(item);
+        }
         cartRepository.save(cart);
 
         CartItemResponse response = new CartItemResponse();
         response.setProductProvider(provider);
-        response.setQuantity(item.getQuantity());
+        response.setQuantity(existingItem != null ? existingItem.getQuantity() : request.getQuantity());
 
         return response;
     }
