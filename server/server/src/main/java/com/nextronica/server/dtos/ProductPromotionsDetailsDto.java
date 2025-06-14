@@ -24,6 +24,7 @@ public class ProductPromotionsDetailsDto implements Serializable {
     LocalDateTime deletedDate;
     LocalDateTime expiryDate;
     Boolean active;
+    String productName; // Added field
 
     // Constructor to map from entities
     public ProductPromotionsDetailsDto(ProductPromotions promotion) {
@@ -45,12 +46,14 @@ public class ProductPromotionsDetailsDto implements Serializable {
         this.deletedDate = promotion.getDeletedDate();
         this.expiryDate = promotion.getExpiryDate();
         this.active = promotion.getActive();
+        this.productName = promotion.getProductProvider().getProduct().getName(); // Set product name
     }
 
     // Constructor for JPQL queries
     public ProductPromotionsDetailsDto(Integer id, Integer productProviderId, Long vendorId,
                                        Float price, Float promoPrice, BigDecimal promotionPercentage,
-                                       LocalDateTime createdDate, LocalDateTime deletedDate, LocalDateTime expiryDate, Boolean active) {
+                                       LocalDateTime createdDate, LocalDateTime deletedDate, LocalDateTime expiryDate, Boolean active,
+                                       String productName) { // Added productName param
         this.id = id;
         this.productProviderId = productProviderId;
         this.vendorId = vendorId;
@@ -61,5 +64,6 @@ public class ProductPromotionsDetailsDto implements Serializable {
         this.deletedDate = deletedDate;
         this.expiryDate = expiryDate;
         this.active = active;
+        this.productName = productName;
     }
 }

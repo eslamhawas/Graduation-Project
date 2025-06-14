@@ -23,7 +23,8 @@ public interface ProductPromotionRepository extends JpaRepository<ProductPromoti
                 pp.createdDate,
                 pp.deletedDate,
                 pp.expiryDate,
-                pp.active
+                pp.active,
+                provider.product.name
             )
             FROM ProductPromotions pp
             JOIN pp.productProvider provider
@@ -42,7 +43,8 @@ public interface ProductPromotionRepository extends JpaRepository<ProductPromoti
                 pp.createdDate,
                 pp.deletedDate,
                 pp.expiryDate,
-                pp.active
+                pp.active,
+                provider.product.name
             )
             FROM ProductPromotions pp
             JOIN pp.productProvider provider
@@ -61,7 +63,8 @@ public interface ProductPromotionRepository extends JpaRepository<ProductPromoti
                 pp.createdDate,
                 pp.deletedDate,
                 pp.expiryDate,
-                pp.active
+                pp.active,
+                provider.product.name
             )
             FROM ProductPromotions pp
             JOIN pp.productProvider provider
