@@ -35,7 +35,7 @@
   "bio": "السيرة الذاتية",
   "InvalidEmail": "البريد الإلكتروني غير صالح",
   "InvalidPhoneNumber": "رقم الهاتف غير صالح",
-    "AllUser": "  المستخدمين",
+  "AllUser": "  المستخدمين",
   "AllVendors": "  البائعين",
   "profileImage": "صورة الملف الشخصي",
   "delete": "حذف",
@@ -75,13 +75,19 @@
   "RequiredPrice": "يرجى إدخال السعر",
   "RequiredStock": "يرجى إدخال الكمية",
   "RequiredImage": "يرجى رفع صورة للمنتج",
-  "descriptionProduct" : "وصف المنتج",
-  "update" : "تعديل",
-  "MyProducts" : "منتجاتي "
-
-
-
-
-
-
+  "descriptionProduct": "وصف المنتج",
+  "update": "تعديل",
+  "MyProducts": "منتجاتي ",
+  "AllOrder": "كل الاوردر",
+  "status": "الحالة",
+  "No status": "لا توجد حالة",
+  "quantity": "الكمية",
+  "No quantity": "لا توجد كمية",
+  "SalePrice": "سعر البيع",
+  "No SalePrice": "لا يوجد سعر",
+  "createdDate": "تاريخ الإنشاء",
+  "No createdDate": "لا يوجد تاريخ",
+  "Confirm": "تأكيد",
+  "Rejected": "رفض",
+  "Transaction": "المعاملات"
 }

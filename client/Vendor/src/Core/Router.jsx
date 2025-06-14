@@ -44,7 +44,14 @@ const Routers = createBrowserRouter([
                 element: <ProtectedRoutes><Lazy.private.AddProductMe /></ProtectedRoutes> 
             },
 
-
+                                                            {
+                path: "AllOrder",
+                element: <ProtectedRoutes><Lazy.private.AllOrder /></ProtectedRoutes> 
+            },
+                                                            {
+                path: "Transaction",
+                element: <ProtectedRoutes><Lazy.private.Transaction /></ProtectedRoutes> 
+            },
         ]
 
     },

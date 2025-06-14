@@ -1,35 +1,29 @@
 import { Button, Pagination, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import { ApiData } from "./Api";
-import { Avatar } from "antd";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import cookies from "js-cookie";
 import { Option } from "antd/es/mentions";
-import { useNavigate } from "react-router-dom";
-export default function AllProduct() {
+
+export default function AllOrder() {
   const { t } = useTranslation();
-  const [Product, setProduct] = useState([]);
+  const [order, setOrder] = useState([]);
   const [pageSize, setPageSize] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const ln = cookies.get("i18next") || "en";
-  const [currentValue, setCurrentValue] = useState(15);
-  const navigate = useNavigate();
-
   const gitProduct = async () => {
     setLoading(true);
     try {
-      const data = await ApiData().AllProduct(currentPage, pageSize);
-      setProduct(data.data);
+      const data = await ApiData().AllOrder(currentPage, pageSize);
+      setOrder(data.data);
     } catch (err) {
       toast.error(t("ConnectionProblemOccurred"));
     } finally {
       setLoading(false);
     }
   };
-
- 
 
   useEffect(() => {
     gitProduct();
@@ -39,18 +33,34 @@ export default function AllProduct() {
     gitProduct();
   }, [currentPage, pageSize]);
 
-  // const DelateProduct = async (id) => {
-  //   try {
-  //     await ApiData().DelateProduct(id);
-  //     gitProduct();
-  //     toast.success(t("Success"));
-  //   } catch (err) {
-  //     toast.error(err.message);
-  //   }
-  // };
+  const RejectedOrder = async (id) => {
+    setLoading(true);
+    const body = {
+      status: "REJECTED"
+    };
+    try {
+      await ApiData().ConfirmOrder(id, body);
+      await gitProduct();
+    } catch (err) {
+      toast.error(t("ConnectionProblemOccurred"));
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const AddProductInTable = async (id) => {
-    navigate(`/AddProduct/${id}`);
+  const ConfirmOrder = async (id) => {
+    setLoading(true);
+    const body = {
+      status: "ACCEPTED"
+    };
+    try {
+      await ApiData().ConfirmOrder(id, body);
+      await gitProduct();
+    } catch (err) {
+      toast.error(t("ConnectionProblemOccurred"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const columns = [
@@ -62,67 +72,34 @@ export default function AllProduct() {
       render: (_, record) => record.product?.name || t("No Category")
     },
     {
-      title: t("Category"),
-      dataIndex: "categories",
-      key: "category",
+      title: t("status"),
+      dataIndex: "status",
+      key: "status",
+      align: "center",
+      render: (_, record) => record.status || t("No status")
+    },
+    {
+      title: t("quantity"),
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "center",
+      render: (_, record) => record.quantity || t("No quantity")
+    },
+    {
+      title: t("SalePrice"),
+      dataIndex: "itemSalePriceAfterProfitAndPromoIfExist",
+      key: "itemSalePriceAfterProfitAndPromoIfExist",
       align: "center",
       render: (_, record) =>
-        record.product?.categories?.[0]?.name || t("No Category")
+        record.itemSalePriceAfterProfitAndPromoIfExist ?? t("No SalePrice")
     },
     {
-      title: t("Brand"),
-      dataIndex: "brand",
-      key: "brand",
+      title: t("createdDate"),
+      dataIndex: "createdDate",
+      key: "createdDate",
       align: "center",
-      render: (_, record) => record.product?.brand?.name || t("No Brand")
-    },
-    {
-      title: t("Price"),
-      dataIndex: "productProviders",
-      key: "price",
-      align: "center",
-      render: (_, record) => record.salePrice ?? t("No Price")
-    },
-        {
-      title: t("AfterProfit"),
-      dataIndex: "salePriceAfterProfit",
-      key: "salePriceAfterProfit",
-      align: "center",
-      render: (_, record) => record.salePriceAfterProfit ?? t("No Price")
-    },
-    {
-      title: t("Stock"),
-      dataIndex: "productProviders",
-      key: "stock",
-      align: "center",
-      render: (_, record) => record.countInStock ?? t("No Stock")
-    },
-    {
-      title: t("Vendor"),
-      dataIndex: "productProviders",
-      key: "vendor",
-      align: "center",
-      render: (_, record) => record.provider?.username || t("No Vendor")
-    },
-    {
-      title: t("image"),
-      dataIndex: "imageUrl",
-      key: "imageUrl",
-      align: "center",
-      render: (_, record) => {
-        const imageUrl = record.product?.imageUrl;
-        return imageUrl ? (
-          <img
-            style={{ width: "50px", height: "60px", borderRadius: "50%" }}
-            src={imageUrl}
-            alt={t("product_image")}
-          />
-        ) : (
-          <Avatar style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}>
-            P
-          </Avatar>
-        );
-      }
+      render: (_, record) =>
+        record.createdDate.split("T")[0] ?? t("No createdDate")
     },
 
     {
@@ -132,37 +109,43 @@ export default function AllProduct() {
       align: "center",
       render: (_, record) => (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <Button
-            onClick={() => AddProductInTable(record?.product?.id)}
-            color="danger"
-            variant="solid"
-          >
-            {t("AddProduct")}
-          </Button>
-          {/* <Button
-            onClick={() => DelateProduct(record.id)}
-            color="danger"
-            variant="solid"
-          >
-            {t("delete")}
-          </Button> */}
+          {record.status === "PENDING" ? (
+            <>
+              <Button
+                onClick={() => ConfirmOrder(record?.order?.id)}
+                color="danger"
+                variant="solid"
+              >
+                {t("Confirm")}
+              </Button>
+              <Button
+                onClick={() => RejectedOrder(record?.order?.id)}
+                color="danger"
+                variant="solid"
+              >
+                {t("Rejected")}
+              </Button>
+            </>
+          ) : record.status === "ACCEPTED" ? (
+""
+          ) : (
+""
+          )}
         </div>
       )
     }
   ];
 
-
-
   return (
     <>
       <Table
         columns={columns}
-        dataSource={Product}
+        dataSource={order}
         loading={loading}
         pagination={{
           current: currentPage,
           pageSize: pageSize,
-          total: Array.isArray(Product) ? Product.length : 0,
+          total: Array.isArray(order) ? order.length : 0,
           onChange: (page) => setCurrentPage(page),
           showSizeChanger: false,
           position: []
@@ -196,7 +179,7 @@ export default function AllProduct() {
               <Pagination
                 current={currentPage}
                 pageSize={pageSize}
-                total={Array.isArray(Product) ? Product.length : 0}
+                total={Array.isArray(order) ? order.length : 0}
                 onChange={(page) => setCurrentPage(page)}
                 size="small"
                 showSizeChanger={false}

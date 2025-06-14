@@ -14,6 +14,7 @@ export default function AddProductMe() {
   const [brands, setBrands] = useState([]);
   const [product, setProduct] = useState({});
   const [form] = Form.useForm();
+  const idUser = localStorage.getItem("userId");
 
   const getCategories = async () => {
     try {
@@ -65,7 +66,7 @@ export default function AddProductMe() {
 
   const onFinish = async (values) => {
     console.log(values);
-    
+
     if (!id) {
       try {
         await ApiData().AddProductMe({
@@ -73,7 +74,7 @@ export default function AddProductMe() {
           productProviders: [
             {
               provider: {
-                id: 4
+                id: idUser
               },
               countInStock: values.stock,
               salePrice: values.price
@@ -104,7 +105,6 @@ export default function AddProductMe() {
           id
         );
 
-       
         toast.success(t("Success"));
       } catch (err) {
         toast.error(err.response.data.message);
@@ -112,12 +112,21 @@ export default function AddProductMe() {
     }
   };
 
-  const test = async (el)=>{
-    //  await   ApiData().AddImg(values.image ,id) 
+  const test = async (files) => {
+    const file = files.file;
 
-    console.log(el);
-    
-  }
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await ApiData().AddImg(formData, id);
+      toast.success(t("UploadSuccess"));
+      console.log("Image uploaded successfully", response);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast.error(t("UploadFailed"));
+    }
+  };
   const onFinishFailed = (errorInfo) => {
     toast.error(t("Enter-complete-Data"));
   };
@@ -125,7 +134,7 @@ export default function AddProductMe() {
   return (
     <>
       <Card
-        title={id ? t("update")    :  t("AddProduct")}
+        title={id ? t("update") : t("AddProduct")}
         bordered={false}
         style={{
           maxWidth: 900,
@@ -233,10 +242,12 @@ export default function AddProductMe() {
                   valuePropName="file"
                   rules={[{ required: false, message: t("RequiredImage") }]}
                 >
-                  <Upload beforeUpload={() => false} maxCount={1} onChange={(el)=> test(el)} >
-                    <Button icon={<UploadOutlined />} >
-                      {t("UploadImage")}
-                    </Button>
+                  <Upload
+                    beforeUpload={() => false}
+                    maxCount={1}
+                    onChange={(el) => test(el)}
+                  >
+                    <Button icon={<UploadOutlined />}></Button>
                   </Upload>
                 </Form.Item>
               </Col>
@@ -247,7 +258,7 @@ export default function AddProductMe() {
 
           <Form.Item style={{ textAlign: "end", marginTop: 24 }}>
             <Button type="primary" htmlType="submit">
-               {id ? t("update")    :  t("AddProduct")}
+              {id ? t("update") : t("AddProduct")}
             </Button>
           </Form.Item>
         </Form>

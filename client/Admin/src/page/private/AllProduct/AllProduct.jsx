@@ -1,8 +1,8 @@
 import { Button, Pagination, Select, Table } from "antd";
+import { Form, Input, Space } from "antd";
 import { useEffect, useState } from "react";
 import { ApiData } from "./Api";
 import { Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import cookies from "js-cookie";
@@ -15,6 +15,7 @@ export default function AllProduct() {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const ln = cookies.get("i18next") || "en";
+  const [currentValue, setCurrentValue] = useState(15);
   const navigate = useNavigate();
 
   const gitProduct = async () => {
@@ -22,7 +23,6 @@ export default function AllProduct() {
     try {
       const data = await ApiData().AllProduct(currentPage, pageSize);
       setProduct(data.data);
-      console.log(data.data);
     } catch (err) {
       toast.error(t("ConnectionProblemOccurred"));
     } finally {
@@ -30,23 +30,36 @@ export default function AllProduct() {
     }
   };
 
+  const gatProfit = async () => {
+    setLoading(true);
+    try {
+      const Data = await ApiData().GetProfitMargin();
+      setCurrentValue(Data.current);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     gitProduct();
+    gatProfit();
   }, []);
 
   useEffect(() => {
     gitProduct();
   }, [currentPage, pageSize]);
 
-  const DelateProduct = async (id) => {
-    try {
-      await ApiData().DelateProduct(id);
-      gitProduct();
-      toast.success(t("Success"));
-    } catch (err) {
-      toast.error(err.message);
-    }
-  };
+  // const DelateProduct = async (id) => {
+  //   try {
+  //     await ApiData().DelateProduct(id);
+  //     gitProduct();
+  //     toast.success(t("Success"));
+  //   } catch (err) {
+  //     toast.error(err.message);
+  //   }
+  // };
 
   const AddProductInTable = async (id) => {
     navigate(`/AddProduct/${id}`);
@@ -57,63 +70,71 @@ export default function AllProduct() {
       title: t("Product Name"),
       dataIndex: "name",
       key: "name",
-      align: "center"
+      align: "center",
+      render: (_, record) => record.product?.name || t("No Category")
     },
     {
       title: t("Category"),
       dataIndex: "categories",
       key: "category",
       align: "center",
-      render: (_, record) => record.categories?.[0]?.name || t("No Category")
+      render: (_, record) =>
+        record.product?.categories?.[0]?.name || t("No Category")
     },
     {
       title: t("Brand"),
       dataIndex: "brand",
       key: "brand",
       align: "center",
-      render: (_, record) => record.brand?.name || t("No Brand")
+      render: (_, record) => record.product?.brand?.name || t("No Brand")
     },
     {
       title: t("Price"),
       dataIndex: "productProviders",
       key: "price",
       align: "center",
-      render: (_, record) =>
-        record.productProviders?.[0]?.salePrice ?? t("No Price")
+      render: (_, record) => record.salePrice ?? t("No Price")
+    },
+        {
+      title: t("AfterProfit"),
+      dataIndex: "salePriceAfterProfit",
+      key: "salePriceAfterProfit",
+      align: "center",
+      render: (_, record) => record.salePriceAfterProfit ?? t("No Price")
     },
     {
       title: t("Stock"),
       dataIndex: "productProviders",
       key: "stock",
       align: "center",
-      render: (_, record) =>
-        record.productProviders?.[0]?.countInStock ?? t("No Stock")
+      render: (_, record) => record.countInStock ?? t("No Stock")
     },
     {
       title: t("Vendor"),
       dataIndex: "productProviders",
       key: "vendor",
       align: "center",
-      render: (_, record) =>
-        record.productProviders?.[0]?.provider?.username|| t("No Vendor")
+      render: (_, record) => record.provider?.username || t("No Vendor")
     },
     {
-      title: t("Image"),
+      title: t("image"),
       dataIndex: "imageUrl",
       key: "imageUrl",
       align: "center",
-      render: (imageUrl) =>
-        imageUrl ? (
+      render: (_, record) => {
+        const imageUrl = record.product?.imageUrl;
+        return imageUrl ? (
           <img
             style={{ width: "50px", height: "60px", borderRadius: "50%" }}
             src={imageUrl}
-            alt="Product"
+            alt={t("product_image")}
           />
         ) : (
           <Avatar style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}>
             P
           </Avatar>
-        )
+        );
+      }
     },
 
     {
@@ -124,26 +145,82 @@ export default function AllProduct() {
       render: (_, record) => (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <Button
-            onClick={() => AddProductInTable(record.id)}
+            onClick={() => AddProductInTable(record?.product?.id)}
             color="danger"
             variant="solid"
           >
             {t("AddProduct")}
           </Button>
-          <Button
+          {/* <Button
             onClick={() => DelateProduct(record.id)}
             color="danger"
             variant="solid"
           >
             {t("delete")}
-          </Button>
+          </Button> */}
         </div>
       )
     }
   ];
 
+  const onFinish = async (values) => {
+    await ApiData().AddProfitMargin(values);
+    await gatProfit();
+    await gitProduct();
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
   return (
     <>
+      <Form
+        name="basic"
+        layout="vertical"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        style={{ maxWidth: 550 }}
+      >
+        <div style={{ display: "flex", gap: "16px", alignItems: "end" }}>
+          <Form.Item label={t("current_profit_margin")} style={{ flex: 1 }}>
+            <Input value={currentValue} disabled />
+          </Form.Item>
+
+          <Form.Item
+            label={t("add_profit_margin")}
+            required
+            style={{ flex: 1 }}
+          >
+            <Space.Compact>
+              <Form.Item
+                name="current"
+                noStyle
+                rules={[
+                  {
+                    required: true,
+                    message: t("add_profit_margin_required")
+                  }
+                ]}
+              >
+                <Input
+                  type="number"
+                  maxLength={3}
+                  style={{ width: 170 }}
+                  onInput={(e) => {
+                    if (e.target.value.length > 3) {
+                      e.target.value = e.target.value.slice(0, 3);
+                    }
+                  }}
+                />
+              </Form.Item>
+              <Button type="primary" htmlType="submit">
+                {t("Submit")}
+              </Button>
+            </Space.Compact>
+          </Form.Item>
+        </div>
+      </Form>
       <Table
         columns={columns}
         dataSource={Product}

@@ -102,7 +102,7 @@ export default function MyProducts() {
       render: (imageUrl) =>
         imageUrl ? (
           <img
-            style={{ width: "50px", height: "60px", borderRadius: "8px" }}
+            style={{ width: "50px", height: "60px", borderRadius: "50%" }}
             src={imageUrl}
             alt="Product"
           />

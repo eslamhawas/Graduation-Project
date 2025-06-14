@@ -14,8 +14,8 @@ export default function AddProduct() {
   const [brands, setBrands] = useState([]);
   const [product, setProduct] = useState({})
   const [form] = Form.useForm();
+  const idUser = localStorage.getItem("userId");
 
-  console.log(product);
   
 
   const getCategories = async () => {
@@ -71,10 +71,9 @@ useEffect(() => {
         await ApiData().AddProduct(
           {
           productProviders : [
-            ...product.productProviders ,
             {
              provider: {
-                id:  "5"
+                id:  idUser
             },
             product: {
                 id: id

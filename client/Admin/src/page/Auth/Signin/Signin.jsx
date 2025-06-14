@@ -28,6 +28,8 @@ export default function Signin() {
     }
 
     const token = loginResponse.data?.token;
+    const user = loginResponse.data?.user;
+     localStorage.setItem("userId", user?.id);
     if (token) {
       localStorage.setItem("userToken", token);
       sliceAuthToken(setToken(token));
@@ -39,6 +41,8 @@ export default function Signin() {
       navigate("/Signin");
       toast.error(loginResponse.error);
     }
+
+
   };
 
   const onFinishFailed = () => {

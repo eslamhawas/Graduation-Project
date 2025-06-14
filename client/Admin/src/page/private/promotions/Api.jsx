@@ -3,7 +3,12 @@ import axiosInstance from "../../../Api/Axios";
 export const ApiData = () => {
   const api = {};
 
-  api.AllProduct = async () => {
+  api.AllProduct = async (size ,page ) => {
+    const Data = await axiosInstance.get(`spring/api/v1/promotions?page=${size}&size=${page}`);
+    return Data.data;
+  };
+
+    api.AllProducts = async () => {
     const Data = await axiosInstance.get(
       `nest/api/products/all-products/for-admin`
     );
@@ -18,9 +23,7 @@ export const ApiData = () => {
   };
 
   api.DelateProduct = async (id) => {
-    const Data = await axiosInstance.delete(
-      `nest/api/products/${id}/product-providers/delete`
-    );
+    const Data = await axiosInstance.delete(`spring/api/v1/promotions/${id}`);
     return Data.data;
   };
 
@@ -58,21 +61,21 @@ export const ApiData = () => {
   };
 
   api.AddImg = async (Body, id) => {
-    const Data = await axiosInstance.patch(`nest/api/products/${id}`, Body, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    });
+    const Data = await axiosInstance.patch(`nest/api/products/${id}`, Body);
     return Data.data;
   };
 
-  api.AddProfitMargin = async (Body) => {
-    const Data = await axiosInstance.post(`spring/api/v1/commission`, Body);
+      api.promotionPercentage = async (Body) => {
+    const Data = await axiosInstance.post(
+      `spring/api/v1/promotions` , Body
+    );
     return Data.data;
   };
 
-  api.GetProfitMargin = async () => {
-    const Data = await axiosInstance.get(`spring/api/v1/commission/last`);
+        api.GetProfitMargin = async () => {
+    const Data = await axiosInstance.get(
+      `spring/api/v1/commission/last` 
+    );
     return Data.data;
   };
 

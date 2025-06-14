@@ -6,7 +6,7 @@
     
     api.AllProduct = async () => {
     const Data = await axiosInstance.get(
-      `nest/api/products`
+      `nest/api/products/all-products/for-admin`
     );
     return Data.data;
   };
@@ -21,7 +21,7 @@
 
        api.DelateProduct = async (id) => {
     const Data = await axiosInstance.delete(
-      `nest/api/products/${id}`
+      `nest/api/products/${id}/product-providers/delete`
     );
     return Data.data;
   };
@@ -72,9 +72,11 @@
   };
 
 api.AddImg = async (Body , id) => {
-  const Data = await axiosInstance.patch(
-    `nest/api/products/${id}` , Body
-  );
+    const Data = await axiosInstance.patch(`nest/api/products/${id}`, Body, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
   return Data.data;
 };
 

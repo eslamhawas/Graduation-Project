@@ -5,75 +5,142 @@ import Lazy from "./LazyPage";
 import { ProtectedRoutes } from "./Config";
 
 const Routers = createBrowserRouter([
-    {
-        path: "/",
-        element:<ProtectedRoutes><Layout /></ProtectedRoutes> ,
-        errorElement: "",
-        children: [
-            { index: true, element:(<ProtectedRoutes> <Lazy.private.AllUser /></ProtectedRoutes> ) },
-            {
-                path: "/AllUser",
-                element:<ProtectedRoutes> <Lazy.private.AllUser /> </ProtectedRoutes>
-            },
-            {
-                path: "/AllVendors",
-                element: <ProtectedRoutes><Lazy.private.AllVendors /></ProtectedRoutes> 
-            },
-                        {
-                path: "/BannedUsers",
-                element: <ProtectedRoutes><Lazy.private.BinUser /></ProtectedRoutes> 
-            },
-                        {
-                path: "/AllAdmin",
-                element: <ProtectedRoutes><Lazy.private.AllAdmin /></ProtectedRoutes> 
-            },
-                                    {
-                path: "/PendingVendors",
-                element: <ProtectedRoutes><Lazy.private.PendingVendors /></ProtectedRoutes> 
-            },
-                                    {
-                path: "/AllProduct",
-                element: <ProtectedRoutes><Lazy.private.AllProduct /></ProtectedRoutes> 
-            },
+  {
+    path: "/",
+    element: (
+      <ProtectedRoutes>
+        <Layout />
+      </ProtectedRoutes>
+    ),
+    errorElement: "",
+    children: [
+      {
+        index: true,
+        element: (
+          <ProtectedRoutes>
+            {" "}
+            <Lazy.private.AllUser />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/AllUser",
+        element: (
+          <ProtectedRoutes>
+            {" "}
+            <Lazy.private.AllUser />{" "}
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/AllVendors",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.AllVendors />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/BannedUsers",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.BinUser />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/AllAdmin",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.AllAdmin />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/PendingVendors",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.PendingVendors />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/AllProduct",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.AllProduct />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/AddProduct/:id",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.AddProduct />
+          </ProtectedRoutes>
+        )
+      },
 
+      {
+        path: "/MyProducts",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.MyProducts />
+          </ProtectedRoutes>
+        )
+      },
 
-                                                {
-                path: "/AddProduct/:id",
-                element: <ProtectedRoutes><Lazy.private.AddProduct /></ProtectedRoutes> 
-            },
+      {
+        path: "/AddProductMe",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.AddProductMe />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/PromotionProduct",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.PromotionProduct />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "/UpdateProductMe/:id",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.AddProductMe />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "AllOrder",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.AllOrder />
+          </ProtectedRoutes>
+        )
+      },
+      {
+        path: "Transaction",
+        element: (
+          <ProtectedRoutes>
+            <Lazy.private.Transaction />
+          </ProtectedRoutes>
+        )
+      }
+    ]
+  },
+  {
+    path: "/signin",
+    element: <Lazy.Auth.Signin />
+  },
 
-                                                            {
-                path: "/MyProducts",
-                element: <ProtectedRoutes><Lazy.private.MyProducts /></ProtectedRoutes> 
-            },
+  {
+    path: "*",
+    element: <Error />
+  }
+]);
 
-                                                            {
-                path: "/AddProductMe",
-                element: <ProtectedRoutes><Lazy.private.AddProductMe /></ProtectedRoutes> 
-            },
-                                                            {
-                path: "/UpdateProductMe/:id",
-                element: <ProtectedRoutes><Lazy.private.AddProductMe /></ProtectedRoutes> 
-            },
-
-            
-
-
-            
-
-            
-        ]
-
-    },
-    {
-        path: "/signin",
-        element: <Lazy.Auth.Signin />
-    },
-
-    {
-        path: "*",
-        element: <Error />
-    }
-])
-
-export default Routers
+export default Routers;

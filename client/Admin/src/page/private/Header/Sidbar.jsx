@@ -11,7 +11,9 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { AiOutlineProduct } from "react-icons/ai";
-
+import { BiSolidOffer } from "react-icons/bi";
+import { FaBorderAll } from "react-icons/fa6";
+import { AiOutlineTransaction } from "react-icons/ai";
 
 function getItem(label, key, icon, children) {
   return {
@@ -28,9 +30,14 @@ export default function Sidbar() {
   const { t } = useTranslation();
 
   const items = [
-     getItem(`${t("AllProduct")}`, "6",<MdOutlineProductionQuantityLimits />, "/AllProduct"),
-          getItem(`${t("MyProducts")}`, "7",<AiOutlineProduct />, "/MyProducts"),
-     
+    getItem(
+      `${t("AllProduct")}`,
+      "6",
+      <MdOutlineProductionQuantityLimits />,
+      "/AllProduct"
+    ),
+    getItem(`${t("MyProducts")}`, "7", <AiOutlineProduct />, "/MyProducts"),
+    getItem(`${t("promotionPercentage")}`, "7", <BiSolidOffer />, "/PromotionProduct"),
     getItem(`${t("AllUser")}`, "1", <FaRegUser />, "/AllUser"),
     getItem(`${t("AllAdmin")}`, "2", <FaUserTie />, "/AllAdmin"),
     getItem(`${t("AllVendors")}`, "3", <RiAdminLine />, "/AllVendors"),
@@ -40,7 +47,9 @@ export default function Sidbar() {
       <LuUserRoundPlus />,
       "/PendingVendors"
     ),
-    getItem(`${t("BannedUsers")}`, "5", <LuUserRoundX />, "/BannedUsers")
+    getItem(`${t("BannedUsers")}`, "5", <LuUserRoundX />, "/BannedUsers"),
+        getItem(`${t("AllOrder")}`, "6", <FaBorderAll />, "/AllOrder"),
+    getItem(`${t("Transaction")}`, "7", <AiOutlineTransaction />, "/transaction")
   ];
 
   return (

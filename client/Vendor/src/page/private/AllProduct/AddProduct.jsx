@@ -14,8 +14,8 @@ export default function AddProduct() {
   const [brands, setBrands] = useState([]);
   const [product, setProduct] = useState({})
   const [form] = Form.useForm();
+  const idUser = localStorage.getItem("userId");
 
-  console.log(product);
   
 
   const getCategories = async () => {
@@ -74,7 +74,7 @@ useEffect(() => {
             ...product.productProviders ,
             {
              provider: {
-                id:  "4"
+                id:  idUser
             },
             product: {
                 id: id
