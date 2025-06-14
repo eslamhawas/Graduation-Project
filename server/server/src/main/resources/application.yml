@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://db17468.public.databaseasp.net:3306/db17468?useSSL=true&requireSSL=false&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
-    username: db17468
-    password: "4d#QR9z-eN!2"
+    url: jdbc:mysql://db21560.public.databaseasp.net:3306/db21560?useSSL=true&requireSSL=false&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
+    username: db21560
+    password: "f?9H6F@r-kA4"
   jpa:
     hibernate:
       ddl-auto: update

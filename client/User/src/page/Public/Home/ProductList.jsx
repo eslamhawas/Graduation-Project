@@ -23,7 +23,7 @@ function ProductList({ type }) {
                     ...(type === "bestSelling" && { take: 4 }) 
                 };
                 
-                const response = await axiosInstance.get("http://localhost:4100/api/products", { params });
+                const response = await axiosInstance.get("/nest/api/products", { params });
                 const result = response.data;
                 const data = Array.isArray(result) ? result : result.data || [];
                 

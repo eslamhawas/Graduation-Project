@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, Dropdown, Badge, Spin } from 'antd';
-import { 
-    MenuOutlined,
-    ShoppingOutlined,
-    MobileOutlined,
-    LaptopOutlined,
-    SkinOutlined,
+import {useEffect, useState} from 'react';
+import {Badge, Dropdown, Menu, Spin} from 'antd';
+import {
     HomeOutlined,
-    TrophyOutlined,
-    SmileOutlined
+    LaptopOutlined,
+    MenuOutlined,
+    MobileOutlined,
+    ShoppingOutlined,
+    SkinOutlined,
+    SmileOutlined,
+    TrophyOutlined
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import "./Categories.css";
+import axiosInstance from "../../../Api/Axios";
 
 const Categories = () => {
     const [visible, setVisible] = useState(false);
@@ -23,14 +24,20 @@ const Categories = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('http://localhost:4100/api/category');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch categories');
-                }
-                const data = await response.json();
-                setCategories(data.data);
+                setLoading(true);
+                setError(null);
+
+                const response = await axiosInstance.get("/nest/api/category");
+                const result = response.data;
+
+                const data = Array.isArray(result) ? result : result.data || [];
+
+                setCategories(data);
+
             } catch (err) {
-                setError(err.message);
+                console.error("Error fetching categories:", err);
+                setError(err.message || "Failed to fetch categories");
+                setCategories([]);
             } finally {
                 setLoading(false);
             }
@@ -52,7 +59,7 @@ const Categories = () => {
             'Grocery': <ShoppingOutlined />,
             'Perfumes': <SmileOutlined />
         };
-        
+
         return iconMap[categoryName] || <ShoppingOutlined />;
     };
 
@@ -69,18 +76,18 @@ const Categories = () => {
     const menu = (
         <Menu className="enhanced-category-dropdown">
             <Menu.ItemGroup title="Browse Categories" className="dropdown-header">
-                <Menu.Item 
-                    key="home" 
+                <Menu.Item
+                    key="home"
                     icon={<HomeOutlined />}
                     onClick={handleHomeClick}
                     className="dropdown-item"
                 >
                     <span>Home</span>
                 </Menu.Item>
-                
+
                 {Array.isArray(categories) && categories.map((category) => (
-                    <Menu.Item 
-                        key={category.id} 
+                    <Menu.Item
+                        key={category.id}
                         icon={getCategoryIcon(category.name)}
                         onClick={() => handleCategoryClick(category.id)}
                         className="dropdown-item"
@@ -129,7 +136,7 @@ const Categories = () => {
                 </Dropdown>
 
                 <div className="category-links">
-                    <div 
+                    <div
                         className="category-link-item home-link"
                         onClick={handleHomeClick}
                     >
@@ -139,10 +146,10 @@ const Categories = () => {
                         </div>
                         <div className="link-underline"></div>
                     </div>
-                    
+
                     {Array.isArray(categories) && categories.slice(0, 6).map((category) => (
-                        <div 
-                            key={category.id} 
+                        <div
+                            key={category.id}
                             className="category-link-item"
                             onClick={() => handleCategoryClick(category.id)}
                         >
