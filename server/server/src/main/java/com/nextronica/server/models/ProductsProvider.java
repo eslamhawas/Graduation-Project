@@ -38,7 +38,7 @@ public class ProductsProvider {
 
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "productId", nullable = false)
     private Product product;
 

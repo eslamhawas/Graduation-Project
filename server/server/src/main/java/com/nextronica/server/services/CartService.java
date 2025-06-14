@@ -63,9 +63,8 @@ public class CartService {
         cartRepository.save(cart);
 
         CartItemResponse response = new CartItemResponse();
-        response.setProductProviderId(provider.getId().longValue());
+        response.setProductProvider(provider);
         response.setQuantity(item.getQuantity());
-        response.setPrice(item.getPriceAtAddition());
 
         return response;
     }
@@ -98,9 +97,8 @@ public class CartService {
         cartRepository.save(cart);
 
         CartItemResponse response = new CartItemResponse();
-        response.setProductProviderId(provider.getId().longValue());
+        response.setProductProvider(provider);
         response.setQuantity(item.getQuantity());
-        response.setPrice(item.getPriceAtAddition());
 
         return response;
     }
@@ -147,11 +145,10 @@ public class CartService {
                     .orElse(commissionPrice);
 
             CartItemDetailsResponse responseItem = new CartItemDetailsResponse();
-            responseItem.setProductProviderId(provider.getId().longValue());
+            responseItem.setProductProvider(provider);
             responseItem.setQuantity(item.getQuantity());
             responseItem.setCommissionPrice(commissionPrice);
             responseItem.setDiscountedPrice(discountedPrice);
-            responseItem.setPriceAtAddition(item.getPriceAtAddition());
 
             total += discountedPrice * item.getQuantity();
             items.add(responseItem);
