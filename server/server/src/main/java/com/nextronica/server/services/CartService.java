@@ -3,7 +3,6 @@ package com.nextronica.server.services;
 import com.nextronica.server.dtos.CartItemDetailsResponse;
 import com.nextronica.server.dtos.ProductPromotionsDetailsDto;
 import com.nextronica.server.dtos.requests.AddCartItemRequest;
-import com.nextronica.server.dtos.responses.CartItemResponse;
 import com.nextronica.server.dtos.responses.CartResponse;
 import com.nextronica.server.exceptions.ResourceNotFoundException;
 import com.nextronica.server.exceptions.customExceptions.NoSuchProductProviderException;
@@ -74,6 +73,8 @@ public class CartService {
         response.setProductImageUrl(provider.getProduct().getImageUrl());
         response.setProductName(provider.getProduct().getName());
         response.setQuantity(existingItem != null ? existingItem.getQuantity() : request.getQuantity());
+        response.setProductId(provider.getProduct().getId());
+        response.setProviderId(provider.getProvider().getId().intValue());
 
         return response;
     }
@@ -111,6 +112,8 @@ public class CartService {
         response.setProductImageUrl(provider.getProduct().getImageUrl());
         response.setProductName(provider.getProduct().getName());
         response.setQuantity(item.getQuantity());
+        response.setProductId(provider.getProduct().getId());
+        response.setProviderId(provider.getProvider().getId().intValue());
 
         return response;
     }
@@ -164,6 +167,8 @@ public class CartService {
             responseItem.setQuantity(item.getQuantity());
             responseItem.setCommissionPrice(commissionPrice);
             responseItem.setDiscountedPrice(discountedPrice);
+            responseItem.setProductId(provider.getProduct().getId());
+            responseItem.setProviderId(provider.getProvider().getId().intValue());
             total += discountedPrice * item.getQuantity();
             items.add(responseItem);
         }

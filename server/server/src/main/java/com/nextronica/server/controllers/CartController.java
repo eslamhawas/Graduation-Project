@@ -3,7 +3,6 @@ package com.nextronica.server.controllers;
 
 import com.nextronica.server.dtos.CartItemDetailsResponse;
 import com.nextronica.server.dtos.requests.AddCartItemRequest;
-import com.nextronica.server.dtos.responses.CartItemResponse;
 import com.nextronica.server.dtos.responses.CartResponse;
 import com.nextronica.server.services.CartService;
 import com.nextronica.server.utils.JwtUtil;
