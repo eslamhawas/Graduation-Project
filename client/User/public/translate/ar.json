@@ -5,7 +5,7 @@
   "SignUp": "إنشاء حساب",
   "SignIn": "تسجيل دخول",
   "LogOut": "تسجيل خروج",
-  "BioFooter": "© حقوق الطبع والنشر 2024. جميع الحقوق محفوظة.",
+  "BioFooter": "© حقوق الطبع والنشر 2025. جميع الحقوق محفوظة.",
   "CreateAnAccount": "إنشاء حساب",
   "EnterYourDetailsBelow": "أدخل التفاصيل الخاصة بك",
   "Email": "بريد إلكتروني",
@@ -132,5 +132,17 @@
   "Failed to remove item": "حدث خطأ أثناء الحذف",
   "Failed to load cart": "فشل في تحميل السلة",
   "Quantity exceeds stock": "الكمية المطلوبة غير متوفرة في المخزون",
-  "Error updating quantity": "حدث خطأ أثناء تحديث الكمية"
+  "Error updating quantity": "حدث خطأ أثناء تحديث الكمية",
+  "Provider": "المُزوّد",
+  "Price": "السعر",
+  "Stock": "المخزون",
+  "in stock": "متوفر",
+  "Out of stock": "نفذ من المخزون",
+  "Action": "الإجراء",
+  "Brand": "العلامة التجارية",
+  "Categories": "الفئات",
+  "Sold by": "يُباع بواسطة",
+  "In Stock": "متوفر في المخزون",
+  "Other Providers": "مزودون آخرون",
+  "Compare prices and options from other providers selling this product": "قارن الأسعار والخيارات من المزودين الآخرين الذين يبيعون هذا المنتج"
 }

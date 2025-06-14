@@ -9,6 +9,7 @@ function ProductCard({product}) {
     const imageUrl = product.imageUrl;
     const [lowestPrice, setLowestPrice] = useState(0);
     const [lowestOriginalPrice, setLowestOriginalPrice] = useState(0);
+    const [providerId, setProviderId] = useState(0)
 
     useEffect(() => {
         let minPrice = Infinity;
@@ -21,6 +22,7 @@ function ProductCard({product}) {
 
                 if (price < minPrice) {
                     minPrice = price;
+                    setProviderId(provider.id);
                 }
                 if (hasPromotion) {
                     const salePrice = provider.salePriceAfterProfit;
@@ -35,7 +37,7 @@ function ProductCard({product}) {
     }, []);
 
     const handleClick = () => {
-        navigate(`/products/${product.id}`);
+        navigate(`/products/${product.id}/provider/${providerId}`);
     };
 
     const handleQuickAction = (e, action) => {
@@ -119,7 +121,7 @@ function ProductCard({product}) {
                         }
 
                         <span className="lowest-price">
-                        Lowest from <strong>${lowestPrice.toFixed(2)}</strong>
+                        <strong>${lowestPrice.toFixed(2)}</strong>
                         </span>
                     </div>
 

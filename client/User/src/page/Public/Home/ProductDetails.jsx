@@ -1,30 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import axiosInstance from "../../../Api/Axios";
-import { Spin, Button, InputNumber, theme } from "antd";
-import {
-  LoadingOutlined,
-  ArrowLeftOutlined,
-  MinusOutlined,
-  PlusOutlined
-} from "@ant-design/icons";
+import {Button, InputNumber, Spin, theme, Tag, Table, Space} from "antd";
+import {ArrowLeftOutlined, LoadingOutlined, MinusOutlined, PlusOutlined, ShopOutlined, TagOutlined, AppstoreOutlined, ShoppingCartOutlined} from "@ant-design/icons";
 import defaultImage from "../../../Image/iphone.jpeg";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 const ProductDetails = () => {
-  const { id } = useParams();
+  const {id, providerId} = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [currentProductProvider, setCurrentProductProvider] = useState({})
+  const [restOfTheProviders, setRestOfTheProviders] = useState([])
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const { token } = theme.useToken();
-  const { t } = useTranslation();
+  const [loadingProviders, setLoadingProviders] = useState({});
+  const {token} = theme.useToken();
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axiosInstance.get(`/nest/api/products/${id}`);
+        const data = response.data;
+        const numericProviderId = parseInt(providerId, 10);
+        const { provider, rest } = data.productProviders.reduce(
+          (acc, currentProvider) => {
+            if (currentProvider.id === numericProviderId) {
+              acc.provider = currentProvider;
+            } else {
+              acc.rest.push(currentProvider);
+            }
+            return acc;
+          },
+          { provider: null, rest: [] }
+        );
+
+        setCurrentProductProvider(provider);
+        setRestOfTheProviders(rest);
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -33,39 +47,142 @@ const ProductDetails = () => {
         setLoading(false);
       }
     };
-
     fetchProduct();
-  }, [id]);
+  }, []);
 
   const handleQuantityChange = (value) => {
     if (value === null || value === undefined) return;
+    if (value > currentProductProvider.countInStock) {
+      toast.error(t("Quantity exceeds available stock"));
+      return;
+    }
     setQuantity(Math.max(1, Math.floor(value)));
   };
 
-  const handleCartAction = async () => {
-    if (!product || !product.productProviders?.[0]?.id) {
+  const handleCartAction = async (productProviderId = null, providerQuantity = 1) => {
+    const targetProviderId = productProviderId || currentProductProvider?.id;
+    const targetQuantity = productProviderId ? providerQuantity : quantity;
+
+    if (!targetProviderId) {
       toast.error(t("Product provider not available"));
       return;
     }
 
-    if (quantity > product.productProviders[0].countInStock) {
+    const targetProvider = productProviderId
+      ? restOfTheProviders.find(p => p.id === productProviderId)
+      : currentProductProvider;
+
+    if (targetQuantity > targetProvider.countInStock) {
       toast.error(t("Quantity exceeds available stock"));
       return;
     }
 
-    setLoading(true);
+    if (productProviderId) {
+      setLoadingProviders(prev => ({ ...prev, [productProviderId]: true }));
+    } else {
+      setLoading(true);
+    }
+
     try {
       await axiosInstance.post("spring/api/v1/cart", {
-        productProviderId: product.productProviders[0].id,
-        quantity: quantity
+        productProviderId: targetProviderId,
+        quantity: targetQuantity
       });
       toast.success(t("Added to cart"));
     } catch (err) {
       toast.error(t("Error adding to cart"));
     } finally {
-      setLoading(false);
+      if (productProviderId) {
+        setLoadingProviders(prev => ({ ...prev, [productProviderId]: false }));
+      } else {
+        setLoading(false);
+      }
     }
   };
+
+  const providerColumns = [
+    {
+      title: t("Provider"),
+      dataIndex: 'provider',
+      key: 'provider',
+      render: (provider) => (
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span style={{ fontWeight: '600', color: token.colorText }}>
+            {provider.fullName}
+          </span>
+          <span style={{ fontSize: '0.85rem', color: token.colorTextSecondary }}>
+            @{provider.username}
+          </span>
+          {provider.bio && (
+            <span style={{
+              fontSize: '0.8rem',
+              color: token.colorTextTertiary,
+              fontStyle: 'italic',
+              marginTop: '2px'
+            }}>
+              {provider.bio.length > 50 ? `${provider.bio.substring(0, 50)}...` : provider.bio}
+            </span>
+          )}
+        </div>
+      ),
+    },
+    {
+      title: t("Price"),
+      dataIndex: 'price',
+      key: 'price',
+      render: (_, record) => (
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span style={{
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+            color: token.colorPrimary
+          }}>
+            ${record.salePriceAfterProfitAndPromotion != null
+            ? record.salePriceAfterProfitAndPromotion.toFixed(2)
+            : record.salePriceAfterProfit.toFixed(2)}
+          </span>
+          {record.salePriceAfterProfitAndPromotion != null && (
+            <span style={{
+              fontSize: '0.9rem',
+              color: token.colorTextSecondary,
+              textDecoration: 'line-through'
+            }}>
+              ${record.salePriceAfterProfit.toFixed(2)}
+            </span>
+          )}
+        </div>
+      ),
+    },
+    {
+      title: t("Stock"),
+      dataIndex: 'countInStock',
+      key: 'stock',
+      render: (stock) => (
+        <Tag color={stock > 10 ? 'green' : stock > 0 ? 'orange' : 'red'}>
+          {stock > 0 ? `${stock} ${t("in stock")}` : t("Out of stock")}
+        </Tag>
+      ),
+    },
+    {
+      title: t("Action"),
+      key: 'action',
+      render: (_, record) => (
+        <Button
+          type="primary"
+          icon={<ShoppingCartOutlined />}
+          loading={loadingProviders[record.id]}
+          disabled={record.countInStock === 0}
+          onClick={() => handleCartAction(record.id, 1)}
+          style={{
+            borderRadius: '6px',
+            fontWeight: '500'
+          }}
+        >
+          {t("Add to Cart")}
+        </Button>
+      ),
+    },
+  ];
 
   if (loading) {
     return (
@@ -77,12 +194,12 @@ const ProductDetails = () => {
           minHeight: "400px"
         }}
       >
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 36 }} spin />} />
+        <Spin indicator={<LoadingOutlined style={{fontSize: 36}} spin />} />
       </div>
     );
   }
 
-  if (!product) {
+  if (!currentProductProvider) {
     return (
       <div
         style={{
@@ -138,9 +255,9 @@ const ProductDetails = () => {
           flexWrap: "wrap"
         }}
       >
-        <div style={{ flex: 1, minWidth: "300px" }}>
+        <div style={{flex: 1, minWidth: "300px"}}>
           <img
-            src={product.imageUrl || defaultImage}
+            src={product.imageUrl}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = defaultImage;
@@ -178,6 +295,185 @@ const ProductDetails = () => {
             {product?.name || t("Unnamed Product")}
           </h1>
 
+          {/* Brand Section */}
+          {product?.brand && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "20px",
+                padding: "12px 16px",
+                backgroundColor: token.colorFillAlter,
+                borderRadius: "8px",
+                border: `1px solid ${token.colorBorderSecondary}`
+              }}
+            >
+              <TagOutlined
+                style={{
+                  fontSize: "18px",
+                  color: token.colorPrimary,
+                  marginRight: "12px"
+                }}
+              />
+              <div>
+                <span
+                  style={{
+                    fontSize: "0.9rem",
+                    color: token.colorTextSecondary,
+                    fontWeight: "500"
+                  }}
+                >
+                  {t("Brand")}:
+                </span>
+                <span
+                  style={{
+                    fontSize: "1.1rem",
+                    color: token.colorText,
+                    fontWeight: "600",
+                    marginLeft: "8px"
+                  }}
+                >
+                  {product.brand.name}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Categories Section */}
+          {product?.categories && product.categories.length > 0 && (
+            <div
+              style={{
+                marginBottom: "20px",
+                padding: "12px 16px",
+                backgroundColor: token.colorFillAlter,
+                borderRadius: "8px",
+                border: `1px solid ${token.colorBorderSecondary}`
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "10px"
+                }}
+              >
+                <AppstoreOutlined
+                  style={{
+                    fontSize: "18px",
+                    color: token.colorPrimary,
+                    marginRight: "12px"
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "0.9rem",
+                    color: token.colorTextSecondary,
+                    fontWeight: "500"
+                  }}
+                >
+                  {t("Categories")}:
+                </span>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {product.categories.map((category, index) => (
+                  <Tag
+                    key={category.id || index}
+                    color="blue"
+                    style={{
+                      fontSize: "0.95rem",
+                      padding: "4px 12px",
+                      borderRadius: "16px",
+                      border: "none",
+                      fontWeight: "500"
+                    }}
+                  >
+                    {category.name}
+                  </Tag>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Provider Section */}
+          {currentProductProvider?.provider && (
+            <div
+              style={{
+                marginBottom: "20px",
+                padding: "16px",
+                backgroundColor: token.colorFillAlter,
+                borderRadius: "8px",
+                border: `1px solid ${token.colorBorderSecondary}`
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "12px"
+                }}
+              >
+                <ShopOutlined
+                  style={{
+                    fontSize: "18px",
+                    color: token.colorPrimary,
+                    marginRight: "12px"
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "0.9rem",
+                    color: token.colorTextSecondary,
+                    fontWeight: "500"
+                  }}
+                >
+                  {t("Sold by")}:
+                </span>
+              </div>
+              <div style={{ marginLeft: "30px" }}>
+                <div
+                  style={{
+                    fontSize: "1.1rem",
+                    color: token.colorText,
+                    fontWeight: "600",
+                    marginBottom: "4px"
+                  }}
+                >
+                  {currentProductProvider.provider.fullName}
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.9rem",
+                    color: token.colorTextSecondary
+                  }}
+                >
+                  @{currentProductProvider.provider.username}
+                </div>
+                {currentProductProvider.provider.bio && (
+                  <div
+                    style={{
+                      fontSize: "0.9rem",
+                      color: token.colorTextSecondary,
+                      marginTop: "6px",
+                      fontStyle: "italic"
+                    }}
+                  >
+                    {currentProductProvider.provider.bio}
+                  </div>
+                )}
+                <div
+                  style={{
+                    fontSize: "0.85rem",
+                    color: token.colorSuccess,
+                    marginTop: "8px",
+                    fontWeight: "500"
+                  }}
+                >
+                  {t("In Stock")}: {currentProductProvider.countInStock} {t("items")}
+                </div>
+              </div>
+            </div>
+          )}
+
           <h2
             style={{
               fontSize: "2.2rem",
@@ -186,9 +482,9 @@ const ProductDetails = () => {
               marginBottom: "30px"
             }}
           >
-            {product?.price != null
-              ? `$${product.price.toFixed(2)}`
-              : t("Price not available")}
+            {currentProductProvider?.salePriceAfterProfitAndPromotion != null
+              ? `$${currentProductProvider.salePriceAfterProfitAndPromotion.toFixed(2)}`
+              : `$${currentProductProvider.salePriceAfterProfit.toFixed(2)}`}
           </h2>
 
           <p
@@ -219,10 +515,10 @@ const ProductDetails = () => {
               marginBottom: "30px"
             }}
           >
-            <span style={{ fontSize: "1.1rem", color: token.colorText }}>
+            <span style={{fontSize: "1.1rem", color: token.colorText}}>
               {t("Quantity")}:
             </span>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{display: "flex", alignItems: "center"}}>
               <Button
                 icon={<MinusOutlined />}
                 onClick={() => handleQuantityChange(quantity - 1)}
@@ -274,14 +570,26 @@ const ProductDetails = () => {
           <Button
             type="primary"
             size="large"
-            onClick={handleCartAction}
+            onClick={() => handleCartAction()}
             style={{
               width: "100%",
               height: "60px",
               fontSize: "1.2rem",
               fontWeight: "bold",
               borderRadius: "10px",
-              marginTop: "10px"
+              marginTop: "10px",
+              background: `linear-gradient(135deg, ${token.colorPrimary} 0%, ${token.colorPrimaryHover} 100%)`,
+              border: "none",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              transition: "all 0.3s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
             }}
           >
             {t("Add to Cart")}
@@ -293,7 +601,7 @@ const ProductDetails = () => {
               borderRadius: "12px",
               padding: "25px",
               backgroundColor: token.colorFillAlter,
-              marginTop: "auto"
+              marginTop: "30px"
             }}
           >
             <div
@@ -326,14 +634,14 @@ const ProductDetails = () => {
                   {t("Free Delivery")}
                 </div>
                 <div
-                  style={{ fontSize: "1rem", color: token.colorTextSecondary }}
+                  style={{fontSize: "1rem", color: token.colorTextSecondary}}
                 >
                   {t("Enter your postal code for Delivery Availability")}
                 </div>
               </div>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{display: "flex", alignItems: "center"}}>
               <i
                 className="fa-solid fa-rotate"
                 style={{
@@ -355,7 +663,7 @@ const ProductDetails = () => {
                   {t("Return Delivery")}
                 </div>
                 <div
-                  style={{ fontSize: "1rem", color: token.colorTextSecondary }}
+                  style={{fontSize: "1rem", color: token.colorTextSecondary}}
                 >
                   {t("Free 30 Days Delivery Returns. Details")}
                 </div>
@@ -364,6 +672,59 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+
+      {/* Other Providers Table */}
+      {restOfTheProviders && restOfTheProviders.length > 0 && (
+        <div
+          style={{
+            marginTop: "50px",
+            padding: "30px",
+            backgroundColor: token.colorFillAlter,
+            borderRadius: "12px",
+            border: `1px solid ${token.colorBorderSecondary}`
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "1.8rem",
+              color: token.colorText,
+              marginBottom: "20px",
+              fontWeight: "600",
+              display: "flex",
+              alignItems: "center"
+            }}
+          >
+            <ShopOutlined
+              style={{
+                fontSize: "24px",
+                color: token.colorPrimary,
+                marginRight: "12px"
+              }}
+            />
+            {t("Other Providers")}
+          </h3>
+          <p
+            style={{
+              fontSize: "1rem",
+              color: token.colorTextSecondary,
+              marginBottom: "25px"
+            }}
+          >
+            {t("Compare prices and options from other providers selling this product")}
+          </p>
+          <Table
+            columns={providerColumns}
+            dataSource={restOfTheProviders}
+            rowKey="id"
+            pagination={false}
+            style={{
+              backgroundColor: token.colorBgContainer,
+              borderRadius: "8px"
+            }}
+            scroll={{ x: 800 }}
+          />
+        </div>
+      )}
     </div>
   );
 };

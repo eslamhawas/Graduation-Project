@@ -38,7 +38,7 @@ const Routers = createBrowserRouter([
           },
     
        {
-            path: "/products/:id",
+            path: "/products/:id/provider/:providerId",
             element:<ProtectedRoutes><Lazy.Public.ProductDetails /></ProtectedRoutes> 
           },
 
