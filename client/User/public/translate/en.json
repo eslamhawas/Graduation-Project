@@ -76,6 +76,17 @@
     "Error adding to cart": "Error adding to cart",
     "ConnectionProblemOccurred": "A connection problem occurred",
     "Product not found": "Product not found",
-     "Quantity exceeds available stock": "Quantity exceeds available stock"
+    "Quantity exceeds available stock": "Quantity exceeds available stock",
+    "Your Cart": "Your Cart",
+    "items": "items",
+    "Your cart is empty": "Your cart is empty",
+    "Total": "Total",
+    "Proceed to Checkout": "Proceed to Checkout",
+    "Quantity updated": "Quantity updated",
+    "Item removed": "Item removed from cart",
+    "Failed to remove item": "Failed to remove item",
+    "Failed to load cart": "Failed to load cart",
+    "Quantity exceeds stock": "Quantity exceeds available stock",
+    "Error updating quantity": "Error updating quantity"
   }
 }
