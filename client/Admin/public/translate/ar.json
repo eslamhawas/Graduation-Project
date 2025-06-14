@@ -104,5 +104,6 @@
   "No createdDate": "لا يوجد تاريخ",
   "Confirm": "تأكيد",
   "Rejected": "رفض",
-  "Transaction": "المعاملات"
+  "Transaction": "المعاملات",
+  "Active" :"نشيط"
 }

@@ -36,20 +36,20 @@ export default function Transaction() {
   }, [currentPage, pageSize]);
 
   const columns = [
-    // {
-    //   title: t("Product Name"),
-    //   dataIndex: "name",
-    //   key: "name",
-    //   align: "center",
-    //   render: (_, record) => record.product.name || t("No name")
-    // },
-        // {
-    //   title: t("Vendor"),
-    //   dataIndex: "Vendor",
-    //   key: "Vendor",
-    //   align: "center",
-    //   render: (_, record) => record.provider.name || t("No vendor")
-    // },
+    {
+      title: t("Product Name"),
+      dataIndex: "name",
+      key: "name",
+      align: "center",
+      render: (_, record) => record.product.name || t("No name")
+    },
+        {
+      title: t("Vendor"),
+      dataIndex: "Vendor",
+      key: "Vendor",
+      align: "center",
+      render: (_, record) => record.provider.fullName || t("No vendor")
+    },
     {
       title: t("quantity"),
       dataIndex: "quantity",

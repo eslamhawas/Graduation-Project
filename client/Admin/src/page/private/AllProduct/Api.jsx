@@ -76,5 +76,11 @@ export const ApiData = () => {
     return Data.data;
   };
 
+  api.StateProduct = async (id , body) => {
+    const Data = await axiosInstance.patch(`nest/api/products/${id}` , body);
+    return Data.data;
+  };
+  
+
   return api;
 };

@@ -37,13 +37,13 @@ export default function Transaction() {
   }, [currentPage, pageSize]);
 
   const columns = [
-    // {
-    //   title: t("Product Name"),
-    //   dataIndex: "name",
-    //   key: "name",
-    //   align: "center",
-    //   render: (_, record) => record.product.name || t("No name")
-    // },
+    {
+      title: t("Product Name"),
+      dataIndex: "name",
+      key: "name",
+      align: "center",
+      render: (_, record) => record.product.name || t("No name")
+    },
     {
       title: t("quantity"),
       dataIndex: "quantity",

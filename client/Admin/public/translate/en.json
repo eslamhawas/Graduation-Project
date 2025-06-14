@@ -104,5 +104,6 @@
   "No createdDate": "No Created Date",
   "Confirm": "Confirm",
   "Rejected": "Reject",
-  "Transaction": "Transactions"
+  "Transaction": "Transactions",
+  "Active" : "Active"
 }
