@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../Api/Axios";
-import { Spin, Button, InputNumber, theme } from 'antd'; // Import theme
-import { LoadingOutlined, ArrowLeftOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { Spin, Button, InputNumber, theme } from "antd";
+import {
+  LoadingOutlined,
+  ArrowLeftOutlined,
+  MinusOutlined,
+  PlusOutlined
+} from "@ant-design/icons";
 import defaultImage from "../../../Image/iphone.jpeg";
-import { useCart } from "../../Context/Cartcontext";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -12,8 +18,8 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const { cart, dispatch } = useCart();
-  const { token } = theme.useToken(); // Get theme tokens
+  const { token } = theme.useToken();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -21,7 +27,8 @@ const ProductDetails = () => {
         const response = await axiosInstance.get(`/nest/api/products/${id}`);
         setProduct(response.data);
       } catch (error) {
-        console.error('Error fetching product:', error);
+        console.error("Error fetching product:", error);
+        toast.error(t("ConnectionProblemOccurred"));
       } finally {
         setLoading(false);
       }
@@ -35,269 +42,329 @@ const ProductDetails = () => {
     setQuantity(Math.max(1, Math.floor(value)));
   };
 
-  const handleCartAction = () => {
-    if (!product) return;
+  const handleCartAction = async () => {
+    if (!product || !product.productProviders?.[0]?.id) {
+      toast.error(t("Product provider not available"));
+      return;
+    }
 
-    if (cart.some(p => p.id === product.id)) {
-      dispatch({
-        type: "REMOVE_FROM_CART",
-        payload: { id: product.id }
+    if (quantity > product.productProviders[0].countInStock) {
+      toast.error(t("Quantity exceeds available stock"));
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await axiosInstance.post("spring/api/v1/cart", {
+        productProviderId: product.productProviders[0].id,
+        quantity: quantity
       });
-    } else {
-      dispatch({
-        type: "ADD_TO_CART",
-        payload: {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.imageUrl || defaultImage,
-          quantity: quantity
-        }
-      });
+      toast.success(t("Added to cart"));
+    } catch (err) {
+      toast.error(t("Error adding to cart"));
+    } finally {
+      setLoading(false);
     }
   };
 
   if (loading) {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-          <Spin indicator={<LoadingOutlined style={{ fontSize: 36 }} spin />} />
-        </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "400px"
+        }}
+      >
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 36 }} spin />} />
+      </div>
     );
   }
 
   if (!product) {
-    return <div style={{ textAlign: 'center', padding: '100px', fontSize: '1.2rem', color: token.colorTextSecondary }}>Product not found</div>;
+    return (
+      <div
+        style={{
+          textAlign: "center",
+          padding: "100px",
+          fontSize: "1.2rem",
+          color: token.colorTextSecondary
+        }}
+      >
+        {t("Product not found")}
+      </div>
+    );
   }
 
   return (
-      <div style={{
-        maxWidth: '1200px',
-        margin: '40px auto', // Increased top/bottom margin
-        padding: '30px', // Increased padding
-        fontFamily: 'Roboto, sans-serif', // Modern font
-        backgroundColor: token.colorBgContainer, // Use theme background
-        borderRadius: '16px', // More rounded container
-        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.08)', // More prominent shadow
-      }}>
+    <div
+      style={{
+        maxWidth: "1200px",
+        margin: "40px auto",
+        padding: "30px",
+        fontFamily: "Roboto, sans-serif",
+        backgroundColor: token.colorBgContainer,
+        borderRadius: "16px",
+        boxShadow: "0 6px 20px rgba(0, 0, 0, 0.08)"
+      }}
+    >
+      <Button
+        type="text"
+        icon={<ArrowLeftOutlined />}
+        onClick={() => navigate(-1)}
+        style={{
+          marginBottom: "30px",
+          display: "flex",
+          alignItems: "center",
+          fontSize: "1.1rem",
+          color: token.colorTextSecondary,
+          transition: "color 0.3s ease"
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = token.colorPrimary)}
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.color = token.colorTextSecondary)
+        }
+      >
+        {t("Back to Products")}
+      </Button>
 
-        <Button
-            type="text"
-            icon={<ArrowLeftOutlined />}
-            onClick={() => navigate(-1)}
-            style={{
-              marginBottom: '30px', // More space below back button
-              display: 'flex',
-              alignItems: 'center',
-              fontSize: '1.1rem',
-              color: token.colorTextSecondary,
-              transition: 'color 0.3s ease',
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "60px",
+          marginBottom: "40px",
+          flexWrap: "wrap"
+        }}
+      >
+        <div style={{ flex: 1, minWidth: "300px" }}>
+          <img
+            src={product.imageUrl || defaultImage}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = defaultImage;
             }}
-            onMouseEnter={e => e.currentTarget.style.color = token.colorPrimary}
-            onMouseLeave={e => e.currentTarget.style.color = token.colorTextSecondary}
+            alt={product.name}
+            style={{
+              width: "100%",
+              maxHeight: "550px",
+              objectFit: "contain",
+              borderRadius: "12px",
+              border: `1px solid ${token.colorBorderSecondary}`,
+              padding: "10px"
+            }}
+          />
+        </div>
+
+        <div
+          style={{
+            flex: 1.5,
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column",
+            minWidth: "350px"
+          }}
         >
-          Back to Products
-        </Button>
+          <h1
+            style={{
+              fontSize: "2.8rem",
+              color: token.colorText,
+              marginBottom: "15px",
+              fontWeight: 700,
+              lineHeight: "1.2"
+            }}
+          >
+            {product?.name || t("Unnamed Product")}
+          </h1>
 
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row', // Ensure row direction on larger screens
-          gap: '60px', // Increased gap
-          marginBottom: '40px',
-          flexWrap: 'wrap', // Allow wrapping on smaller screens
-        }}>
+          <h2
+            style={{
+              fontSize: "2.2rem",
+              color: token.colorPrimary,
+              fontWeight: "bold",
+              marginBottom: "30px"
+            }}
+          >
+            {product?.price != null
+              ? `$${product.price.toFixed(2)}`
+              : t("Price not available")}
+          </h2>
 
-          <div style={{ flex: 1, minWidth: '300px' }}> {/* Minimum width for image container */}
-            <img
-                src={product.imageUrl || defaultImage}
-                alt={product.name}
+          <p
+            style={{
+              fontSize: "1.1rem",
+              color: token.colorTextSecondary,
+              lineHeight: "1.8",
+              marginBottom: "40px"
+            }}
+          >
+            {product.description ||
+              t("No description available for this product.")}
+          </p>
+
+          <hr
+            style={{
+              border: "none",
+              borderTop: `1px solid ${token.colorBorder}`,
+              margin: "30px 0"
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "20px",
+              marginBottom: "30px"
+            }}
+          >
+            <span style={{ fontSize: "1.1rem", color: token.colorText }}>
+              {t("Quantity")}:
+            </span>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Button
+                icon={<MinusOutlined />}
+                onClick={() => handleQuantityChange(quantity - 1)}
+                disabled={quantity <= 1}
                 style={{
-                  width: '100%',
-                  maxHeight: '550px', // Increased max height
-                  objectFit: 'contain',
-                  borderRadius: '12px', // Rounded image corners
-                  border: `1px solid ${token.colorBorderSecondary}`, // Subtle border around image
-                  padding: '10px', // Padding inside image border
+                  borderColor: token.colorBorder,
+                  backgroundColor: token.colorBgContainer,
+                  color: token.colorText,
+                  height: "40px",
+                  width: "40px",
+                  borderRadius: "8px 0 0 8px",
+                  borderRight: "none"
                 }}
-            />
+              />
+              <InputNumber
+                min={1}
+                value={quantity}
+                onChange={handleQuantityChange}
+                style={{
+                  width: "80px",
+                  height: "40px",
+                  borderRadius: 0,
+                  border: `1px solid ${token.colorBorder}`,
+                  borderLeft: "none",
+                  borderRight: "none",
+                  textAlign: "center",
+                  fontSize: "1rem",
+                  color: token.colorText,
+                  backgroundColor: token.colorBgContainer
+                }}
+                controls={false}
+              />
+              <Button
+                icon={<PlusOutlined />}
+                onClick={() => handleQuantityChange(quantity + 1)}
+                style={{
+                  borderColor: token.colorBorder,
+                  backgroundColor: token.colorBgContainer,
+                  color: token.colorText,
+                  height: "40px",
+                  width: "40px",
+                  borderRadius: "0 8px 8px 0",
+                  borderLeft: "none"
+                }}
+              />
+            </div>
           </div>
 
-          <div style={{
-            flex: 1.5, // Product info takes more space
-            padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: '350px', // Minimum width for info column
-          }}>
-            <h1 style={{
-              fontSize: '2.8rem', // Larger product name
-              color: token.colorText,
-              marginBottom: '15px',
-              fontWeight: 700,
-              lineHeight: '1.2',
-            }}>
-              {product?.name || 'Unnamed Product'}
-            </h1>
+          <Button
+            type="primary"
+            size="large"
+            onClick={handleCartAction}
+            style={{
+              width: "100%",
+              height: "60px",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              borderRadius: "10px",
+              marginTop: "10px"
+            }}
+          >
+            {t("Add to Cart")}
+          </Button>
 
-            <h2 style={{
-              fontSize: '2.2rem', // Larger price
-              color: token.colorPrimary, // Primary color for price
-              fontWeight: 'bold',
-              marginBottom: '30px', // More space below price
-            }}>
-              {product?.price != null ? `$${product.price.toFixed(2)}` : 'Price not available'}
-            </h2>
-
-            <div style={{ marginBottom: '30px' }}>
-              <p style={{
-                fontSize: '1.1rem', // Slightly larger description font
-                color: token.colorTextSecondary, // Muted color for description
-                lineHeight: '1.8', // Improved readability
-                marginBottom: '40px', // More space below description
-              }}>
-                {product.description || 'No description available for this product.'}
-              </p>
-
-              <hr style={{
-                border: 'none',
-                borderTop: `1px solid ${token.colorBorder}`, // Theme border
-                margin: '30px 0', // More margin for separator
-              }} />
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px', // Increased gap
-                marginBottom: '30px', // More space below quantity
-              }}>
-                <span style={{ fontSize: '1.1rem', color: token.colorText }}>Quantity:</span>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Button
-                      icon={<MinusOutlined />}
-                      onClick={() => handleQuantityChange(quantity - 1)}
-                      style={{
-                        borderColor: token.colorBorder,
-                        backgroundColor: token.colorBgContainer,
-                        color: token.colorText,
-                        height: '40px',
-                        width: '40px',
-                        borderRadius: '8px 0 0 8px',
-                        borderRight: 'none',
-                      }}
-                      disabled={quantity <= 1}
-                  />
-                  <InputNumber
-                      min={1}
-                      value={quantity}
-                      onChange={handleQuantityChange}
-                      style={{
-                        width: '80px', // Wider input number
-                        height: '40px',
-                        borderRadius: 0,
-                        border: `1px solid ${token.colorBorder}`,
-                        borderLeft: 'none',
-                        borderRight: 'none',
-                        textAlign: 'center',
-                        fontSize: '1rem',
-                        color: token.colorText,
-                        backgroundColor: token.colorBgContainer,
-                      }}
-                      controls={false} // Hide default controls
-                  />
-                  <Button
-                      icon={<PlusOutlined />}
-                      onClick={() => handleQuantityChange(quantity + 1)}
-                      style={{
-                        borderColor: token.colorBorder,
-                        backgroundColor: token.colorBgContainer,
-                        color: token.colorText,
-                        height: '40px',
-                        width: '40px',
-                        borderRadius: '0 8px 8px 0',
-                        borderLeft: 'none',
-                      }}
-                  />
+          <div
+            style={{
+              border: `1px solid ${token.colorBorder}`,
+              borderRadius: "12px",
+              padding: "25px",
+              backgroundColor: token.colorFillAlter,
+              marginTop: "auto"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                paddingBottom: "20px",
+                marginBottom: "20px",
+                borderBottom: `1px solid ${token.colorBorderSecondary}`
+              }}
+            >
+              <i
+                className="fa-solid fa-truck"
+                style={{
+                  fontSize: "28px",
+                  marginRight: "20px",
+                  flexShrink: 0,
+                  color: token.colorText
+                }}
+              ></i>
+              <div>
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "1.1rem",
+                    marginBottom: "8px",
+                    color: token.colorText
+                  }}
+                >
+                  {t("Free Delivery")}
+                </div>
+                <div
+                  style={{ fontSize: "1rem", color: token.colorTextSecondary }}
+                >
+                  {t("Enter your postal code for Delivery Availability")}
                 </div>
               </div>
-              <Button
-                  type="primary"
-                  danger={cart.some(p => p.id === product.id)}
-                  size="large"
-                  style={{
-                    width: '100%',
-                    height: '60px', // Taller button
-                    fontSize: '1.2rem', // Larger font
-                    fontWeight: 'bold',
-                    borderRadius: '10px', // Rounded button
-                    marginTop: '10px',
-                    backgroundColor: cart.some(p => p.id === product.id) ? token.colorError : token.colorPrimary,
-                  }}
-                  onClick={handleCartAction}
-              >
-                {cart.some(p => p.id === product.id)
-                    ? "Remove from Cart"
-                    : `Add to Cart (${quantity})`}
-              </Button>
             </div>
 
-            <div style={{
-              border: `1px solid ${token.colorBorder}`, // Use theme border
-              borderRadius: '12px', // Rounded corners
-              padding: '25px', // Increased padding
-              backgroundColor: token.colorFillAlter, // Lighter background for info box
-              marginTop: 'auto', // Push to bottom if space allows
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                paddingBottom: '20px', // Increased padding
-                marginBottom: '20px', // Increased margin
-                borderBottom: `1px solid ${token.colorBorderSecondary}`, // Muted border
-              }}>
-                <i className="fa-solid fa-truck" style={{
-                  fontSize: '28px', // Larger icon
-                  marginRight: '20px',
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <i
+                className="fa-solid fa-rotate"
+                style={{
+                  fontSize: "28px",
+                  marginRight: "20px",
                   flexShrink: 0,
-                  color: token.colorText,
-                }}></i>
-                <div>
-                  <div style={{
-                    fontWeight: 'bold',
-                    fontSize: '1.1rem', // Larger text
-                    marginBottom: '8px',
-                    color: token.colorText,
-                  }}>
-                    Free Delivery
-                  </div>
-                  <div style={{ fontSize: '1rem', color: token.colorTextSecondary }}>
-                    Enter your postal code for Delivery Availability
-                  </div>
+                  color: token.colorText
+                }}
+              ></i>
+              <div>
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "1.1rem",
+                    marginBottom: "8px",
+                    color: token.colorText
+                  }}
+                >
+                  {t("Return Delivery")}
                 </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <i className="fa-solid fa-rotate" style={{
-                  fontSize: '28px', // Larger icon
-                  marginRight: '20px',
-                  flexShrink: 0,
-                  color: token.colorText,
-                }}></i>
-                <div>
-                  <div style={{
-                    fontWeight: 'bold',
-                    fontSize: '1.1rem', // Larger text
-                    marginBottom: '8px',
-                    color: token.colorText,
-                  }}>
-                    Return Delivery
-                  </div>
-                  <div style={{ fontSize: '1rem', color: token.colorTextSecondary }}>
-                    Free 30 Days Delivery Returns. Details
-                  </div>
+                <div
+                  style={{ fontSize: "1rem", color: token.colorTextSecondary }}
+                >
+                  {t("Free 30 Days Delivery Returns. Details")}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

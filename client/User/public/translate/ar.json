@@ -104,5 +104,22 @@
     "expert_support_description": "خدمة عملاء 24/7 لمساعدتك في أي استفسارات.",
     "fast_delivery": "توصيل سريع",
     "fast_delivery_description": "شحن سريع وموثوق إلى باب منزلك."
-  }
+  },
+  "Back to Products": "العودة إلى المنتجات",
+  "Unnamed Product": "منتج غير مسمى",
+  "Price not available": "السعر غير متوفر",
+  "No description available for this product.": "لا يوجد وصف متاح لهذا المنتج.",
+  "Quantity": "الكمية",
+  "Add to Cart": "أضف إلى السلة",
+  "Remove from Cart": "إزالة من السلة",
+  "Free Delivery": "توصيل مجاني",
+  "Enter your postal code for Delivery Availability": "أدخل الرمز البريدي للتحقق من توفر التوصيل",
+  "Return Delivery": "إرجاع الطلب",
+  "Free 30 Days Delivery Returns. Details": "إرجاع مجاني خلال 30 يومًا. التفاصيل",
+  "Product provider not available": "مُزوّد المنتج غير متوفر",
+  "Added to cart": "تمت الإضافة إلى السلة",
+  "Error adding to cart": "حدث خطأ أثناء الإضافة إلى السلة",
+  "ConnectionProblemOccurred": "حدثت مشكلة في الاتصال",
+  "Product not found": "المنتج غير موجود",
+  "Quantity exceeds available stock": "الكمية المطلوبة غير متوفرة في المخزون"
 }

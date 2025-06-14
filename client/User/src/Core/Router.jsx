@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Error from "../page/Auth/ErrorPage/Error";
 import  Layout  from "./Layout";
 import Lazy from "./LazyPage";
+import {ProtectedRoutes} from "./Config"
 
 const Routers = createBrowserRouter([
 {
@@ -38,7 +39,7 @@ const Routers = createBrowserRouter([
     
        {
             path: "/products/:id",
-            element: <Lazy.Public.ProductDetails />
+            element:<ProtectedRoutes><Lazy.Public.ProductDetails /></ProtectedRoutes> 
           },
 
        {
@@ -47,7 +48,7 @@ const Routers = createBrowserRouter([
       },
       {
         path: "/cart",
-       element: <Lazy.Public.Cart />
+       element:<ProtectedRoutes><Lazy.Public.Cart /></ProtectedRoutes> 
       },
     ]
 

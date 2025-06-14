@@ -59,6 +59,23 @@
     "expert_support": "Expert Support",
     "expert_support_description": "24/7 customer service to assist you with any queries.",
     "fast_delivery": "Fast Delivery",
-    "fast_delivery_description": "Quick and reliable shipping to your doorstep."
+    "fast_delivery_description": "Quick and reliable shipping to your doorstep.",
+    "Back to Products": "Back to Products",
+    "Unnamed Product": "Unnamed Product",
+    "Price not available": "Price not available",
+    "No description available for this product.": "No description available for this product.",
+    "Quantity": "Quantity",
+    "Add to Cart": "Add to Cart",
+    "Remove from Cart": "Remove from Cart",
+    "Free Delivery": "Free Delivery",
+    "Enter your postal code for Delivery Availability": "Enter your postal code for Delivery Availability",
+    "Return Delivery": "Return Delivery",
+    "Free 30 Days Delivery Returns. Details": "Free 30 Days Delivery Returns. Details",
+    "Product provider not available": "Product provider not available",
+    "Added to cart": "Added to cart",
+    "Error adding to cart": "Error adding to cart",
+    "ConnectionProblemOccurred": "A connection problem occurred",
+    "Product not found": "Product not found",
+     "Quantity exceeds available stock": "Quantity exceeds available stock"
   }
 }

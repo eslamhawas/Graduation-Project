@@ -43,7 +43,7 @@ const Cart = () => {
             renderItem={(item) => (
               <List.Item
                 actions={[
-                  <Space>
+                  <Space key={item.id}>
                     <Button 
                       size="small" 
                       onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
