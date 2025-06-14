@@ -1,11 +1,38 @@
-import { Card } from "antd";
-import { useNavigate } from "react-router-dom";
-import { HeartOutlined, ShoppingCartOutlined, EyeOutlined } from "@ant-design/icons";
+import {Card} from "antd";
+import {useNavigate} from "react-router-dom";
+import {EyeOutlined, ShoppingCartOutlined} from "@ant-design/icons";
 import "./ProductCard.css";
+import {useEffect, useState} from "react";
 
-function ProductCard({ product }) {
+function ProductCard({product}) {
     const navigate = useNavigate();
     const imageUrl = product.imageUrl;
+    const [lowestPrice, setLowestPrice] = useState(0);
+    const [lowestOriginalPrice, setLowestOriginalPrice] = useState(0);
+
+    useEffect(() => {
+        let minPrice = Infinity;
+        if (product.productProviders?.length) {
+            product.productProviders.forEach(provider => {
+                const hasPromotion = provider.promotions?.length > 0;
+                const price = hasPromotion
+                    ? provider.salePriceAfterProfitAndPromotion
+                    : provider.salePriceAfterProfit;
+
+                if (price < minPrice) {
+                    minPrice = price;
+                }
+                if (hasPromotion) {
+                    const salePrice = provider.salePriceAfterProfit;
+                    if (salePrice < lowestOriginalPrice || lowestOriginalPrice === 0) {
+                        setLowestOriginalPrice(salePrice);
+                    }
+                }
+            });
+        }
+
+        setLowestPrice(minPrice);
+    }, []);
 
     const handleClick = () => {
         navigate(`/products/${product.id}`);
@@ -41,8 +68,8 @@ function ProductCard({ product }) {
                 cursor: "pointer",
                 position: "relative",
             }}
-            bodyStyle={{ 
-                padding: "16px 20px 20px", 
+            bodyStyle={{
+                padding: "16px 20px 20px",
                 textAlign: "left",
                 height: "140px",
                 display: "flex",
@@ -58,21 +85,14 @@ function ProductCard({ product }) {
                     />
                     <div className="product-overlay">
                         <div className="quick-actions">
-                            <button 
-                                className="quick-action-btn"
-                                onClick={(e) => handleQuickAction(e, 'wishlist')}
-                                title="Add to Wishlist"
-                            >
-                                <HeartOutlined />
-                            </button>
-                            <button 
+                            <button
                                 className="quick-action-btn"
                                 onClick={(e) => handleQuickAction(e, 'cart')}
                                 title="Add to Cart"
                             >
                                 <ShoppingCartOutlined />
                             </button>
-                            <button 
+                            <button
                                 className="quick-action-btn"
                                 onClick={(e) => handleQuickAction(e, 'view')}
                                 title="Quick View"
@@ -90,9 +110,19 @@ function ProductCard({ product }) {
                     {product.name}
                 </h3>
                 <div className="product-price-container">
-                    <span className="product-price">
-                        ${product.price}
-                    </span>
+                    <div className="price-box">
+                        {
+                            lowestOriginalPrice > 0 && lowestOriginalPrice !== lowestPrice ? (
+                                <span className="product-original-price">
+                             ${lowestOriginalPrice.toFixed(2)}
+                                </span>) : null
+                        }
+
+                        <span className="lowest-price">
+                        Lowest from <strong>${lowestPrice.toFixed(2)}</strong>
+                        </span>
+                    </div>
+
                     <div className="product-rating">
                         <span className="rating-stars">★★★★☆</span>
                         <span className="rating-count">(24)</span>

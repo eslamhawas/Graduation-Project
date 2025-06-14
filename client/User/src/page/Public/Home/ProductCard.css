@@ -208,3 +208,22 @@
     }
 }
 
+.price-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.product-original-price {
+    text-decoration: line-through;
+    font-size: 14px;
+    color: #888;
+    font-weight: 500;
+}
+
+.lowest-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #DB4444;
+    line-height: 1.2;
+}
