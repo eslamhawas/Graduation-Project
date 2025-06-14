@@ -50,6 +50,13 @@ const Routers = createBrowserRouter([
         path: "/cart",
        element:<ProtectedRoutes><Lazy.Public.Cart /></ProtectedRoutes> 
       },
+      /**
+       * ADD ORDER-DETAILS PAGE
+       */
+      {
+        path: "/order/:id?",
+       element:<ProtectedRoutes><Lazy.Public.Order /></ProtectedRoutes> 
+      },
     ]
 
 },

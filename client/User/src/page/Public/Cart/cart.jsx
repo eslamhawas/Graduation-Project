@@ -6,13 +6,14 @@ import {
   Space,
   Image,
   InputNumber,
-  Spin
+  Spin,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useCart } from "../../Context/Cartcontext";
 import axiosInstance from "../../../Api/Axios";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
@@ -67,7 +68,7 @@ const Cart = () => {
     try {
       await axiosInstance.put("/spring/api/v1/cart", {
         productProviderId: id,
-        quantity: validatedQuantity
+        quantity: validatedQuantity,
       });
       toast.success(t("Quantity updated"));
       await getCartProduct();
@@ -83,6 +84,38 @@ const Cart = () => {
     return isNaN(num) ? "$0.00" : `$${num.toFixed(2)}`;
   };
 
+  /**
+   * CREATE ORDER
+   */
+  const navigate = useNavigate();
+
+  const handleCreateOrder = async () => {
+    if (product.items.length === 0) return;
+
+    const orderPayload = {
+      orderItems: product.items.map((item) => ({
+        product: { id: item.productId },
+        provider: { id: item.providerId },
+        quantity: item.quantity,
+      })),
+    };
+
+    setLoading(true);
+    try {
+      const { data } = await axiosInstance.post(
+        "nest/api/orders",
+        orderPayload
+      );
+      toast.success(t("Order placed successfully"));
+      // Optional: navigate to order details or thank you page
+      navigate(`/order/${data.id}`);
+    } catch (error) {
+      toast.error(t("Failed to place order"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ padding: "24px", maxWidth: "800px", margin: "0 auto" }}>
       <Title level={2}>
@@ -95,7 +128,7 @@ const Cart = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            minHeight: "300px"
+            minHeight: "300px",
           }}
         >
           <Spin size="large" />
@@ -106,7 +139,7 @@ const Cart = () => {
             textAlign: "center",
             padding: "60px 0",
             color: "#888",
-            fontSize: "18px"
+            fontSize: "18px",
           }}
         >
           🛒 {t("Your cart is empty")}
@@ -163,7 +196,7 @@ const Cart = () => {
                       onClick={() => handleRemove(item.productProviderId)}
                       disabled={loading}
                     />
-                  </Space>
+                  </Space>,
                 ]}
               >
                 <List.Item.Meta
@@ -176,7 +209,7 @@ const Cart = () => {
                       preview={false}
                       style={{
                         objectFit: "cover",
-                        backgroundColor: "#f0f0f0"
+                        backgroundColor: "#f0f0f0",
                       }}
                       onError={(e) => {
                         e.target.onerror = null;
@@ -207,10 +240,14 @@ const Cart = () => {
             <Title level={4}>
               {t("Total")}: {formatPrice(product.total)}
             </Title>
+            {/**
+             * CREATE ORDER
+             */}
             <Button
               type="primary"
               size="large"
               disabled={product.items.length === 0 || loading}
+              onClick={handleCreateOrder}
             >
               {t("Proceed to Checkout")}
             </Button>
