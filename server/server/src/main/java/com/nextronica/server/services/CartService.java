@@ -149,7 +149,6 @@ public class CartService {
             responseItem.setQuantity(item.getQuantity());
             responseItem.setCommissionPrice(commissionPrice);
             responseItem.setDiscountedPrice(discountedPrice);
-
             total += discountedPrice * item.getQuantity();
             items.add(responseItem);
         }
