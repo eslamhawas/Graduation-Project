@@ -10,10 +10,17 @@ import { OrderItemsService } from '@modules/orders-module/order-items.service';
 import { OrderItemsEntity } from '@modules/orders-module/entities/order-item.entity';
 import { OrderItemsController } from './order-items.controller';
 import { TransactionModule } from '@modules/transaction-module/transaction.module';
+import { ProfitMarginEntity } from '@app/backend-core/entities/profit-margin.entity';
+import { ProductPromotionsEntity } from '@app/backend-core/entities/products-promotions.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([OrdersEntity, OrderItemsEntity]),
+    TypeOrmModule.forFeature([
+      OrdersEntity,
+      OrderItemsEntity,
+      ProfitMarginEntity,
+      ProductPromotionsEntity,
+    ]),
     EmailsModule,
     ProductsModule,
     TransactionModule,

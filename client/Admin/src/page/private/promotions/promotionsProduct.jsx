@@ -166,7 +166,7 @@ export default function PromotionsProduct() {
               }
             >
               {Products.map((item) => (
-                <Select.Option key={item.id} value={item.product?.id}>
+                <Select.Option key={item.id} value={item.id}>
                   {item.product?.name}
                 </Select.Option>
               ))}

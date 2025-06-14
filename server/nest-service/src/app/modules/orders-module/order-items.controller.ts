@@ -14,6 +14,7 @@ import { MomoController } from '@app/backend-core/momo.controller';
 import { OrderItemsService } from './order-items.service';
 import { DeepPartial } from 'typeorm';
 import { AuthGuard } from '@nestjs/passport';
+import { STATUS } from '@app/backend-core/enums/status.enum';
 
 @Controller('order-items')
 export class OrderItemsController extends MomoController<OrderItemsEntity> {
@@ -42,6 +43,7 @@ export class OrderItemsController extends MomoController<OrderItemsEntity> {
     return await this.orderItemsService.getMany({
       where: {
         provider: { id: req?.user?.userId },
+        status : STATUS.PENDING
       },
     });
   }

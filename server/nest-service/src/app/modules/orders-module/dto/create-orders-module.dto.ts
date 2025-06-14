@@ -13,13 +13,6 @@ import { UserEntity } from '@app/backend-core/entities/user.entity';
 import { OrderItemsEntity } from '@modules/orders-module/entities/order-item.entity';
 
 export class CreateOrdersModuleDto {
-  // @IsArray()
-  // @IsOptional()
-  // products: ProductEntity[];
-
-  // @IsArray()
-  // @IsOptional()
-  // cart: CartEntity;
 
   @IsBoolean()
   @IsOptional()

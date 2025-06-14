@@ -14,6 +14,7 @@ import {
   Request,
   UnauthorizedException,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -31,6 +32,7 @@ import { DeepPartial } from 'typeorm';
 import { ProductsProvidersEntity } from '@app/backend-core/entities/products-providers.entity';
 import { UserTypeEnum } from '@app/backend-core/enums/user-type.enum';
 import { AuthGuard } from '@nestjs/passport';
+import { STATUS } from '@app/backend-core/enums/status.enum';
 
 @Controller('products')
 export class ProductsController extends MomoController<ProductEntity> {
@@ -46,12 +48,26 @@ export class ProductsController extends MomoController<ProductEntity> {
   }
 
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'create new product' })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Operation success🔥',
   })
-  async create(@Body() createProductDto: CreateProductDto) {
+  async create(@Body() createProductDto: CreateProductDto, @Request() req) {
+    /**
+     *
+     */
+    if (!req?.user) {
+      throw new UnauthorizedException(`USER OBJECT WAS NOT FOUND!`);
+    }
+    // Default to PENDING if status is not provided
+    if (!createProductDto.status) {
+      createProductDto.status = STATUS.PENDING; // Set to PENDING if not provided
+    }
+    if (req?.user?.roles.includes(UserTypeEnum.ADMIN)) {
+      createProductDto.status = STATUS.ACCEPTED;
+    }
     return await super.createOneBase(createProductDto);
   }
 
@@ -82,8 +98,43 @@ export class ProductsController extends MomoController<ProductEntity> {
 
   @Get(':id')
   @ApiOperation({ summary: 'get one product by id' })
-  findOne(@Param('id') id: string) {
-    return super.getOneBase(id);
+  async findOne(@Param('id') id: string) {
+    const product = await super.getOneBase(id);
+
+    /**
+     * GET AFTER-PROFIT AND AFTER-PROFIT-AND-PROMO WHEN GET ONE PRODUCT
+     */
+
+    const { productProviders } = product;
+    if (!productProviders || productProviders?.length === 0) {
+      throw new NotFoundException(`PRODUCT-PROVIDERS NOT FOUND!`);
+    }
+
+    /**
+     * PROFIT
+     */
+    await Promise.all(
+      productProviders?.map(async (prodProv) => {
+        prodProv =
+          await this.productProvidersService.getProductProviderAfterAddProfit(
+            prodProv,
+          );
+      }),
+    );
+
+    /**
+     * PROMOTION
+     */
+    await Promise.all(
+      productProviders?.map(async (prodProv) => {
+        prodProv =
+          await this.productProvidersService.updateSalePriceAfterProfitAndPromotion(
+            prodProv,
+          );
+      }),
+    );
+
+    return product;
   }
 
   @Patch(':id')
@@ -196,6 +247,56 @@ export class ProductsController extends MomoController<ProductEntity> {
     @Query()
     params: GetManyOptions,
   ): Promise<PaginationObjectInterface<ProductsProvidersEntity>> {
-    return await this.productProvidersService.getMany(params);
+    const productProviders = await this.productProvidersService.getMany(params);
+    if (productProviders?.data) {
+      await Promise.all(
+        productProviders?.data?.map(async (prodProv) => {
+          prodProv =
+            await this.productProvidersService.getProductProviderAfterAddProfit(
+              prodProv,
+            );
+        }),
+      );
+      await Promise.all(
+        productProviders?.data?.map(async (prodProv) => {
+          prodProv =
+            await this.productProvidersService.updateSalePriceAfterProfitAndPromotion(
+              prodProv,
+            );
+        }),
+      );
+    }
+
+    return productProviders;
+  }
+
+  /**
+   * Delete product provider record
+   */
+  @Delete(':id/product-providers/delete')
+  @ApiOperation({ summary: 'delete one product' })
+  async deleteProdProv(
+    @Param('id') id: string,
+    /**
+     * REQ INSTANCE FOR EXTRACT USER OBJECT
+     */
+    @Request() req,
+  ) {
+    // GET PRODUCT-PROVIDER RECORD WHERE( PROVIDER-ID = req?.user?.userId && PRODUCT-ID = id)
+    const options = {
+      provider: { id: req?.user?.userId },
+      product: { id },
+    };
+    const prodProv = await this.productProvidersService.getOne({
+      where: options,
+    });
+    if (!prodProv?.id) {
+      throw new BadRequestException(
+        `THERE IS NO PRODUCT-PROVIDER RECORD FOR THIS PRODUCT AND PROVIDER`,
+      );
+    }
+    await this.productProvidersService.deleteOne({
+      where: { id: prodProv?.id },
+    });
   }
 }

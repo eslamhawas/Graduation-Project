@@ -43,8 +43,8 @@ export class UserEntity extends CoreEntity {
   @IsOptional()
   phoneNumber: string;
 
-  @Column('json', { nullable: true })
-  roles: string[];
+  // @Column('json', { nullable: true })
+  // roles: string[];
 
   @Column('varchar', { nullable: true, length: 255 })
   profileImageUrl: string;

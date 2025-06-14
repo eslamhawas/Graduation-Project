@@ -14,6 +14,10 @@ export class TransactionService extends MomoService<TransactionEntity> {
     @InjectRepository(TransactionEntity) repo: Repository<TransactionEntity>,
   ) {
     super(repo);
+    this.relations=[
+      'product',
+      'provider'
+    ]
   }
 
   async getMany(
@@ -21,6 +25,12 @@ export class TransactionService extends MomoService<TransactionEntity> {
   ): Promise<PaginationObjectInterface<TransactionEntity>> {
     if (options?.status) {
       options.where = { status: options?.status };
+    }
+    /**
+     * vendorId for felteration in tansaction resource
+     */
+    if (options?.vendorId) {
+      options.where = { provider: { id: options?.vendorId } };
     }
     return await super.getMany(options);
   }

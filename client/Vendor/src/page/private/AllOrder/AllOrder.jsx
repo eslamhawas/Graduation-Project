@@ -115,14 +115,14 @@ export default function AllOrder() {
           {record.status === "PENDING" ? (
             <>
               <Button
-                onClick={() => ConfirmOrder(record?.order?.id)}
+                onClick={() => ConfirmOrder(record?.id)}
                 color="danger"
                 variant="solid"
               >
                 {t("Confirm")}
               </Button>
               <Button
-                onClick={() => RejectedOrder(record?.order?.id)}
+                onClick={() => RejectedOrder(record?.id)}
                 color="danger"
                 variant="solid"
               >

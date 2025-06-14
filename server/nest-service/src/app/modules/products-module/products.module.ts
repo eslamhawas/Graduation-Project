@@ -16,7 +16,7 @@ import { ProductPromotionsEntity } from '@app/backend-core/entities/products-pro
       ProductEntity,
       ProductsProvidersEntity,
       ProfitMarginEntity,
-      ProductPromotionsEntity
+      ProductPromotionsEntity,
     ]),
     /**
      * MULTER FOR UPLOAD IMAGES

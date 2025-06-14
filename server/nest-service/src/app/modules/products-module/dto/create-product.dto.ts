@@ -57,4 +57,9 @@ export class CreateProductDto {
   @IsOptional()
   @IsString()
   bio: string;
+
+  /**
+   * User-Role 
+   * if req.user.roles.includes('ADMIN') => Set Product Status to 'ACTIVE'
+   */
 }

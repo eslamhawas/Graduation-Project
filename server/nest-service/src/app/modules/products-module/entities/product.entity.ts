@@ -23,8 +23,13 @@ export class ProductEntity extends CoreEntity {
   // @Column('float')
   // price: number;
 
+  /**
+   *  cascade: true => This enables cascading soft delete on the related product-provider
+   *  onDelete: 'CASCADE' => This ensures that the deletion propagates if required
+   */
   @OneToMany(() => ProductsProvidersEntity, (pp) => pp.product, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   productProviders: ProductsProvidersEntity[];
 

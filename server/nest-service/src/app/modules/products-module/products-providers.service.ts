@@ -3,8 +3,14 @@ import { ProductsProvidersEntity } from '@app/backend-core/entities/products-pro
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, MoreThan, Not, Repository } from 'typeorm';
 import { ProfitMarginEntity } from '@app/backend-core/entities/profit-margin.entity';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  NotFoundException,
+  Inject,
+} from '@nestjs/common';
 import { ProductPromotionsEntity } from '@app/backend-core/entities/products-promotions.entity';
+import { ProductsService } from './products.service';
 
 export class ProductsProvidersService extends MomoService<ProductsProvidersEntity> {
   constructor(
@@ -14,21 +20,36 @@ export class ProductsProvidersService extends MomoService<ProductsProvidersEntit
     public profitMarginRepo: Repository<ProfitMarginEntity>,
     @InjectRepository(ProductPromotionsEntity)
     public productPromotionsRepo: Repository<ProductPromotionsEntity>,
+    /**
+     * DELETE TARGET PRODUCT AFTER productProviders length is 0
+     */
+    @Inject(forwardRef(() => ProductsService))
+    private productsService: ProductsService,
   ) {
     super(repo);
-    this.relations=[
+    this.relations = [
       'product',
-      'provider'
-    ]
+      'provider',
+      /**
+       * For afterDeleteEvent & deleteTargetProduct functions
+       * => Handling !product?.productProviders case
+       */
+      'product.productProviders',
+      /**
+       * BRAND && CATEGORY
+       */
+      'product.brand',
+      'product.categories',
+    ];
   }
 
   async updateProductProviders(id, dto): Promise<void> {
-    const oldProductsProviders = (
-      await this.getMany({ where: { product: { id } } })
-    ).data;
-    for (const opu of oldProductsProviders) {
-      await this.deleteOne({ where: { id: opu?.id } });
-    }
+    // const oldProductsProviders = (
+    //   await this.getMany({ where: { product: { id } } })
+    // ).data;
+    // for (const opu of oldProductsProviders) {
+    //   await this.deleteOne({ where: { id: opu?.id } });
+    // }
 
     // CREATE NEW ONES
     for (const opu of dto.productProviders) {
@@ -90,6 +111,10 @@ export class ProductsProvidersService extends MomoService<ProductsProvidersEntit
       +prodProv.salePriceAfterProfit -
       +prodProv.salePriceAfterProfit * (+promotionPercentage / 100);
 
+    // toFixed(2)
+    prodProv.salePriceAfterProfitAndPromotion =
+      +prodProv.salePriceAfterProfitAndPromotion.toFixed(2);
+
     return prodProv;
   }
 
@@ -126,5 +151,19 @@ export class ProductsProvidersService extends MomoService<ProductsProvidersEntit
 
     // RETURN ALTERNATIVES
     return data;
+  }
+
+  /**
+   * Delete Product if productProvidersArray.length === 0
+   */
+  async afterDeleteEvent(dto: any): Promise<void> {
+    const { product } = dto;
+    if (!product?.productProviders || product?.productProviders.length === 0) {
+      await this.deleteTargetProduct(product?.id);
+    }
+  }
+
+  async deleteTargetProduct(prodId) {
+    await this.productsService.deleteOne({ where: { id: prodId } });
   }
 }

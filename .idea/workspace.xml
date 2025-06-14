@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feature(cart-service): Modified services and models">
-      <change afterPath="$PROJECT_DIR$/server/.vscode/settings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/ErrorResponse.java" afterDir="false" />
+    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feat: Enhance CartItemDetailsResponse to include product and provider IDs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/exceptions/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="mariem" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,6 +34,31 @@
     &quot;assignee&quot;: &quot;eslamhawas&quot;
   }
 }</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="dev" />
+                    <option name="lastUsedInstant" value="1749870089" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="mariem" />
+                    <option name="lastUsedInstant" value="1749869999" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/eslamhawas/Graduation-Project.git&quot;,
@@ -51,6 +72,9 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -70,6 +94,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.CartApplication.executor": "Debug",
+    "Spring Boot.GatewayApplication.executor": "Run",
     "Spring Boot.ServerApplication.executor": "Debug",
     "git-widget-placeholder": "dev",
     "ignore.virus.scanning.warn.message": "true",
@@ -84,6 +109,7 @@
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
     "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reactor",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -102,6 +128,9 @@
       </map>
     </option>
   </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
@@ -113,18 +142,13 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.ServerApplication">
+    <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#8" index="8" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="CartApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="cart" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ecommerce.cart.CartApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="gateway" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nextronica.gateway.GatewayApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -137,6 +161,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="dev (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/client/Vendor/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/client/User/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev (1)" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="HTTP Request.generated-requests | #8" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -187,7 +238,63 @@
       <option name="project" value="LOCAL" />
       <updated>1740152991448</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: Simplify cart item handling by removing price calculations and updating API versioning">
+      <option name="closed" value="true" />
+      <created>1749902015418</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1749902015418</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: Refactor CartItem response structure to use ProductsProvider model">
+      <option name="closed" value="true" />
+      <created>1749907638783</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749907638783</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: Optimize ProductsProvider to use lazy loading for product associations">
+      <option name="closed" value="true" />
+      <created>1749908280185</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749908280185</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: Update CartItemDetailsResponse to include product provider details and image">
+      <option name="closed" value="true" />
+      <created>1749908839468</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749908839468</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: Improve addItemsToCart method to handle existing cart items and update quantities">
+      <option name="closed" value="true" />
+      <created>1749909779386</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749909779386</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: Update cart service methods to return CartItemDetailsResponse with product provider information">
+      <option name="closed" value="true" />
+      <created>1749911544614</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1749911544614</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: Enhance CartItemDetailsResponse to include product and provider IDs">
+      <option name="closed" value="true" />
+      <created>1749912261910</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1749912261910</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,30 +327,17 @@
     <MESSAGE value="chore: restructure the project layout" />
     <MESSAGE value="feature(cart-service): Add Cart Service" />
     <MESSAGE value="feature(cart-service): Modified services and models" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature(cart-service): Modified services and models" />
+    <MESSAGE value="feat: Simplify cart item handling by removing price calculations and updating API versioning" />
+    <MESSAGE value="feat: Refactor CartItem response structure to use ProductsProvider model" />
+    <MESSAGE value="feat: Optimize ProductsProvider to use lazy loading for product associations" />
+    <MESSAGE value="feat: Update CartItemDetailsResponse to include product provider details and image" />
+    <MESSAGE value="feat: Improve addItemsToCart method to handle existing cart items and update quantities" />
+    <MESSAGE value="feat: Update cart service methods to return CartItemDetailsResponse with product provider information" />
+    <MESSAGE value="feat: Enhance CartItemDetailsResponse to include product and provider IDs" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Enhance CartItemDetailsResponse to include product and provider IDs" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AdminController.java</url>
-          <line>27</line>
-          <properties class="com.nextronica.server.controllers.AdminController" method="banUser">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/server/server/src/main/java/com/nextronica/server/controllers/AuthController.java</url>
-          <line>73</line>
-          <properties class="com.nextronica.server.controllers.AuthController" method="userLogin">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

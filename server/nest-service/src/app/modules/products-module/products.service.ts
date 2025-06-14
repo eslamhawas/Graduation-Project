@@ -1,4 +1,6 @@
 import {
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -19,16 +21,22 @@ import { UserEntity } from '@app/backend-core/entities/user.entity';
 export class ProductsService extends MomoService<ProductEntity> {
   constructor(
     @InjectRepository(ProductEntity) repo: Repository<ProductEntity>,
+    @Inject(forwardRef(() => ProductsProvidersService))
     private productProvidersService: ProductsProvidersService,
   ) {
     super(repo);
     this.relations = [
       'productProviders',
       'productProviders.provider',
+      'productProviders.product',
       'categories',
       'brand',
       'productProviders.promotions',
     ];
+    /**
+     * ENABLE SEARCH
+     */
+    this.searchableFields = ['name'];
   }
 
   async afterCreateEvent(product: ProductEntity): Promise<void> {
@@ -36,15 +44,6 @@ export class ProductsService extends MomoService<ProductEntity> {
      * WILL BE UPDATED AFTER AUTHORIZATION
      * LINE 35 => CONDITION BASED ON req.user.roles.includes(UserTypeEnum.ADMIN)
      */
-    const existProduct = await this.getOne({ where: { id: product?.id } });
-    if (
-      existProduct &&
-      existProduct?.productProviders[0]?.provider?.roles.includes(
-        UserTypeEnum.ADMIN,
-      )
-    ) {
-      await this.updateOne(existProduct?.id, { status: STATUS.ACCEPTED });
-    }
   }
 
   async updateOne(id, dto: UpdateProductDto): Promise<ProductEntity> {
@@ -153,5 +152,25 @@ export class ProductsService extends MomoService<ProductEntity> {
    */
   async getManyForProvider(options: Record<string, any>) {
     return await super.getMany(options);
+  }
+
+  /**
+   * After delete product => Delete related product-providers
+   */
+  async afterDeleteEvent(dto: any): Promise<void> {
+    return await this.deleteRelatedProductProviders(dto);
+  }
+
+  async deleteRelatedProductProviders(item) {
+    console.log({ item });
+
+    const { productProviders } = item;
+    await Promise.all(
+      productProviders.map(async (prodProv) => {
+        await this.productProvidersService.deleteOne({
+          where: { id: prodProv?.id },
+        });
+      }),
+    );
   }
 }

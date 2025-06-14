@@ -61,4 +61,11 @@ export class GetManyOptions {
   @IsOptional()
   @IsNumberString()
   brandId?: string;
+
+  /**
+   * vendorId for felteration in tansaction resource
+   */
+  @IsOptional()
+  @IsNumberString()
+  vendorId?: string;
 }

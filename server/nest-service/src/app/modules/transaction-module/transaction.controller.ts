@@ -36,10 +36,10 @@ export class TransactionController extends MomoController<TransactionEntity> {
     return await super.getManyBase(params);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.transactionService.findOne(+id);
-  // }
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return await super.getOneBase(id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {

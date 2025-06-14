@@ -152,7 +152,6 @@ export class OrdersModuleService extends MomoService<OrdersEntity> {
     console.log({ fullOrder });
 
     return fullOrder;
-    // return super.createOne(dto);
   }
 
   async getMany(
@@ -234,7 +233,24 @@ export class OrdersModuleService extends MomoService<OrdersEntity> {
     let subAmount = 0.0;
 
     for (const item of orderItems) {
-      subAmount += +item?.itemSalePriceAfterProfitAndPromoIfExist;
+      /**
+       * 1 ) Calc itemSalePrice
+       */
+      const itemSalePrice = await this.orderItemsService.returnItemSalePrice(
+        item?.product?.id,
+        item?.provider?.id,
+      );
+
+      /**
+       * 2 ) Calc itemSalePriceAfterProfitAndPromoIfExist
+       */
+      const itemSalePriceAfterProfitAndPromoIfExist =
+        await this.orderItemsService.CalcItemSalePriceAfterProfitAndPromoIfExist(
+          itemSalePrice,
+          item,
+        );
+      subAmount +=
+        +itemSalePriceAfterProfitAndPromoIfExist * item?.quantity;
     }
 
     return subAmount;

@@ -1,7 +1,6 @@
 import { CoreEntity } from '@app/backend-core/entities/core.entity';
 import { UserEntity } from '@app/backend-core/entities/user.entity';
 import { STATUS } from '@app/backend-core/enums/status.enum';
-import { OrderItemsEntity } from '@modules/orders-module/entities/order-item.entity';
 import { OrdersEntity } from '@modules/orders-module/entities/orders-module.entity';
 import { ProductEntity } from '@modules/products-module/entities/product.entity';
 import { IsOptional } from 'class-validator';

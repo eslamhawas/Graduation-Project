@@ -29,11 +29,9 @@ export class ProductsProvidersEntity extends CoreEntity {
    * SECOND 2 ) CALCULATE SALE PRICE AFTER ADD MEGA CURRENT PROFIT + PROMOTION - salePriceAfterProfitAndPromotion
    */
 
-  @Column({ type: 'int', nullable: true })
-  salePriceAfterProfit: Number;
+  salePriceAfterProfit: number;
 
-  @Column({ type: 'int', nullable: true })
-  salePriceAfterProfitAndPromotion: Number;
+  salePriceAfterProfitAndPromotion: number;
 
   /**
    * PROMOTIONS RELATION

@@ -185,6 +185,8 @@ export class MomoService<T extends CoreEntity> {
   }
 
   async deleteOne(options = {}): Promise<any> {
+    options['relations'] = this.relations;
+    console.log(options);
     const item = await this.repo.findOne({ ...options, withDeleted: false });
     if (item) {
       await this.repo.softDelete(item.id);
