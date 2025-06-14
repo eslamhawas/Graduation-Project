@@ -22,6 +22,7 @@
   background: transparent;
   border-bottom: none;
   line-height: 64px;
+  min-width: 220px !important;
 }
 
 .right-section {
@@ -102,5 +103,18 @@
 
   .right-menu {
     gap: 5px;
+  }
+
+  .right-section {
+    gap: 10px !important; /* Was 20px */
+  }
+
+
+  .right-icons {
+    gap: 15px !important;
+  }
+
+  .demo-logo img {
+    margin-left: 10px !important;
   }
 }

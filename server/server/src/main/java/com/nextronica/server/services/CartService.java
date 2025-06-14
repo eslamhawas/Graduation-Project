@@ -51,28 +51,12 @@ public class CartService {
             throw new IllegalArgumentException("Not enough stock available for the product provider with id: " + request.getProductProviderId());
         }
 
-        ProfitMargin margin = profitMarginRepository
-                .findTopByOrderByCreatedDateDesc()
-                .orElseThrow(() -> new ResourceNotFoundException("Profit margin not found"));
 
-        float salePrice = provider.getSalePrice();
-        float commissionPrice = salePrice + (salePrice * margin.getCurrent().floatValue() / 100);
-
-        Optional<ProductPromotionsDetailsDto> promotionOpt =
-                promotionRepository.findPromotionsDetailsByProductProviderEntityId(provider.getId())
-                        .stream()
-                        .filter(ProductPromotionsDetailsDto::getActive)
-                        .findFirst();
-
-        float finalPrice = promotionOpt
-                .map(p -> commissionPrice - (commissionPrice * p.getPromotionPercentage().floatValue() / 100))
-                .orElse(commissionPrice);
 
         CartItem item = new CartItem();
         item.setCart(cart);
         item.setProductProviderId(provider);
         item.setQuantity(request.getQuantity());
-        item.setPriceAtAddition(finalPrice);
         item.setAddedAt(LocalDateTime.now());
 
         cart.getItems().add(item);
@@ -97,23 +81,6 @@ public class CartService {
             throw new IllegalArgumentException("Not enough stock available");
         }
 
-        ProfitMargin margin = profitMarginRepository
-                .findTopByOrderByCreatedDateDesc()
-                .orElseThrow(() -> new ResourceNotFoundException("Profit margin not found"));
-
-        float salePrice = provider.getSalePrice();
-        float commissionPrice = salePrice + (salePrice * margin.getCurrent().floatValue() / 100);
-
-        Optional<ProductPromotionsDetailsDto> promotionOpt =
-                promotionRepository.findPromotionsDetailsByProductProviderEntityId(provider.getId())
-                        .stream()
-                        .filter(ProductPromotionsDetailsDto::getActive)
-                        .findFirst();
-
-        float finalPrice = promotionOpt
-                .map(p -> commissionPrice - (commissionPrice * p.getPromotionPercentage().floatValue() / 100))
-                .orElse(commissionPrice);
-
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getProductProviderId().getId().equals(request.getProductProviderId()))
                 .findFirst()
@@ -126,7 +93,6 @@ public class CartService {
                 });
 
         item.setQuantity(request.getQuantity());
-        item.setPriceAtAddition(finalPrice);
         item.setAddedAt(LocalDateTime.now());
 
         cartRepository.save(cart);

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/api/v1/cart")
 public class CartController {
 
     private final CartService cartService;
@@ -22,7 +22,7 @@ public class CartController {
     }
 
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<CartItemResponse> addToCart(@RequestHeader("Authorization") String authHeader,
                                                       @RequestBody AddCartItemRequest request) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -33,7 +33,7 @@ public class CartController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<CartItemResponse> updateCartItem(@RequestHeader("Authorization") String authHeader,
                                                            @RequestBody AddCartItemRequest request) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
