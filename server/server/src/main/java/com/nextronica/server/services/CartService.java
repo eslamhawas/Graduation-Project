@@ -145,7 +145,10 @@ public class CartService {
                     .orElse(commissionPrice);
 
             CartItemDetailsResponse responseItem = new CartItemDetailsResponse();
-            responseItem.setProductProvider(provider);
+            responseItem.setProductProviderName(provider.getProvider().getUsername());
+            responseItem.setProductProviderId(provider.getId().longValue());
+            responseItem.setProductImageUrl(provider.getProduct().getImageUrl());
+            responseItem.setProductName(provider.getProduct().getName());
             responseItem.setQuantity(item.getQuantity());
             responseItem.setCommissionPrice(commissionPrice);
             responseItem.setDiscountedPrice(discountedPrice);

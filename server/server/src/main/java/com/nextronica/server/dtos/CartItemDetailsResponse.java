@@ -11,8 +11,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CartItemDetailsResponse {
 
-
-    private ProductsProvider productProvider;
+    private String productProviderName;
+    private Long productProviderId;
+    private String productImageUrl;
+    private String productName;
     private int quantity;
     private float commissionPrice;
     private float discountedPrice;
