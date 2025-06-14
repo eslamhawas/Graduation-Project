@@ -1,0 +1,39 @@
+/* Enhanced Tag Component Styles */
+.enhanced-tag {
+    position: relative;
+    overflow: hidden;
+}
+
+.enhanced-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.enhanced-tag:hover::before {
+    left: 100%;
+}
+
+.tag-shimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .enhanced-tag {
+        margin: 16px 20px !important;
+        padding: 10px 16px !important;
+        font-size: 14px !important;
+    }
+}
+

@@ -9,10 +9,10 @@ const sliceDarkMode = createSlice({
     initialState,
     reducers: {
         darkMode(state) {
-            state.dark = false
+            state.dark = true
         },
         lightMode(state) {
-            state.dark = true
+            state.dark = false
         }
     }
 })

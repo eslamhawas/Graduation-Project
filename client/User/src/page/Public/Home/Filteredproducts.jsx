@@ -15,7 +15,7 @@ const FilteredProducts = () => {
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:4100/api/products");
+        const res = await axios.get("/nest/api/products");
         const data = res.data?.data || [];
         setProducts(data);
         setFilteredProducts(data);
@@ -40,7 +40,7 @@ const FilteredProducts = () => {
   useEffect(() => {
     if (selectedBrand) {
       setFilteredProducts(
-        products.filter((p) => p.brand?.id === selectedBrand.id)
+          products.filter((p) => p.brand?.id === selectedBrand.id)
       );
     } else {
       setFilteredProducts(products);
@@ -53,25 +53,25 @@ const FilteredProducts = () => {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}>
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-      </div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', minHeight: '300px' }}>
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+        </div>
     );
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Filter by Brand</h2>
-      <BrandFilter
-        brands={brands}
-        selectedBrand={selectedBrand}
-        onSelect={handleBrandSelect}
-      />
-      <ProductList products={filteredProducts} />
-      {filteredProducts.length === 0 && selectedBrand && (
-        <p style={{ textAlign: 'center' }}>No products available for this brand.</p>
-      )}
-    </div>
+      <div style={{ padding: "20px" }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '20px', textAlign: 'center' }}>Filter Products</h2>
+        <BrandFilter
+            brands={brands}
+            selectedBrand={selectedBrand}
+            onSelect={handleBrandSelect}
+        />
+        <ProductList products={filteredProducts} />
+        {filteredProducts.length === 0 && selectedBrand && (
+            <p style={{ textAlign: 'center', marginTop: '20px', color: '#888' }}>No products available for this brand.</p>
+        )}
+      </div>
   );
 };
 

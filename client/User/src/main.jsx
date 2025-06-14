@@ -16,7 +16,7 @@ const App = () => {
   const {dark} = useContext(contextDarkMode) 
 
   return (
-    <ConfigProvider theme={dark  ? LIGHT_ANT_THEME : DARK_ANT_THEME}>
+    <ConfigProvider theme={!dark  ? LIGHT_ANT_THEME : DARK_ANT_THEME}>
       <Toaster position="top-center" reverseOrder={false} />
        <CartProvider> 
         <RouterProvider router={Routers} />
