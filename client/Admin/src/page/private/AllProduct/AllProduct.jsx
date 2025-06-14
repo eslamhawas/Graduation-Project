@@ -51,15 +51,18 @@ export default function AllProduct() {
     gitProduct();
   }, [currentPage, pageSize]);
 
-  // const DelateProduct = async (id) => {
-  //   try {
-  //     await ApiData().DelateProduct(id);
-  //     gitProduct();
-  //     toast.success(t("Success"));
-  //   } catch (err) {
-  //     toast.error(err.message);
-  //   }
-  // };
+  const StateProduct = async (id) => {
+    try {
+      const body = {
+        status: "ACCEPTED"
+      };
+      await ApiData().StateProduct(id, body);
+      gitProduct();
+      toast.success(t("Success"));
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
 
   const AddProductInTable = async (id) => {
     navigate(`/AddProduct/${id}`);
@@ -95,7 +98,7 @@ export default function AllProduct() {
       align: "center",
       render: (_, record) => record.salePrice ?? t("No Price")
     },
-        {
+    {
       title: t("AfterProfit"),
       dataIndex: "salePriceAfterProfit",
       key: "salePriceAfterProfit",
@@ -151,13 +154,17 @@ export default function AllProduct() {
           >
             {t("AddProduct")}
           </Button>
-          {/* <Button
-            onClick={() => DelateProduct(record.id)}
-            color="danger"
-            variant="solid"
-          >
-            {t("delete")}
-          </Button> */}
+          {record?.product?.status === "PENDING" ? (
+            <Button
+              onClick={() => StateProduct(record?.product?.id)}
+              color="danger"
+              variant="solid"
+            >
+              {t("Active")}
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
       )
     }

@@ -72,7 +72,7 @@ export default function AllOrder() {
       dataIndex: "name",
       key: "name",
       align: "center",
-      render: (_, record) => record.product?.name || t("No Category")
+      render: (_, record) => record.product?.name || t("No Name")
     },
     {
       title: t("status"),
