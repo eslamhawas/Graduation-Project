@@ -121,5 +121,16 @@
   "Error adding to cart": "حدث خطأ أثناء الإضافة إلى السلة",
   "ConnectionProblemOccurred": "حدثت مشكلة في الاتصال",
   "Product not found": "المنتج غير موجود",
-  "Quantity exceeds available stock": "الكمية المطلوبة غير متوفرة في المخزون"
+  "Quantity exceeds available stock": "الكمية المطلوبة غير متوفرة في المخزون",
+  "Your Cart": "السلة",
+  "items": "منتجات",
+  "Your cart is empty": "سلتك فارغة",
+  "Total": "الإجمالي",
+  "Proceed to Checkout": "إتمام الشراء",
+  "Quantity updated": "تم تحديث الكمية",
+  "Item removed": "تم حذف المنتج من السلة",
+  "Failed to remove item": "حدث خطأ أثناء الحذف",
+  "Failed to load cart": "فشل في تحميل السلة",
+  "Quantity exceeds stock": "الكمية المطلوبة غير متوفرة في المخزون",
+  "Error updating quantity": "حدث خطأ أثناء تحديث الكمية"
 }
