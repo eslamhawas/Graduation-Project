@@ -7,19 +7,51 @@ import { ProtectedRoutes } from "./Config";
 const Routers = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
+        element:<ProtectedRoutes><Layout /></ProtectedRoutes> ,
         errorElement: "",
         children: [
-            { index: true, element:(<Lazy.private.AllProduct /> ) },
+            { index: true, element:(<ProtectedRoutes> <Lazy.private.AllProduct /></ProtectedRoutes> ) },
             {
                 path: "/AllProducts",
-                element:<Lazy.private.AllProduct /> 
+                element:<ProtectedRoutes> <Lazy.private.AllProduct /> </ProtectedRoutes>
             },
             {
                 path: "/AddProduct/:id?",
-                element:<Lazy.private.AddProduct />
+                element: <ProtectedRoutes><Lazy.private.AddProduct /></ProtectedRoutes> 
+            },
+                                                {
+                path: "/AllProduct",
+                element: <ProtectedRoutes><Lazy.private.AllProduct /></ProtectedRoutes> 
             },
 
+
+                                                {
+                path: "/AddProduct/:id",
+                element: <ProtectedRoutes><Lazy.private.AddProduct /></ProtectedRoutes> 
+            },
+
+                                                            {
+                path: "/MyProducts",
+                element: <ProtectedRoutes><Lazy.private.MyProducts /></ProtectedRoutes> 
+            },
+
+                                                            {
+                path: "/AddProductMe",
+                element: <ProtectedRoutes><Lazy.private.AddProductMe /></ProtectedRoutes> 
+            },
+                                                            {
+                path: "/UpdateProductMe/:id",
+                element: <ProtectedRoutes><Lazy.private.AddProductMe /></ProtectedRoutes> 
+            },
+
+                                                            {
+                path: "AllOrder",
+                element: <ProtectedRoutes><Lazy.private.AllOrder /></ProtectedRoutes> 
+            },
+                                                            {
+                path: "Transaction",
+                element: <ProtectedRoutes><Lazy.private.Transaction /></ProtectedRoutes> 
+            },
         ]
 
     },

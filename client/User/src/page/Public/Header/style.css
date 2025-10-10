@@ -1,63 +1,120 @@
-
 .ant-layout-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 15px !important;
   background-color: var(--backgroundAll) !important;
-  padding : 0px !important;
 }
 
-
-.IconHeader2 .search ,.IconHeader2 .cart{
-   padding-right: 12px;
-   font-size: 19px;
-   color:var(--colorText);
-   padding: 5px;
+.demo-logo img {
+  margin-top: 33px;
+  margin-left: 15px;
+  width: 125px;
 }
 
-.IconHeader2 .avatar{
-
-  margin: 10px;
-    margin-bottom: 17px;
+.center-menu {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
-.selectLanguage{
-   width: 40px;
-   margin-bottom: 2.5px;
-   background-color: var( --backgroundAll ) ;
-   color: var(--colorText);
-   margin: 15px;
+.centered-menu {
+  background: transparent;
+  border-bottom: none;
+  line-height: 64px;
+  min-width: 220px !important;
+}
 
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
-.demo-logo img{ 
-   margin-top: 33px;
-   margin-left: 15px;
-   width: 125px;
+
+.right-icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
+
+.right-icons .search,
+.right-icons .cart {
+  font-size: 19px;
+  color: var(--colorText);
+  padding: 5px;
+}
+
+.right-icons .avatar {
+  margin: 10px 0 17px 0;
+}
+
+.right-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.right-menu-items {
+  background: transparent;
+  border-bottom: none;
+  line-height: 64px;
+}
+
+#moon {
+  visibility: hidden;
+  color: white;
+}
+
+.darkmodeicone {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.darkmodeicone span {
+  position: absolute;
+  font-size: 19px;
+  margin-top: 4px;
+}
+
 @media (max-width: 768px) {
-   .IconHeader2 {
-     display: none; 
-   }
- 
-   .ResponsiveIconHeader {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-   }
-    .darkmodeicone span {
-      margin-top: 4px;
-    }
-    
-} 
- 
-#moon{
-   visibility: hidden; 
-   color: white;
+  .ant-layout-header {
+    flex-direction: column;
+    padding: 10px !important;
+  }
 
- }
- .darkmodeicone{
-   height: 30px;
-   width: 30px;
- }
- .darkmodeicone span {
-   position: absolute; 
-   font-size: 19px;
-   margin-top: 4px;
- }
+  .demo-logo img {
+    margin: 10px 0;
+  }
+
+  .center-menu {
+    order: 2;
+    width: 100%;
+  }
+
+  .right-section {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .right-menu {
+    gap: 5px;
+  }
+
+  .right-section {
+    gap: 10px !important; /* Was 20px */
+  }
+
+
+  .right-icons {
+    gap: 15px !important;
+  }
+
+  .demo-logo img {
+    margin-left: 10px !important;
+  }
+}

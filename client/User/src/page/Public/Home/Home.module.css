@@ -1,0 +1,52 @@
+.categoryItem {
+  transition: all 0.3s ease;
+}
+
+.categoryItem:hover {
+  transform: translateY(-2px);
+}
+
+.sliderContainer :global(.ant-carousel .slick-dots) {
+  margin-bottom: 24px;
+}
+
+.sliderContainer :global(.ant-carousel .slick-dots li) {
+  width: 24px;
+}
+
+.sliderContainer :global(.ant-carousel .slick-dots li button) {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+
+.sliderContainer :global(.ant-carousel .slick-dots li.slick-active button) {
+  width: 24px !important;
+  border-radius: 12px;
+  background: white !important;
+}
+
+.sliderImage {
+  transition: transform 0.5s ease;
+}
+
+.sliderImage:hover {
+  transform: scale(1.02);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInAnimation {
+  animation: fadeIn 0.5s ease-out forwards;
+}

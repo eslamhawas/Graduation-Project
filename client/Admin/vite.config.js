@@ -8,4 +8,7 @@ export default defineConfig({
     react(),
     compression({ algorithm: 'gzip' ,threshold: 1024}),
     compression({ algorithm: 'brotliCompress' , threshold: 1024})],
+    server: {
+      port: 4201
+    }
 })

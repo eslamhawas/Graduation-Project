@@ -1,1 +1,16 @@
 /.idea/
+# Node modules
+node_modules/
+
+# Env files
+src/config/.env
+**/.env
+**/.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+Thumbs.db

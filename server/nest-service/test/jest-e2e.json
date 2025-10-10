@@ -1,0 +1,23 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@app/backend-core": "<rootDir>/../libs/backend-core/src",
+    "@app/backend-core/(.*)": "<rootDir>/../libs/backend-core/src/$1",
+    "@app/database-connect": "<rootDir>/../libs/database-connect/src",
+    "@app/database-connect/(.*)": "<rootDir>/../libs/database-connect/src/$1",
+    "@app/emails": "<rootDir>/../libs/emails/src",
+    "@app/emails/(.*)": "<rootDir>/../libs/emails/src/$1",
+    "@app/intefaces": "<rootDir>/../libs/intefaces/src",
+    "@app/intefaces/(.*)": "<rootDir>/../libs/intefaces/src/$1"
+  }
+}

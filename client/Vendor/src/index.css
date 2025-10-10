@@ -20,8 +20,14 @@
    --backgroundAll: #1E1E1E;
 }
 
+*{
+   box-sizing: border-box;
+}
+
 body{
-   background-color: var( --backgroundPage)
+   background-color: var( --backgroundPage);
+   margin: 0px;
+   padding: 0px;
 }
 h1 ,h2 ,h3 ,h4 ,h5 , h6 ,p,div { 
    color: var(--colorText);
@@ -34,3 +40,10 @@ a{
 .active-link {
    color: red !important; /* تحديد اللون أو أي خصائص أخرى */
  }
+
+  :where(.css-dev-only-do-not-override-wb6fi8).ant-menu-horizontal {
+
+    border-bottom: 1px solid transparent !important;
+
+}
+

@@ -3,15 +3,15 @@ import React, { createContext, useState } from 'react'
 export const contextDarkMode = createContext(0)
 export default function DarkMode(props) {
 
-    const [dark, setDark] = useState(true)
+    const [dark, setDark] = useState(false)
 
 
     function darkMode(){
-        setDark(false)
+        setDark(true)
     }
 
     function lightMode(){
-        setDark(true)
+        setDark(false)
     }
 
   return (<contextDarkMode.Provider value={{dark ,darkMode ,lightMode}}>

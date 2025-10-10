@@ -1,0 +1,30 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      # Explicitly disable default CORS handling
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+      globalcors:
+        add-to-simple-url-handler-mapping: false  # Disable default CORS handler
+      routes:
+        - id: spring-service
+          uri: http://localhost:8055
+          predicates:
+            - Path=/spring/**
+            - Method=GET,POST,PUT,DELETE,OPTIONS,PATCH
+          filters:
+            - StripPrefix=1
+
+        - id: nest-service
+          uri: http://localhost:4100
+          predicates:
+            - Path=/nest/**
+            - Method=GET,POST,PUT,DELETE,OPTIONS,PATCH
+          filters:
+            - StripPrefix=1

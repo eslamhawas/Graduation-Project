@@ -1,0 +1,74 @@
+package com.nextronica.server.controllers;
+
+
+import com.nextronica.server.dtos.UserDto;
+import com.nextronica.server.dtos.requests.ChangePasswordRequestDto;
+import com.nextronica.server.exceptions.customExceptions.NoSuchUserException;
+import com.nextronica.server.models.User;
+import com.nextronica.server.models.enums.Roles;
+import com.nextronica.server.models.enums.Status;
+import com.nextronica.server.providers.Auth.Auth;
+import com.nextronica.server.services.UserService;
+import com.nextronica.server.utils.Helpers;
+import com.nextronica.server.utils.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("api/v1/users")
+public class UserController {
+
+    final private UserService _userService;
+    final private JwtUtil jwtUtil;
+    final private Helpers _helper;
+
+
+    public UserController(UserService userService, JwtUtil jwtUtil, Helpers helper) {
+        this._userService = userService;
+        this.jwtUtil = jwtUtil;
+        this._helper = helper;
+    }
+
+    @PatchMapping("/{id}/password")
+    @Auth
+    public ResponseEntity<Map<String, String>> updatePassword(@PathVariable long id, @Valid @RequestBody ChangePasswordRequestDto dto, HttpServletRequest request) throws NoSuchAlgorithmException {
+        String token = jwtUtil.extractToken(request);
+        long tokenId = jwtUtil.extractId(token);
+
+        if (tokenId != id) {
+            return ResponseEntity.badRequest().body(Map.of("error", "You can only update your own password"));
+        }
+
+        User user = _userService.getById(id).orElseThrow(
+                () -> new NoSuchUserException("There is no user with the given ID"));
+        _userService.changePassword(dto, user);
+        return ResponseEntity.ok(Map.of("message", "Password Updated Successfully"));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable long id) {
+        Optional<User> user = _userService.getById(id);
+        if (user.isEmpty()) {
+            throw new NoSuchUserException("There is no user with the given ID");
+        }
+        UserDto userDto = _helper.toUserDto(user.get());
+        return ResponseEntity.ok(userDto);
+    }
+
+    @GetMapping
+    @Auth(roles = {"ADMIN"})
+    public ResponseEntity<List<UserDto>> getUsers(@RequestParam(required = false) Status status,
+                                                  @RequestParam(required = false) Roles role) {
+        List<UserDto> users = _userService.getAllUsers(status, role);
+        return ResponseEntity.ok(users);
+    }
+
+
+}

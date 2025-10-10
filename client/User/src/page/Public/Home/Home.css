@@ -1,0 +1,56 @@
+/* Enhanced Home Component Styles */
+.enhanced-home-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fafbfc 0%, #f8f9fa 50%, #ffeaea 100%);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.home-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Global enhancements for child components */
+.enhanced-home-container .enhanced-product-list:first-of-type {
+    margin-top: 24px;
+}
+
+.enhanced-home-container .enhanced-product-list:last-of-type {
+    margin-bottom: 48px;
+}
+
+/* Smooth scroll behavior */
+.enhanced-home-container {
+    scroll-behavior: smooth;
+}
+
+/* Loading animation for the entire page */
+.enhanced-home-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .home-content {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-content {
+        padding: 0 5px;
+    }
+}
+

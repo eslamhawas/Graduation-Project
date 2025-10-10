@@ -33,7 +33,7 @@ const LIGHT_ANT_THEME = {
 
 
 const DARK_ANT_THEME = {
-
+  algorithm: theme.darkAlgorithm,
   token: {
     colorPrimary: "rgba(219, 68, 68, 1)",
     colorText: "rgba(255, 255, 255, 0.87)",
@@ -66,6 +66,7 @@ const DARK_ANT_THEME = {
       width: "100%",
       zIndex: 1000,
     },
+    
   },
 };
 

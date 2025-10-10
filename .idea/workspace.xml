@@ -4,14 +4,76 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="chore: restructure the project layout" />
+    <list default="true" id="f029ed75-c25b-4b55-bb55-bd94a3ce2145" name="Changes" comment="feat: Enhance CartItemDetailsResponse to include product and provider IDs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="mariem" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;eslamhawas&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="dev" />
+                    <option name="lastUsedInstant" value="1749870089" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="mariem" />
+                    <option name="lastUsedInstant" value="1749869999" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/eslamhawas/Graduation-Project.git&quot;,
+    &quot;accountId&quot;: &quot;1715e202-ccf0-4767-ae6e-85481848ddf8&quot;
+  }
+}</component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -23,17 +85,38 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "Spring Boot.CartApplication.executor": "Debug",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.ServerApplication.executor": "Debug",
+    "git-widget-placeholder": "dev",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Graduation-Project/server/server/pom.xml",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reactor",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb",
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="ReactDesignerToolWindowState">
@@ -45,11 +128,72 @@
       </map>
     </option>
   </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ServerApplication">
+    <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#8" index="8" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="CartApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="cart" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ecommerce.cart.CartApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nextronica.server.ServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dev (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/client/Vendor/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/client/User/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev (1)" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="HTTP Request.generated-requests | #8" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -63,6 +207,12 @@
       <updated>1733910782819</updated>
       <workItem from="1733910788603" duration="10000" />
       <workItem from="1740057777875" duration="873000" />
+      <workItem from="1740149588984" duration="5798000" />
+      <workItem from="1744373065544" duration="3155000" />
+      <workItem from="1744384394113" duration="20408000" />
+      <workItem from="1744526531649" duration="53000" />
+      <workItem from="1744539133189" duration="896000" />
+      <workItem from="1744576856610" duration="4072000" />
     </task>
     <task id="LOCAL-00001" summary="chore: restructure the project layout">
       <option name="closed" value="true" />
@@ -72,14 +222,122 @@
       <option name="project" value="LOCAL" />
       <updated>1740058658972</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feature(cart-service): Add Cart Service">
+      <option name="closed" value="true" />
+      <created>1740149959699</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1740149959699</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feature(cart-service): Modified services and models">
+      <option name="closed" value="true" />
+      <created>1740152991448</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1740152991448</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: Simplify cart item handling by removing price calculations and updating API versioning">
+      <option name="closed" value="true" />
+      <created>1749902015418</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1749902015418</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: Refactor CartItem response structure to use ProductsProvider model">
+      <option name="closed" value="true" />
+      <created>1749907638783</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749907638783</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: Optimize ProductsProvider to use lazy loading for product associations">
+      <option name="closed" value="true" />
+      <created>1749908280185</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749908280185</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: Update CartItemDetailsResponse to include product provider details and image">
+      <option name="closed" value="true" />
+      <created>1749908839468</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749908839468</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: Improve addItemsToCart method to handle existing cart items and update quantities">
+      <option name="closed" value="true" />
+      <created>1749909779386</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749909779386</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: Update cart service methods to return CartItemDetailsResponse with product provider information">
+      <option name="closed" value="true" />
+      <created>1749911544614</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1749911544614</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: Enhance CartItemDetailsResponse to include product and provider IDs">
+      <option name="closed" value="true" />
+      <created>1749912261910</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1749912261910</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chore: restructure the project layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: restructure the project layout" />
+    <MESSAGE value="feature(cart-service): Add Cart Service" />
+    <MESSAGE value="feature(cart-service): Modified services and models" />
+    <MESSAGE value="feat: Simplify cart item handling by removing price calculations and updating API versioning" />
+    <MESSAGE value="feat: Refactor CartItem response structure to use ProductsProvider model" />
+    <MESSAGE value="feat: Optimize ProductsProvider to use lazy loading for product associations" />
+    <MESSAGE value="feat: Update CartItemDetailsResponse to include product provider details and image" />
+    <MESSAGE value="feat: Improve addItemsToCart method to handle existing cart items and update quantities" />
+    <MESSAGE value="feat: Update cart service methods to return CartItemDetailsResponse with product provider information" />
+    <MESSAGE value="feat: Enhance CartItemDetailsResponse to include product and provider IDs" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Enhance CartItemDetailsResponse to include product and provider IDs" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
